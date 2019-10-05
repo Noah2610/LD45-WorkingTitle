@@ -27,7 +27,7 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
 4.  gravity + first music trigger __DONE (gravity)__
 5.  first encounter with non textured enemy
 6.  jump __DONE__
-7.  player textures (single frame)
+7.  player textures (single frame) __DONE__
 8.  bg + player animation + second music trigger
 9.  enemy textures
 10. spikes

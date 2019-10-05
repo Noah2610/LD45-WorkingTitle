@@ -11,10 +11,13 @@ impl<'a> System<'a> for ControlPlayerSystem {
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Solid<SolidTag>>,
         ReadStorage<'a, CanJump>,
+        ReadStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, Player>,
+        WriteStorage<'a, Transform>,
         WriteStorage<'a, Velocity>,
         WriteStorage<'a, DecreaseVelocity>,
         WriteStorage<'a, Gravity>,
+        WriteStorage<'a, AnimationsContainer>,
     );
 
     fn run(
@@ -26,33 +29,47 @@ impl<'a> System<'a> for ControlPlayerSystem {
             collisions,
             solids,
             can_jumps,
+            has_animated_sprites,
             mut players,
+            mut transforms,
             mut velocities,
             mut decr_velocities,
             mut gravities,
+            mut animations_containers,
         ): Self::SystemData,
     ) {
         if let Some((
             player_entity,
             player,
+            player_transform,
             player_velocity,
             player_decr_velocity,
             player_collision,
             player_solid,
             player_gravity_opt,
+            player_animations_container,
         )) = (
             &entities,
             &mut players,
+            &mut transforms,
             &mut velocities,
             &mut decr_velocities,
             &collisions,
             &solids,
             (&mut gravities).maybe(),
+            &mut animations_containers,
         )
             .join()
             .next()
         {
             let dt = time.delta_seconds();
+            let sides_touching = SidesTouching::new(
+                &entities,
+                player_collision,
+                player_solid,
+                &collisions,
+                &solids,
+            );
 
             // MOVEMENT
             if let Some(x) = input_manager.axis_value(AxisBinding::PlayerX) {
@@ -81,43 +98,38 @@ impl<'a> System<'a> for ControlPlayerSystem {
                     }
                 }
             }
-            if let Some(y) = input_manager.axis_value(AxisBinding::PlayerY) {
-                if y != 0.0 {
-                    player_velocity.increase_y_with_max(
-                        player.acceleration.0 * y * dt,
-                        player.max_velocity.0,
-                    );
-                    // Don't decrease velocity when moving
-                    if y > 0.0
-                        && player
-                            .max_velocity
-                            .1
-                            .map(|max| player_velocity.y <= max)
-                            .unwrap_or(true)
-                    {
-                        player_decr_velocity.dont_decrease_y_when_pos();
-                    } else if y < 0.0
-                        && player
-                            .max_velocity
-                            .1
-                            .map(|max| player_velocity.y >= -max)
-                            .unwrap_or(true)
-                    {
-                        player_decr_velocity.dont_decrease_y_when_neg();
+            if player_gravity_opt.is_none() {
+                if let Some(y) = input_manager.axis_value(AxisBinding::PlayerY)
+                {
+                    if y != 0.0 {
+                        player_velocity.increase_y_with_max(
+                            player.acceleration.0 * y * dt,
+                            player.max_velocity.0,
+                        );
+                        // Don't decrease velocity when moving
+                        if y > 0.0
+                            && player
+                                .max_velocity
+                                .1
+                                .map(|max| player_velocity.y <= max)
+                                .unwrap_or(true)
+                        {
+                            player_decr_velocity.dont_decrease_y_when_pos();
+                        } else if y < 0.0
+                            && player
+                                .max_velocity
+                                .1
+                                .map(|max| player_velocity.y >= -max)
+                                .unwrap_or(true)
+                        {
+                            player_decr_velocity.dont_decrease_y_when_neg();
+                        }
                     }
                 }
             }
 
             // JUMPING
             if can_jumps.contains(player_entity) {
-                let sides_touching = SidesTouching::new(
-                    &entities,
-                    player_collision,
-                    player_solid,
-                    &collisions,
-                    &solids,
-                );
-
                 if let Some(jump_data) = player.jump_data.as_ref() {
                     let mut jumped = false;
                     let can_jump = input_manager
@@ -148,6 +160,31 @@ impl<'a> System<'a> for ControlPlayerSystem {
                             player_gravity.y = jump_data.gravity.1;
                         }
                     }
+                }
+            }
+
+            if has_animated_sprites.contains(player_entity) {
+                // Set animation
+                if sides_touching.is_touching_bottom {
+                    if player_velocity.x == 0.0 {
+                        player_animations_container.set("idle");
+                    } else {
+                        player_animations_container.set("walk");
+                    }
+                } else {
+                    if player_velocity.y > 0.0 {
+                        player_animations_container.set("jump");
+                    } else {
+                        player_animations_container.set("fall");
+                    }
+                }
+                // Flip sprite
+                if player_velocity.x > 0.0 {
+                    let scale = player_transform.scale_mut();
+                    scale.x = scale.x.abs();
+                } else if player_velocity.x < 0.0 {
+                    let scale = player_transform.scale_mut();
+                    scale.x = -scale.x.abs();
                 }
             }
         }
