@@ -1,4 +1,5 @@
 pub mod prelude {
+    pub use super::Ingame;
     pub use super::Startup;
 }
 
@@ -15,6 +16,8 @@ pub mod state_prelude {
     pub use crate::CustomData;
 }
 
+mod ingame;
 mod startup;
 
+pub use ingame::Ingame;
 pub use startup::Startup;

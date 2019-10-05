@@ -14,12 +14,15 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
     ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
         data.data.update(data.world, "startup").unwrap();
 
-        Trans::None
+        Trans::Push(Box::new(Ingame::default()))
     }
 }
 
 fn insert_resources(world: &mut World) {
+    use deathframe::handles::SpriteSheetHandles;
+
     world.insert(load_settings());
+    world.insert(SpriteSheetHandles::default());
 }
 
 fn load_settings() -> Settings {
