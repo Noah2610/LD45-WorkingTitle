@@ -11,20 +11,42 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, Player>,
         WriteStorage<'a, Feature>,
         WriteStorage<'a, Solid<SolidTag>>,
+        WriteStorage<'a, Gravity>,
     );
 
     fn run(
         &mut self,
-        (entities, collisions, mut players, mut features, mut solids): Self::SystemData,
+        (
+            entities,
+            collisions,
+            mut players,
+            mut features,
+            mut solids,
+            mut gravities,
+        ): Self::SystemData,
     ) {
-        if let Some((player, player_collision, player_solid)) =
-            (&mut players, &collisions, &mut solids).join().next()
+        if let Some((player_entity, player, player_collision, player_solid)) =
+            (&entities, &mut players, &collisions, &mut solids)
+                .join()
+                .next()
         {
             for (feature_entity, feature) in (&entities, &mut features).join() {
                 if player_collision.in_collision_with(feature_entity.id()) {
                     match &feature.feature_type {
                         FeatureType::AddCollisions => {
                             player_solid.tag = SolidTag::PlayerWithCollision;
+                        }
+                        FeatureType::AddGravity => {
+                            println!("ADD GRAVITY");
+                            gravities
+                                .insert(
+                                    player_entity,
+                                    Gravity::new(
+                                        player.settings.gravity.0,
+                                        player.settings.gravity.1,
+                                    ),
+                                )
+                                .expect("Should add Gravity to Player");
                         }
                     }
                 }

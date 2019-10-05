@@ -128,6 +128,9 @@ fn build_game_data<'a, 'b>(
             ])?
             .with("ingame", FeatureSystem::default(), "feature_system", &[
                 "collision_system",
+            ])?
+            .with("ingame", GravitySystem::default(), "gravity_system", &[
+                "move_player_system",
             ])?;
 
     Ok(custom_game_data)
