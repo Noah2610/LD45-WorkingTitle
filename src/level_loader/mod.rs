@@ -220,9 +220,10 @@ impl LevelLoader {
                 .with(Collision::default())
                 .with(CheckCollision::default())
                 .with(Solid::new(SolidTag::PlayerNoCollision))
-                .with(load_animations_container_config(resource(
-                    "animations/player.ron",
-                )));
+                .with(animations_container_from_file(
+                    resource("animations/player.ron"),
+                    spritesheet_handle,
+                ));
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(

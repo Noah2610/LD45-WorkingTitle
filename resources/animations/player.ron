@@ -4,12 +4,12 @@
             name: "no_sprite",
             default_delay_ms: Some(1000),
             sprite_ids: [0],
-        )
+        ),
         (
             name: "single_sprite",
             default_delay_ms: Some(1000),
             sprite_ids: [13],
-        )
+        ),
         (
             name: "idle",
             default_delay_ms: Some(500),

@@ -104,6 +104,7 @@ where
 {
     use std::fs::File;
 
-    let file = File::open(filepath).expect("Couldn't open animations file");
+    let file = File::open(filepath.to_string())
+        .expect("Couldn't open animations file");
     ron::de::from_reader(file).expect("Failed parsing animations file")
 }
