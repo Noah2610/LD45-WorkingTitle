@@ -11,5 +11,5 @@
 In _Tiled_, objects of type `Feature` need to have the property `feature_type`.  
 `feature_type`'s value has to be one of the following:
 
-- `AddCollision`  
+- `AddCollisions`  
   Makes the player collide with solid walls.
