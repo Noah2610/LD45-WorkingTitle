@@ -32,6 +32,7 @@ struct SpriteData {
 #[derive(Default)]
 pub struct LevelLoader {
     finished_loading: bool,
+    level_size:       Option<Vector>,
     player_data:      Option<EntityData>,
     tiles_data:       Vec<EntityData>,
 }
@@ -54,6 +55,7 @@ impl LevelLoader {
             .expect("Couldn't read file contents to string");
         let json = json::parse(&raw).expect("Couldn't parse level JSON file");
 
+        self.load_level_data(&json["level"]);
         self.load_objects(&json["objects"]);
         self.load_tiles(&json["tiles"]);
     }
@@ -68,6 +70,21 @@ impl LevelLoader {
 
     pub fn is_finished(&self) -> bool {
         self.finished_loading
+    }
+
+    fn load_level_data(&mut self, json: &JsonValue) {
+        const ERRMSG: &str = "\"level\".\"size\" values should be f32";
+        for (key, val) in json.entries() {
+            match key {
+                "size" => {
+                    self.level_size = Some(Vector::new(
+                        val["w"].as_f32().expect(ERRMSG),
+                        val["h"].as_f32().expect(ERRMSG),
+                    ))
+                }
+                _ => (),
+            }
+        }
     }
 
     fn load_objects(&mut self, json: &JsonValue) {
@@ -178,7 +195,7 @@ impl LevelLoader {
                 })
             };
 
-            world
+            let mut entity = world
                 .create_entity()
                 .with(Player::from(player_settings.clone()))
                 .with(transform)
@@ -187,8 +204,15 @@ impl LevelLoader {
                 .with(sprite_render)
                 .with(Transparent)
                 .with(DecreaseVelocity::from(player_settings.decr_velocity))
-                .with(ScaleOnce)
-                .build();
+                .with(ScaleOnce);
+
+            if let Some(level_size) = self.level_size.as_ref() {
+                entity = entity.with(Confined::new(
+                    Rect::new().top(level_size.1).right(level_size.0).build(),
+                ))
+            }
+
+            entity.build();
         } else {
             panic!("No player object in level");
         }
@@ -204,14 +228,21 @@ impl LevelLoader {
             let mut transform = Transform::default();
             transform.set_translation_xyz(player_pos.0, player_pos.1, CAMERA_Z);
 
-            world
+            let size = Size::from(camera_settings.size);
+
+            let mut entity = world
                 .create_entity()
                 .with(transform)
-                .with(AmethystCamera::standard_2d(
-                    camera_settings.size.0,
-                    camera_settings.size.1,
-                ))
-                .build();
+                .with(AmethystCamera::standard_2d(size.w, size.h))
+                .with(size);
+
+            if let Some(level_size) = self.level_size.as_ref() {
+                entity = entity.with(Confined::new(
+                    Rect::new().top(level_size.1).right(level_size.0).build(),
+                ));
+            }
+
+            entity.build();
         }
     }
 

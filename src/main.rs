@@ -117,7 +117,13 @@ fn build_game_data<'a, 'b>(
             )?
             .with("ingame", CameraSystem::default(), "camera_system", &[
                 "move_player_system",
-            ])?;
+            ])?
+            .with(
+                "ingame",
+                ConfineEntitiesSystem::default(),
+                "confine_entities_system",
+                &["camera_system"],
+            )?;
 
     Ok(custom_game_data)
 }
