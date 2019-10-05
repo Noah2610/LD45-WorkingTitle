@@ -141,11 +141,11 @@ class Object:
 class Export(Plugin):
     @classmethod
     def nameFilter(self):
-        return "hello-amethyst-platformer export script (*.json)"
+        return "LD45 export script (*.json)"
 
     @classmethod
     def shortName(self):
-        return "hello-amethyst-platformer"
+        return "LD45-export"
 
     @classmethod
     def write(self, tile_map, filepath_map):
