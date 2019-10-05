@@ -78,6 +78,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
                         player.acceleration.0 * x * dt,
                         player.max_velocity.0,
                     );
+                    dbg!(player_velocity.x);
                     // Don't decrease velocity when moving
                     if x > 0.0
                         && player
@@ -137,6 +138,9 @@ impl<'a> System<'a> for ControlPlayerSystem {
                         && sides_touching.is_touching_bottom;
 
                     if can_jump {
+                        if player_velocity.y < 0.0 {
+                            player_velocity.y = 0.0;
+                        }
                         jumped = true;
                         player_velocity.y += jump_data.jump_strength;
                     }

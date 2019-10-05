@@ -98,9 +98,24 @@ fn build_game_data<'a, 'b>(
             )?
             .with(
                 "ingame",
+                ControlPlayerSystem::default(),
+                "control_player_system",
+                &[],
+            )?
+            .with("ingame", GravitySystem::default(), "gravity_system", &[
+                "control_player_system",
+            ])?
+            .with(
+                "ingame",
                 MoveEntitiesSystem::<solid_tag::SolidTag>::default(),
                 "move_entities_system",
-                &[],
+                &["control_player_system", "gravity_system"],
+            )?
+            .with(
+                "ingame",
+                HandleSolidCollisionsSystem::default(),
+                "handle_solid_collisions_system",
+                &["control_player_system", "move_entities_system"],
             )?
             .with(
                 "ingame",
@@ -108,14 +123,9 @@ fn build_game_data<'a, 'b>(
                 "decrease_velocities_system",
                 &["move_entities_system"],
             )?
-            .with(
-                "ingame",
-                ControlPlayerSystem::default(),
-                "control_player_system",
-                &[],
-            )?
             .with("ingame", CameraSystem::default(), "camera_system", &[
                 "control_player_system",
+                "move_entities_system",
             ])?
             .with(
                 "ingame",
@@ -128,15 +138,6 @@ fn build_game_data<'a, 'b>(
             .with("ingame", FeatureSystem::default(), "feature_system", &[
                 "collision_system",
             ])?
-            .with("ingame", GravitySystem::default(), "gravity_system", &[
-                "control_player_system",
-            ])?
-            .with(
-                "ingame",
-                HandleSolidCollisionsSystem::default(),
-                "handle_solid_collisions_system",
-                &["move_entities_system"],
-            )?
             .with("ingame", AnimationSystem::default(), "animation_system", &[
                 "feature_system",
             ])?

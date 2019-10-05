@@ -31,6 +31,11 @@ impl<'a> System<'a> for HandleSolidCollisionsSystem {
             {
                 velocity.y = 0.0;
             }
+            if (sides_touching.is_touching_right && velocity.x > 0.0)
+                || (sides_touching.is_touching_left && velocity.x < 0.0)
+            {
+                velocity.x = 0.0;
+            }
         }
     }
 }
