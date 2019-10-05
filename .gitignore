@@ -1,0 +1,7 @@
+/target
+**/*.rs.bk
+
+_ignore
+/bin/util.sh
+*.log
+/logs

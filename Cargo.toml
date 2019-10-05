@@ -1,0 +1,12 @@
+[package]
+name = "ld45"
+version = "0.0.0"
+authors = ["Noah Rosenzweig <rosenzweig.noah@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+amethyst   = { version = "0.13.1", features = ["vulkan"] }
+deathframe = { path = "../deathframe" }
+
+[features]
+nightly = ["amethyst/nightly"]
