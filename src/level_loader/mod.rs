@@ -190,8 +190,10 @@ impl LevelLoader {
                 properties[PROPERTY_Z_KEY].as_f32().unwrap_or(PLAYER_Z),
             );
             // let size = Size::from(*size);
-            let size =
-                Size::new(player_settings.size.0, player_settings.size.1);
+            let size = Size::new(
+                player_settings.animation_sizes.no_sprite.0,
+                player_settings.animation_sizes.no_sprite.1,
+            );
 
             let spritesheet_path = resource(format!(
                 "spritesheets/{}",
@@ -216,7 +218,7 @@ impl LevelLoader {
                 .with(sprite_render)
                 .with(Transparent)
                 .with(DecreaseVelocity::from(player_settings.decr_velocity))
-                .with(ScaleOnce)
+                .with(ScaleOnce::default())
                 .with(Collision::default())
                 .with(CheckCollision::default())
                 .with(Solid::new(SolidTag::PlayerNoCollision))
@@ -303,7 +305,7 @@ impl LevelLoader {
                 .create_entity()
                 .with(transform)
                 .with(Size::from(*size))
-                .with(ScaleOnce)
+                .with(ScaleOnce::default())
                 .with(Transparent);
 
             if let Some(sprite_render) = sprite_render_opt {
@@ -348,6 +350,8 @@ impl LevelLoader {
                 "AddCollisions" => FeatureType::AddCollisions,
                 "AddGravity1" => FeatureType::AddGravity1,
                 "AddJump" => FeatureType::AddJump,
+                "AddSingleSprite" => FeatureType::AddSingleSprite,
+                "AddAnimatedSprite" => FeatureType::AddAnimatedSprite,
                 f => panic!(format!("Unknown feature_type {}", f)),
             };
 

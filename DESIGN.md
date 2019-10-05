@@ -15,6 +15,10 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
   Makes the player collide with solid walls.
 - `AddGravity1`  
   Gives the player the _first_ gravity. (_before_ jetpack)
+- `AddSingleSprite`  
+  Gives the player a single sprite.
+- `AddAnimatedSprite`  
+  Gives the player its full set of animations (idle, walking, jumping, etc.).
 
 ## Sequential Features
 1.  4 directional movement, no gravity __DONE__

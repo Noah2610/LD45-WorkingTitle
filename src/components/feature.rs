@@ -4,6 +4,8 @@ pub enum FeatureType {
     AddCollisions,
     AddGravity1,
     AddJump,
+    AddSingleSprite,
+    AddAnimatedSprite,
 }
 
 pub struct Feature {

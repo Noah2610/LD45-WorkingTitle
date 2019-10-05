@@ -2,6 +2,8 @@ use deathframe::geo::Vector;
 
 pub mod prelude {
     pub use super::CameraSettings;
+    pub use super::PlayerAnimationSizes;
+    pub use super::PlayerJumpSettings;
     pub use super::PlayerSettings;
     pub use super::Settings;
 }
@@ -19,12 +21,12 @@ pub struct CameraSettings {
 
 #[derive(Clone, Deserialize)]
 pub struct PlayerSettings {
-    pub size:          Vector,
-    pub acceleration:  Vector,
-    pub max_velocity:  (Option<f32>, Option<f32>),
-    pub decr_velocity: Vector,
-    pub jump_data1:    PlayerJumpSettings,
-    pub jump_data2:    PlayerJumpSettings,
+    pub acceleration:    Vector,
+    pub max_velocity:    (Option<f32>, Option<f32>),
+    pub decr_velocity:   Vector,
+    pub jump_data1:      PlayerJumpSettings,
+    pub jump_data2:      PlayerJumpSettings,
+    pub animation_sizes: PlayerAnimationSizes,
 }
 
 #[derive(Clone, Deserialize)]
@@ -34,4 +36,11 @@ pub struct PlayerJumpSettings {
     pub jump_gravity:       Vector,
     pub decr_jump_strength: f32,
     pub min_jump_velocity:  f32,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct PlayerAnimationSizes {
+    pub no_sprite:       Vector,
+    pub single_sprite:   Vector,
+    pub animated_sprite: Vector,
 }

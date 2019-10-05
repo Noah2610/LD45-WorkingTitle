@@ -91,7 +91,6 @@ fn build_game_data<'a, 'b>(
             //     "dj_system",
             //     &[],
             // )?
-            .with_core(ScaleSpritesSystem, "scale_sprites_system", &[])?
             .with_core(
                 InputManagerSystem::<input::Bindings>::default(),
                 "input_manager_system",
@@ -138,12 +137,12 @@ fn build_game_data<'a, 'b>(
                 "handle_solid_collisions_system",
                 &["move_entities_system"],
             )?
-            .with(
-                "ingame",
-                AnimationSystem::default(),
+            .with("ingame", AnimationSystem::default(), "animation_system", &[
+                "feature_system",
+            ])?
+            .with("ingame", ScaleSpritesSystem, "scale_sprites_system", &[
                 "animation_system",
-                &[],
-            )?;
+            ])?;
 
     Ok(custom_game_data)
 }
