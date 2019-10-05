@@ -1,6 +1,8 @@
 /target
 **/*.rs.bk
 
+.DS_Store
+
 _ignore
 /bin/util.sh
 *.log
