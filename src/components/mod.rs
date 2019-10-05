@@ -3,6 +3,7 @@ pub mod prelude {
     pub use deathframe::components::prelude::*;
     pub use deathframe::geo::prelude::*;
 
+    pub use super::feature::Feature;
     pub use super::player::Player;
 }
 
@@ -13,4 +14,5 @@ pub mod component_prelude {
     pub use crate::settings::prelude::*;
 }
 
+mod feature;
 mod player;

@@ -35,6 +35,7 @@ pub struct LevelLoader {
     level_size:       Option<Vector>,
     player_data:      Option<EntityData>,
     tiles_data:       Vec<EntityData>,
+    features_data:    Vec<EntityData>,
 }
 
 impl LevelLoader {
@@ -64,6 +65,7 @@ impl LevelLoader {
         self.build_player(world);
         self.build_camera(world);
         self.build_tiles(world);
+        self.build_features(world);
 
         self.finished_loading = true;
     }
@@ -112,6 +114,14 @@ impl LevelLoader {
                 match obj_type {
                     "Player" => {
                         self.player_data = Some(EntityData {
+                            pos,
+                            size,
+                            sprite: None,
+                            properties: properties.clone(),
+                        });
+                    }
+                    "Feature" => {
+                        self.features_data.push(EntityData {
                             pos,
                             size,
                             sprite: None,
@@ -312,6 +322,34 @@ impl LevelLoader {
             // }
 
             entity.build();
+        }
+    }
+
+    fn build_features(&self, world: &mut World) {
+        for EntityData {
+            pos,
+            size,
+            sprite: _,
+            properties,
+        } in &self.features_data
+        {
+            let feature_type = properties["feature_type"]
+                .as_str()
+                .expect("Feature has to have 'feature_type' property");
+            let feature = match feature_type {
+                "AddCollisions" => Feature::AddCollisions,
+                f => panic!(format!("Unknown feature_type {}", feature_type)),
+            };
+
+            let mut transform = Transform::default();
+            transform.set_translation_xyz(pos.0, pos.1, 0.0);
+
+            world
+                .create_entity()
+                .with(transform)
+                .with(Size::from(*size))
+                .with(feature)
+                .build();
         }
     }
 }
