@@ -114,10 +114,13 @@ fn build_game_data<'a, 'b>(
                 MovePlayerSystem::default(),
                 "move_player_system",
                 &[],
-            )?;
+            )?
+            .with("ingame", CameraSystem::default(), "camera_system", &[
+                "move_player_system",
+            ])?;
 
     Ok(custom_game_data)
 }
 
 #[derive(Default)]
-pub struct CustomData {}
+pub struct CustomData;
