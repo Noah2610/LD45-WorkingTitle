@@ -15,10 +15,10 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
   Makes the player collide with solid walls.
 
 ## Sequential Features
-1.  4 directional movement, no gravity
-2.  first encounter with non solid tiles
-3.  first encounter with solid tiles
-4.  gravity + first music trigger
+1.  4 directional movement, no gravity __DONE__
+2.  first encounter with non solid tiles __DONE__
+3.  first encounter with solid tiles __DONE__
+4.  gravity + first music trigger __DONE (gravity)__
 5.  first encounter with non textured enemy
 6.  jump
 7.  player textures (single frame)

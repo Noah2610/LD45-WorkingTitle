@@ -1,28 +1,48 @@
 use super::system_prelude::*;
 
 #[derive(Default)]
-pub struct MovePlayerSystem;
+pub struct ControlPlayerSystem;
 
-impl<'a> System<'a> for MovePlayerSystem {
+impl<'a> System<'a> for ControlPlayerSystem {
     type SystemData = (
+        Entities<'a>,
         Read<'a, Time>,
         Read<'a, InputManager<Bindings>>,
-        ReadStorage<'a, Player>,
+        ReadStorage<'a, CanJump>,
+        WriteStorage<'a, Player>,
         WriteStorage<'a, Velocity>,
         WriteStorage<'a, DecreaseVelocity>,
     );
 
     fn run(
         &mut self,
-        (time, input_manager, players, mut velocities, mut decr_velocities): Self::SystemData,
+        (
+            entities,
+            time,
+            input_manager,
+            can_jumps,
+            mut players,
+            mut velocities,
+            mut decr_velocities,
+        ): Self::SystemData,
     ) {
-        if let Some((player, player_velocity, player_decr_velocity)) =
-            (&players, &mut velocities, &mut decr_velocities)
-                .join()
-                .next()
+        if let Some((
+            player_entity,
+            player,
+            player_velocity,
+            player_decr_velocity,
+        )) = (
+            &entities,
+            &mut players,
+            &mut velocities,
+            &mut decr_velocities,
+        )
+            .join()
+            .next()
         {
             let dt = time.delta_seconds();
 
+            // MOVEMENT
             if let Some(x) = input_manager.axis_value(AxisBinding::PlayerX) {
                 if x != 0.0 {
                     player_velocity.increase_x_with_max(
@@ -72,6 +92,19 @@ impl<'a> System<'a> for MovePlayerSystem {
                             .unwrap_or(true)
                     {
                         player_decr_velocity.dont_decrease_y_when_neg();
+                    }
+                }
+            }
+
+            // JUMPING
+            if can_jumps.contains(player_entity) {
+                if player.jump_strength.is_none() {
+                    player.jump_strength = Some(player.settings.jump_strength);
+                }
+
+                if let Some(jump_strength) = player.jump_strength {
+                    if input_manager.is_down(ActionBinding::PlayerJump) {
+                        player_velocity.y += jump_strength;
                     }
                 }
             }

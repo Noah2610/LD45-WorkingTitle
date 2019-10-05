@@ -25,6 +25,7 @@ impl Default for AxisBinding {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum ActionBinding {
     None,
+    PlayerJump,
 }
 
 impl Default for ActionBinding {

@@ -111,12 +111,12 @@ fn build_game_data<'a, 'b>(
             )?
             .with(
                 "ingame",
-                MovePlayerSystem::default(),
-                "move_player_system",
+                ControlPlayerSystem::default(),
+                "control_player_system",
                 &[],
             )?
             .with("ingame", CameraSystem::default(), "camera_system", &[
-                "move_player_system",
+                "control_player_system",
             ])?
             .with(
                 "ingame",
@@ -130,7 +130,7 @@ fn build_game_data<'a, 'b>(
                 "collision_system",
             ])?
             .with("ingame", GravitySystem::default(), "gravity_system", &[
-                "move_player_system",
+                "control_player_system",
             ])?
             .with(
                 "ingame",

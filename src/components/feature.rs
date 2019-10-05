@@ -3,6 +3,7 @@ use super::component_prelude::*;
 pub enum FeatureType {
     AddCollisions,
     AddGravity,
+    AddJump,
 }
 
 pub struct Feature {

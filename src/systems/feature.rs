@@ -12,6 +12,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, Feature>,
         WriteStorage<'a, Solid<SolidTag>>,
         WriteStorage<'a, Gravity>,
+        WriteStorage<'a, CanJump>,
     );
 
     fn run(
@@ -23,6 +24,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut features,
             mut solids,
             mut gravities,
+            mut can_jumps,
         ): Self::SystemData,
     ) {
         if let Some((player_entity, player, player_collision, player_solid)) =
@@ -48,6 +50,11 @@ impl<'a> System<'a> for FeatureSystem {
                                         ),
                                     )
                                     .expect("Should add Gravity to Player");
+                            }
+                            FeatureType::AddJump => {
+                                can_jumps
+                                    .insert(player_entity, CanJump::default())
+                                    .expect("Should add CanJump to Player");
                             }
                         }
                         feature.applied = true;

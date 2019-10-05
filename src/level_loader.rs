@@ -341,6 +341,7 @@ impl LevelLoader {
             let feature = match feature_type {
                 "AddCollisions" => FeatureType::AddCollisions,
                 "AddGravity" => FeatureType::AddGravity,
+                "AddJump" => FeatureType::AddJump,
                 f => panic!(format!("Unknown feature_type {}", f)),
             };
 
