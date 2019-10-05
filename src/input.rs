@@ -12,6 +12,8 @@ pub struct Bindings;
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum AxisBinding {
     None,
+    PlayerX,
+    PlayerY,
 }
 
 impl Default for AxisBinding {

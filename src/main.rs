@@ -91,23 +91,29 @@ fn build_game_data<'a, 'b>(
             //     "dj_system",
             //     &[],
             // )?
-            .with_core(ScaleSpritesSystem, "scale_sprites", &[])?
+            .with_core(ScaleSpritesSystem, "scale_sprites_system", &[])?
             .with_core(
                 InputManagerSystem::<input::Bindings>::default(),
-                "input_manager",
+                "input_manager_system",
                 &[],
             )?
             .with(
                 "ingame",
                 MoveEntitiesSystem::<solid_tag::SolidTag>::default(),
-                "move_entities",
+                "move_entities_system",
                 &[],
             )?
             .with(
                 "ingame",
                 DecreaseVelocitiesSystem::default(),
-                "decrease_velocities",
-                &["move_entities"],
+                "decrease_velocities_system",
+                &["move_entities_system"],
+            )?
+            .with(
+                "ingame",
+                MovePlayerSystem::default(),
+                "move_player_system",
+                &[],
             )?;
 
     Ok(custom_game_data)
