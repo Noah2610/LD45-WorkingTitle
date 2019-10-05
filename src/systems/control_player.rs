@@ -78,7 +78,6 @@ impl<'a> System<'a> for ControlPlayerSystem {
                         player.acceleration.0 * x * dt,
                         player.max_velocity.0,
                     );
-                    dbg!(player_velocity.x);
                     // Don't decrease velocity when moving
                     if x > 0.0
                         && player
