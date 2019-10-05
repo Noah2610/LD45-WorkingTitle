@@ -1,6 +1,7 @@
+mod helpers;
+
 use amethyst::ecs::{World, WorldExt};
 use amethyst::prelude::Builder;
-use amethyst::renderer::sprite::SpriteSheetHandle;
 use deathframe::handles::SpriteSheetHandles;
 use json::JsonValue;
 
@@ -8,6 +9,7 @@ use crate::components::prelude::*;
 use crate::helpers::*;
 use crate::settings::prelude::*;
 use crate::solid_tag::SolidTag;
+use helpers::*;
 
 const LEVELS_DIR: &str = "levels";
 const TILE_SIZE: (f32, f32) = (16.0, 16.0);
@@ -217,7 +219,10 @@ impl LevelLoader {
                 .with(ScaleOnce)
                 .with(Collision::default())
                 .with(CheckCollision::default())
-                .with(Solid::new(SolidTag::PlayerNoCollision));
+                .with(Solid::new(SolidTag::PlayerNoCollision))
+                .with(load_animations_container_config(resource(
+                    "animations/player.ron",
+                )));
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(
@@ -356,52 +361,5 @@ impl LevelLoader {
                 .with(Collision::default())
                 .build();
         }
-    }
-}
-
-/// Generate an Animation from the given properties.
-/// Copied from LD44.
-pub fn animation_from(
-    spritesheet_handle: SpriteSheetHandle,
-    properties: &JsonValue,
-) -> Option<Animation> {
-    match (
-        properties["animation_sprite_ids"].as_str(),
-        properties["animation_delays_ms"].as_str(),
-    ) {
-        (Some(str_sprite_ids), Some(str_delays_ms)) => {
-            let sprite_ids = str_sprite_ids
-                .split(",")
-                .map(|str_id| {
-                    str_id.trim().parse::<usize>().expect(&format!(
-                        "Couldn't parse string to usize '{}' in '{}' \
-                         (animation_sprite_ids)",
-                        str_id, str_sprite_ids
-                    ))
-                })
-                .collect();
-            let delays_ms = str_delays_ms
-                .split(",")
-                .map(|str_ms| {
-                    str_ms.trim().parse::<u64>().expect(&format!(
-                        "Couldn't parse string to u64 '{}' in '{}' \
-                         (animation_delays_ms)",
-                        str_ms, str_delays_ms
-                    ))
-                })
-                .collect();
-            Some(
-                Animation::new()
-                    .default_sprite_sheet_handle(spritesheet_handle)
-                    .sprite_ids(sprite_ids)
-                    .delays_ms(delays_ms)
-                    .build(),
-            )
-        }
-        (Some(_), None) | (None, Some(_)) => panic!(
-            "Tile with animation needs both properties `animation_sprite_ids` \
-             and `animation_delays_ms`"
-        ),
-        (None, None) => None,
     }
 }

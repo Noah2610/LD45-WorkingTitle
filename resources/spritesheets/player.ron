@@ -8,5 +8,169 @@
             width:  16,
             height: 16,
         ),
+
+        // WALKING
+        ( // 1 - walking 0
+            x:      0,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 2 - walking 1
+            x:      6,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 3 - walking 2
+            x:      12,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 4 - walking 3
+            x:      18,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 5 - walking 4
+            x:      24,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 6 - walking 5
+            x:      30,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 7 - walking 6
+            x:      36,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 8 - walking 7
+            x:      42,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 9 - walking 8
+            x:      48,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 10 - walking 9
+            x:      54,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 11 - walking 10
+            x:      60,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+        ( // 12 - walking 11
+            x:      66,
+            y:      16,
+            width:  6,
+            height: 16,
+        ),
+
+        // IDLE
+        ( // 13 - idle 0
+            x:      0,
+            y:      32,
+            width:  6,
+            height: 16,
+        ),
+        ( // 14 - idle 1
+            x:      6,
+            y:      32,
+            width:  6,
+            height: 16,
+        ),
+
+        // JUMP
+        ( // 15 - jump 0
+            x:      0,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+        ( // 16 - jump 1
+            x:      6,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+        ( // 17 - jump 2
+            x:      12,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+        ( // 18 - jump 3
+            x:      18,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+        ( // 19 - jump 4
+            x:      24,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+        ( // 20 - jump 5
+            x:      30,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+        ( // 21 - jump 6
+            x:      36,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+        ( // 22 - jump 7
+            x:      42,
+            y:      48,
+            width:  6,
+            height: 16,
+        ),
+
+        // DASH
+        ( // 23 - dash 0
+            x:      0,
+            y:      64,
+            width:  7,
+            height: 16,
+        ),
+        ( // 24 - dash 1
+            x:      14,
+            y:      64,
+            width:  7,
+            height: 16,
+        ),
+        ( // 25 - dash 2
+            x:      21,
+            y:      64,
+            width:  7,
+            height: 16,
+        ),
+        ( // 26 - dash 3
+            x:      28,
+            y:      64,
+            width:  7,
+            height: 16,
+        ),
     ],
 )
