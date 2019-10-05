@@ -8,7 +8,7 @@
         max_velocity:  (Some(500.0), Some(500.0)),
         decr_velocity: (2000.0, 2000.0),
         jump_strength: 400.0,
-        gravity:       (0.0, 0.0),
+        gravity:       (0.0, -400.0),
         jump_gravity:  (0.0, 0.0),
     )
 )
