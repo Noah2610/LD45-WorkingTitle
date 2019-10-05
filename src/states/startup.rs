@@ -1,6 +1,8 @@
 use super::state_prelude::*;
 use crate::level_loader::LevelLoader;
 
+const LEVEL_NAME: &str = "level.json";
+
 #[derive(Default)]
 pub struct Startup {
     level_loader: Option<LevelLoader>,
@@ -10,8 +12,8 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
         insert_resources(data.world);
 
-        let mut level_loader = LevelLoader::new();
-        level_loader.load();
+        let mut level_loader = LevelLoader::default();
+        level_loader.load(LEVEL_NAME);
         self.level_loader = Some(level_loader);
     }
 

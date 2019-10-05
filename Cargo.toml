@@ -9,6 +9,7 @@ amethyst   = { version = "0.13.1", features = ["vulkan"] }
 deathframe = { path = "../deathframe" }
 serde      = "1.0.101"
 ron        = "0.5.1"
+json       = "0.12.0"
 
 [features]
 nightly = ["amethyst/nightly"]

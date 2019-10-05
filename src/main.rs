@@ -1,5 +1,6 @@
 extern crate amethyst;
 extern crate deathframe;
+extern crate json;
 extern crate ron;
 #[macro_use]
 extern crate serde;

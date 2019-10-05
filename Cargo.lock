@@ -1368,6 +1368,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "json"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "kernel32-sys"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1401,6 +1406,7 @@ version = "0.0.0"
 dependencies = [
  "amethyst 0.13.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "deathframe 0.3.1",
+ "json 0.12.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ron 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.101 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -3472,6 +3478,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum itertools 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "5b8467d9c1cebe26feb08c640139247fac215782d35371ade9a2136ed6085358"
 "checksum itoa 0.4.4 (registry+https://github.com/rust-lang/crates.io-index)" = "501266b7edd0174f8530248f87f99c88fbe60ca4ef3dd486835b8d8d53136f7f"
 "checksum jpeg-decoder 0.1.16 (registry+https://github.com/rust-lang/crates.io-index)" = "c1aae18ffeeae409c6622c3b6a7ee49792a7e5a062eea1b135fbb74e301792ba"
+"checksum json 0.12.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b3ca41abbeb7615d56322a984e63be5e5d0a117dfaca86c14393e32a762ccac1"
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
 "checksum laminar 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "f0681a3c89df2494b20074854648d0f0b386ede71fca7e3a138ecbb85a1cfef1"
 "checksum lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
