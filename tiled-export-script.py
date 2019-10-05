@@ -76,8 +76,8 @@ class Tileset:
         content = '('
         # content += '\n  filename: "' + self.filename() + '",'
         # NOTE: We want to use the actual size of the image for these values
-        content += '\n  spritesheet_width:  ' + str(tileset.imageWidth()) + ','
-        content += '\n  spritesheet_height: ' + str(tileset.imageHeight()) + ','
+        content += '\n  texture_width:  ' + str(tileset.imageWidth()) + ','
+        content += '\n  texture_height: ' + str(tileset.imageHeight()) + ','
         content += '\n  sprites: ['
         tiles_per_row = spritesheet_size['w'] / tile_size['w']
         tiles_per_col = spritesheet_size['h'] / tile_size['h']
