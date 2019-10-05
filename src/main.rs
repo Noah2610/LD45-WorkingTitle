@@ -65,7 +65,7 @@ fn build_game_data<'a, 'b>(
     let rendering_bundle = RenderingBundle::<DefaultBackend>::new()
         .with_plugin(
             RenderToWindow::from_config_path(display_config_file)
-                .with_clear([0.0, 0.0, 0.0, 0.0]),
+                .with_clear([0.8, 0.8, 0.8, 1.0]),
         )
         .with_plugin(RenderFlat2D::default())
         .with_plugin(RenderUi::default());

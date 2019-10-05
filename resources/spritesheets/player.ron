@@ -1,12 +1,12 @@
 (
-    texture_width:  32,
-    texture_height: 64,
+    texture_width:  500,
+    texture_height: 500,
     sprites: [
-        (
+        ( // 0 - black square
             x:      0,
             y:      0,
-            width:  32,
-            height: 64,
+            width:  16,
+            height: 16,
         ),
     ],
 )

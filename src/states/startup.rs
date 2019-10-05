@@ -12,8 +12,12 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
         insert_resources(data.world);
 
+        // TODO: temporary
+        data.world.register::<Player>();
+
         let mut level_loader = LevelLoader::default();
         level_loader.load(LEVEL_NAME);
+        level_loader.build(data.world);
         self.level_loader = Some(level_loader);
     }
 

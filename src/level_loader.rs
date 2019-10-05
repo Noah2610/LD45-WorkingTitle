@@ -1,11 +1,18 @@
-use amethyst::ecs::World;
+use amethyst::ecs::{World, WorldExt};
+use amethyst::prelude::Builder;
+use deathframe::handles::SpriteSheetHandles;
 use json::JsonValue;
 
 use crate::components::prelude::*;
 use crate::helpers::*;
+use crate::settings::prelude::*;
 
 const LEVELS_DIR: &str = "levels";
 const TILE_SIZE: (f32, f32) = (32.0, 32.0);
+const PROPERTY_Z_KEY: &str = "z";
+const CAMERA_Z: f32 = 10.0;
+const PLAYER_Z: f32 = 1.0;
+const PLAYER_SPRITESHEET_FILENAME: &str = "player.png";
 
 struct EntityData {
     pub pos:        Vector,
@@ -50,6 +57,8 @@ impl LevelLoader {
 
     pub fn build(&mut self, world: &mut World) {
         self.build_player(world);
+        self.build_camera(world);
+        self.build_tiles(world);
 
         self.finished_loading = true;
     }
@@ -132,5 +141,77 @@ impl LevelLoader {
     }
 
     fn build_player(&self, world: &mut World) {
+        if let Some(EntityData {
+            pos,
+            size,
+            properties,
+            sprite: _,
+        }) = self.player_data.as_ref()
+        {
+            let player_settings =
+                world.read_resource::<Settings>().player.clone();
+
+            let mut transform = Transform::default();
+            transform.set_translation_xyz(
+                pos.0,
+                pos.1,
+                properties[PROPERTY_Z_KEY].as_f32().unwrap_or(PLAYER_Z),
+            );
+            // let size = Size::from(*size);
+            let size =
+                Size::new(player_settings.size.0, player_settings.size.1);
+
+            let spritesheet_path = resource(format!(
+                "spritesheets/{}",
+                PLAYER_SPRITESHEET_FILENAME
+            ));
+            let (spritesheet_handle, sprite_render) = {
+                let spritesheet_handle = world
+                    .write_resource::<SpriteSheetHandles>()
+                    .get_or_load(spritesheet_path, &world);
+                (spritesheet_handle.clone(), SpriteRender {
+                    sprite_sheet:  spritesheet_handle.clone(),
+                    sprite_number: 0,
+                })
+            };
+
+            world
+                .create_entity()
+                .with(Player::from(player_settings.clone()))
+                .with(transform)
+                .with(size)
+                .with(Velocity::default())
+                .with(sprite_render)
+                .with(Transparent)
+                .with(DecreaseVelocity::from(player_settings.decr_velocity))
+                .with(ScaleOnce)
+                .build();
+        } else {
+            panic!("No player object in level");
+        }
+    }
+
+    fn build_camera(&self, world: &mut World) {
+        if let Some(player_data) = self.player_data.as_ref() {
+            let player_pos = player_data.pos;
+
+            let camera_settings =
+                world.read_resource::<Settings>().camera.clone();
+
+            let mut transform = Transform::default();
+            transform.set_translation_xyz(player_pos.0, player_pos.1, CAMERA_Z);
+
+            world
+                .create_entity()
+                .with(transform)
+                .with(AmethystCamera::standard_2d(
+                    camera_settings.size.0,
+                    camera_settings.size.1,
+                ))
+                .build();
+        }
+    }
+
+    fn build_tiles(&self, world: &mut World) {
     }
 }

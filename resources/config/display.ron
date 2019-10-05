@@ -1,9 +1,9 @@
 (
   title:          "LD45",
   fullscreen:     None,
-  dimensions:     Some((1280, 720)),
-  max_dimensions: Some((1280, 720)),
-  min_dimensions: Some((1280, 720)),
+  dimensions:     Some((800, 800)),
+  max_dimensions: Some((800, 800)),
+  min_dimensions: Some((800, 800)),
   visibility:     true,
   decorations:    true,
   maximized:      false,

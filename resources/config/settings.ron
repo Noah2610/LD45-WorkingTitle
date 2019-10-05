@@ -1,1 +1,14 @@
-()
+(
+    camera: (
+        size: (400.0, 400.0),
+    ),
+    player: (
+        size:          (32.0, 32.0),
+        acceleration:  (800.0, 800.0),
+        max_velocity:  (Some(200.0), Some(200.0)),
+        decr_velocity: (2000.0, 2000.0),
+        jump_strength: 400.0,
+        gravity:       (0.0, 0.0),
+        jump_gravity:  (0.0, 0.0),
+    )
+)
