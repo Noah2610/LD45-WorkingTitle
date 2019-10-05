@@ -10,7 +10,7 @@ use crate::settings::prelude::*;
 use crate::solid_tag::SolidTag;
 
 const LEVELS_DIR: &str = "levels";
-const TILE_SIZE: (f32, f32) = (32.0, 32.0);
+const TILE_SIZE: (f32, f32) = (16.0, 16.0);
 const TILE_Z: f32 = 0.0;
 const PROPERTY_Z_KEY: &str = "z";
 const CAMERA_Z: f32 = 10.0;
