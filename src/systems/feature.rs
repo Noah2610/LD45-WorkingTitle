@@ -40,16 +40,28 @@ impl<'a> System<'a> for FeatureSystem {
                                 player_solid.tag =
                                     SolidTag::PlayerWithCollision;
                             }
-                            FeatureType::AddGravity => {
+                            FeatureType::AddGravity1 => {
+                                let jump_settings = &player.settings.jump_data1;
                                 gravities
                                     .insert(
                                         player_entity,
                                         Gravity::new(
-                                            player.settings.gravity.0,
-                                            player.settings.gravity.1,
+                                            jump_settings.gravity.0,
+                                            jump_settings.gravity.1,
                                         ),
                                     )
                                     .expect("Should add Gravity to Player");
+                                player.jump_data = Some(PlayerJumpData {
+                                    jump_strength:      jump_settings
+                                        .jump_strength,
+                                    gravity:            jump_settings.gravity,
+                                    jump_gravity:       jump_settings
+                                        .jump_gravity,
+                                    decr_jump_strength: jump_settings
+                                        .decr_jump_strength,
+                                    min_jump_velocity:  jump_settings
+                                        .min_jump_velocity,
+                                });
                             }
                             FeatureType::AddJump => {
                                 can_jumps

@@ -13,6 +13,8 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
 
 - `AddCollisions`  
   Makes the player collide with solid walls.
+- `AddGravity1`  
+  Gives the player the _first_ gravity. (_before_ jetpack)
 
 ## Sequential Features
 1.  4 directional movement, no gravity __DONE__
@@ -20,7 +22,7 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
 3.  first encounter with solid tiles __DONE__
 4.  gravity + first music trigger __DONE (gravity)__
 5.  first encounter with non textured enemy
-6.  jump
+6.  jump __DONE__
 7.  player textures (single frame)
 8.  bg + player animation + second music trigger
 9.  enemy textures

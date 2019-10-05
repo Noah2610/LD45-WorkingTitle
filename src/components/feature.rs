@@ -2,7 +2,7 @@ use super::component_prelude::*;
 
 pub enum FeatureType {
     AddCollisions,
-    AddGravity,
+    AddGravity1,
     AddJump,
 }
 

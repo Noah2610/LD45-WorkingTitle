@@ -8,9 +8,9 @@
     <property name="feature_type" value="AddCollisions"/>
    </properties>
   </object>
-  <object id="5" name="Feature AddGravity" type="Feature" x="432" y="0" width="64" height="640">
+  <object id="5" name="Feature AddGravity1" type="Feature" x="432" y="0" width="64" height="640">
    <properties>
-    <property name="feature_type" value="AddGravity"/>
+    <property name="feature_type" value="AddGravity1"/>
    </properties>
   </object>
   <object id="6" name="Feature AddJump" type="Feature" x="560" y="0" width="64" height="640">

@@ -340,7 +340,7 @@ impl LevelLoader {
                 .expect("Feature has to have 'feature_type' property");
             let feature = match feature_type {
                 "AddCollisions" => FeatureType::AddCollisions,
-                "AddGravity" => FeatureType::AddGravity,
+                "AddGravity1" => FeatureType::AddGravity1,
                 "AddJump" => FeatureType::AddJump,
                 f => panic!(format!("Unknown feature_type {}", f)),
             };

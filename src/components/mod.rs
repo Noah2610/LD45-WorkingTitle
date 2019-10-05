@@ -5,7 +5,7 @@ pub mod prelude {
 
     pub use super::can_jump::CanJump;
     pub use super::feature::{Feature, FeatureType};
-    pub use super::player::Player;
+    pub use super::player::{Player, PlayerJumpData};
 }
 
 pub mod component_prelude {

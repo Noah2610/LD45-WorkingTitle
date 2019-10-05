@@ -20,8 +20,8 @@ impl<'a> System<'a> for HandleSolidCollisionsSystem {
         {
             let sides_touching = SidesTouching::new(
                 &entities,
-                &collision,
-                &solid,
+                collision,
+                solid,
                 &collisions,
                 &solids,
             );
