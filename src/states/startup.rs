@@ -5,6 +5,7 @@ pub struct Startup;
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
+        insert_resources(data.world);
     }
 
     fn update(
@@ -15,4 +16,16 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
 
         Trans::None
     }
+}
+
+fn insert_resources(world: &mut World) {
+    world.insert(load_settings());
+}
+
+fn load_settings() -> Settings {
+    use std::fs::File;
+
+    let file = File::open(resource("config/settings.ron"))
+        .expect("Couldn't open settings.ron file");
+    ron::de::from_reader(file).expect("Failed parsing settings.ron file")
 }

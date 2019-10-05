@@ -1,11 +1,13 @@
 extern crate amethyst;
 extern crate deathframe;
+extern crate ron;
 #[macro_use]
 extern crate serde;
 
 mod components;
 mod helpers;
 mod input;
+mod settings;
 mod solid_tag;
 mod states;
 mod systems;
@@ -17,7 +19,6 @@ use amethyst::core::transform::TransformBundle;
 use amethyst::renderer::types::DefaultBackend;
 use amethyst::renderer::{RenderFlat2D, RenderToWindow, RenderingBundle};
 use amethyst::ui::{RenderUi, UiBundle};
-use amethyst::utils::application_root_dir;
 use amethyst::{ApplicationBuilder, LogLevelFilter, LoggerConfig};
 use deathframe::custom_game_data::prelude::*;
 
