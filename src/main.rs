@@ -123,7 +123,12 @@ fn build_game_data<'a, 'b>(
                 ConfineEntitiesSystem::default(),
                 "confine_entities_system",
                 &["camera_system"],
-            )?;
+            )?
+            .with("ingame", CollisionSystem::default(), "collision_system", &[
+            ])?
+            .with("ingame", FeatureSystem::default(), "feature_system", &[
+                "collision_system",
+            ])?;
 
     Ok(custom_game_data)
 }

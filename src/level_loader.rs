@@ -214,7 +214,10 @@ impl LevelLoader {
                 .with(sprite_render)
                 .with(Transparent)
                 .with(DecreaseVelocity::from(player_settings.decr_velocity))
-                .with(ScaleOnce);
+                .with(ScaleOnce)
+                .with(Collision::default())
+                .with(CheckCollision::default())
+                .with(Solid::new(SolidTag::PlayerNoCollision));
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(
@@ -305,14 +308,13 @@ impl LevelLoader {
                 entity = entity.with(animation);
             }
 
-            // TODO
-            // if let Some(is_solid) = properties["solid"].as_bool() {
-            //     if is_solid {
-            //         entity = entity
-            //             .with(Solid::new(SolidTag::default()))
-            //             .with(Collision::new());
-            //     }
-            // }
+            if let Some(is_solid) = properties["solid"].as_bool() {
+                if is_solid {
+                    entity = entity
+                        .with(Solid::new(SolidTag::Enemy))
+                        .with(Collision::default());
+                }
+            }
 
             // TODO
             // if let Some(harmful_damage) = properties["harmful"].as_u32() {
@@ -337,8 +339,8 @@ impl LevelLoader {
                 .as_str()
                 .expect("Feature has to have 'feature_type' property");
             let feature = match feature_type {
-                "AddCollisions" => Feature::AddCollisions,
-                f => panic!(format!("Unknown feature_type {}", feature_type)),
+                "AddCollisions" => FeatureType::AddCollisions,
+                f => panic!(format!("Unknown feature_type {}", f)),
             };
 
             let mut transform = Transform::default();
@@ -348,7 +350,8 @@ impl LevelLoader {
                 .create_entity()
                 .with(transform)
                 .with(Size::from(*size))
-                .with(feature)
+                .with(Feature::new(feature))
+                .with(Collision::default())
                 .build();
         }
     }

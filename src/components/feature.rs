@@ -1,7 +1,21 @@
 use super::component_prelude::*;
 
-pub enum Feature {
+pub enum FeatureType {
     AddCollisions,
+}
+
+pub struct Feature {
+    pub applied:      bool,
+    pub feature_type: FeatureType,
+}
+
+impl Feature {
+    pub fn new(feature_type: FeatureType) -> Self {
+        Self {
+            applied:      false,
+            feature_type: feature_type,
+        }
+    }
 }
 
 impl Component for Feature {
