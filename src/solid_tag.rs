@@ -5,6 +5,7 @@ pub enum SolidTag {
     None,
     PlayerNoCollision,
     PlayerWithCollision,
+    Tile,
     Enemy,
 }
 
@@ -21,6 +22,7 @@ impl STag for SolidTag {
             | (_, SolidTag::PlayerNoCollision) => false,
             (SolidTag::PlayerWithCollision, SolidTag::Enemy)
             | (SolidTag::Enemy, SolidTag::PlayerWithCollision) => true,
+            (SolidTag::Tile, _) | (_, SolidTag::Tile) => true,
             _ => false,
         }
     }

@@ -131,7 +131,13 @@ fn build_game_data<'a, 'b>(
             ])?
             .with("ingame", GravitySystem::default(), "gravity_system", &[
                 "move_player_system",
-            ])?;
+            ])?
+            .with(
+                "ingame",
+                HandleSolidCollisionsSystem::default(),
+                "handle_solid_collisions_system",
+                &["move_entities_system"],
+            )?;
 
     Ok(custom_game_data)
 }

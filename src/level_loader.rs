@@ -311,7 +311,7 @@ impl LevelLoader {
             if let Some(is_solid) = properties["solid"].as_bool() {
                 if is_solid {
                     entity = entity
-                        .with(Solid::new(SolidTag::Enemy))
+                        .with(Solid::new(SolidTag::Tile))
                         .with(Collision::default());
                 }
             }
