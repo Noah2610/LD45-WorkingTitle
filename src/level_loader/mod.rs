@@ -416,7 +416,8 @@ impl LevelLoader {
                 .with(animations_container_from_file(
                     animations_path,
                     spritesheet_handle,
-                ));
+                ))
+                .with(Spike::default());
 
             if let Some(gravity) = enemy_settings.gravity {
                 entity = entity.with(Gravity::new(gravity.0, gravity.1));

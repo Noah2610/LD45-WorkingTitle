@@ -153,6 +153,8 @@ fn build_game_data<'a, 'b>(
             )?
             .with("ingame", SpikeSystem::default(), "spike_system", &[
                 "collision_system",
+                "control_player_system",
+                "gravity_system",
             ])?;
 
     Ok(custom_game_data)
