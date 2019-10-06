@@ -52,13 +52,38 @@ pub mod enemy_ai_data {
             origin: Vector,
             pace_distance: (Option<f32>, Option<f32>),
         ) -> Self {
+            let pace_dist_signs = (
+                pace_distance.0.map(|d| d.signum()),
+                pace_distance.1.map(|d| d.signum()),
+            );
+            let pacing_direction = (
+                if let Some(sign) = pace_dist_signs.0 {
+                    if sign >= 0.0 {
+                        PacingDirectionX::Right
+                    } else {
+                        PacingDirectionX::Left
+                    }
+                } else {
+                    PacingDirectionX::default()
+                },
+                if let Some(sign) = pace_dist_signs.1 {
+                    if sign >= 0.0 {
+                        PacingDirectionY::Up
+                    } else {
+                        PacingDirectionY::Down
+                    }
+                } else {
+                    PacingDirectionY::default()
+                },
+            );
+            let pace_distance = (
+                pace_distance.0.map(|d| d.abs()),
+                pace_distance.1.map(|d| d.abs()),
+            );
             Self {
                 origin,
                 pace_distance,
-                pacing_direction: (
-                    PacingDirectionX::default(),
-                    PacingDirectionY::default(),
-                ),
+                pacing_direction,
             }
         }
     }
