@@ -52,14 +52,14 @@ No properties.
 1.  4 directional movement, no gravity __DONE__
 2.  first encounter with non solid tiles __DONE__
 3.  first encounter with solid tiles __DONE__
-4.  gravity + first music trigger __DONE (gravity)__
-5.  first encounter with non textured enemy __DONE__
+4.  gravity + first music trigger __DONE__
+5.  first encounter with non textured enemy __DONE (not non-textured, rather single-sprite-textured)__
 6.  jump __DONE__
 7.  player textures (single frame) __DONE__
-8.  bg + player animation + second music trigger __DONE (player animation)__
-9.  enemy textures
+8.  bg + player animation + second music trigger __DONE (player animation, music trigger)__
+9.  enemy textures __DONE__
 10. spikes __DONE__
-11. enemy animations
+11. enemy animations __DONE (happens with 'enemy textures')__
 12. parallax bgs?
 13. jetpack jump + hover
 14. first wave of environmental decoration
