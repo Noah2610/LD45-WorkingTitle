@@ -18,6 +18,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, Solid<SolidTag>>,
         WriteStorage<'a, Gravity>,
         WriteStorage<'a, CanJump>,
+        WriteStorage<'a, CanWallJump>,
         WriteStorage<'a, HasSingleSprite>,
         WriteStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, CanRun>,
@@ -38,6 +39,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut solids,
             mut gravities,
             mut can_jumps,
+            mut can_wall_jumps,
             mut has_single_sprites,
             mut has_animated_sprites,
             mut can_runs,
@@ -83,6 +85,8 @@ impl<'a> System<'a> for FeatureSystem {
                                 player.jump_data = Some(PlayerJumpData {
                                     jump_strength:      jump_settings
                                         .jump_strength,
+                                    wall_jump_strength: jump_settings
+                                        .wall_jump_strength,
                                     gravity:            jump_settings.gravity,
                                     jump_gravity:       jump_settings
                                         .jump_gravity,
@@ -96,6 +100,12 @@ impl<'a> System<'a> for FeatureSystem {
                                 can_jumps
                                     .insert(player_entity, CanJump::default())
                                     .expect("Should add CanJump to Player");
+                                can_wall_jumps
+                                    .insert(
+                                        player_entity,
+                                        CanWallJump::default(),
+                                    )
+                                    .expect("Should add CanWallJump to Player");
                             }
                             FeatureType::AddSingleSprite => {
                                 has_single_sprites

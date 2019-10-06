@@ -2,6 +2,7 @@ use super::component_prelude::*;
 
 pub struct PlayerJumpData {
     pub jump_strength:      f32,
+    pub wall_jump_strength: Vector,
     pub gravity:            Vector,
     pub jump_gravity:       Vector,
     pub decr_jump_strength: f32,

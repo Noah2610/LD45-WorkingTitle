@@ -11,6 +11,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Solid<SolidTag>>,
         ReadStorage<'a, CanJump>,
+        ReadStorage<'a, CanWallJump>,
         ReadStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Transform>,
@@ -29,6 +30,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
             collisions,
             solids,
             can_jumps,
+            can_wall_jumps,
             has_animated_sprites,
             mut players,
             mut transforms,
@@ -132,11 +134,32 @@ impl<'a> System<'a> for ControlPlayerSystem {
             if can_jumps.contains(player_entity) {
                 if let Some(jump_data) = player.jump_data.as_ref() {
                     let mut jumped = false;
-                    let can_jump = input_manager
-                        .is_down(ActionBinding::PlayerJump)
-                        && sides_touching.is_touching_bottom;
+                    let is_button_down =
+                        input_manager.is_down(ActionBinding::PlayerJump);
+                    let can_jump =
+                        is_button_down && sides_touching.is_touching_bottom;
+                    let can_wall_jump = is_button_down
+                        && !sides_touching.is_touching_bottom
+                        && sides_touching.is_touching_horizontally();
 
-                    if can_jump {
+                    if can_wall_jump {
+                        if player_velocity.y < 0.0 {
+                            player_velocity.y = 0.0;
+                        }
+                        jumped = true;
+                        player_velocity.y += jump_data.wall_jump_strength.0;
+                        if sides_touching.is_touching_left {
+                            if player_velocity.x < 0.0 {
+                                player_velocity.x = 0.0;
+                            }
+                            player_velocity.x += jump_data.wall_jump_strength.0;
+                        } else if sides_touching.is_touching_right {
+                            if player_velocity.x > 0.0 {
+                                player_velocity.x = 0.0;
+                            }
+                            player_velocity.x -= jump_data.wall_jump_strength.0;
+                        }
+                    } else if can_jump {
                         if player_velocity.y < 0.0 {
                             player_velocity.y = 0.0;
                         }

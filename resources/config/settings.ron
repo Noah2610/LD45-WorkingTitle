@@ -15,6 +15,7 @@
         decr_velocity:       (2000.0, 2000.0),
         jump_data1: (
             jump_strength:      400.0,
+            wall_jump_strength: (400.0, 400.0),
             gravity:            (0.0, -800.0),
             jump_gravity:       (0.0, -600.0),
             decr_jump_strength: 0.0,
@@ -22,6 +23,7 @@
         ),
         jump_data2: (
             jump_strength:      800.0,
+            wall_jump_strength: (400.0, 800.0),
             gravity:            (0.0, -400.0),
             jump_gravity:       (0.0, -50.0),
             decr_jump_strength: 200.0,

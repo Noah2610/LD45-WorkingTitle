@@ -24,6 +24,8 @@ No properties.
     Makes the player collide with solid walls.
   - `AddGravity1`  
     Gives the player the _first_ gravity. (_before_ jetpack)
+  - `AddJump`  
+    Gives the player the ability to _jump_ and to _wall jump_.
   - `AddSingleSprite`  
     Gives the player a single sprite.
   - `AddAnimatedSprite`  
