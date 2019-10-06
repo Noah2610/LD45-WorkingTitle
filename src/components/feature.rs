@@ -3,6 +3,7 @@ use super::component_prelude::*;
 pub enum FeatureType {
     AddCollisions,
     AddGravity1,
+    AddGravity2,
     AddJump,
     AddSingleSprite,
     AddAnimatedSprite,
@@ -18,6 +19,7 @@ impl From<&str> for FeatureType {
         match s {
             "AddCollisions"     => FeatureType::AddCollisions,
             "AddGravity1"       => FeatureType::AddGravity1,
+            "AddGravity2"       => FeatureType::AddGravity2,
             "AddJump"           => FeatureType::AddJump,
             "AddSingleSprite"   => FeatureType::AddSingleSprite,
             "AddAnimatedSprite" => FeatureType::AddAnimatedSprite,

@@ -72,29 +72,24 @@ impl<'a> System<'a> for FeatureSystem {
                                     SolidTag::PlayerWithCollision;
                             }
                             FeatureType::AddGravity1 => {
-                                let jump_settings = &player.settings.jump_data1;
-                                gravities
-                                    .insert(
-                                        player_entity,
-                                        Gravity::new(
-                                            jump_settings.gravity.0,
-                                            jump_settings.gravity.1,
-                                        ),
-                                    )
-                                    .expect("Should add Gravity to Player");
-                                player.jump_data = Some(PlayerJumpData {
-                                    jump_strength:      jump_settings
-                                        .jump_strength,
-                                    wall_jump_strength: jump_settings
-                                        .wall_jump_strength,
-                                    gravity:            jump_settings.gravity,
-                                    jump_gravity:       jump_settings
-                                        .jump_gravity,
-                                    decr_jump_strength: jump_settings
-                                        .decr_jump_strength,
-                                    min_jump_velocity:  jump_settings
-                                        .min_jump_velocity,
-                                });
+                                let jump_settings =
+                                    player.settings.jump_data1.clone();
+                                add_gravity(
+                                    jump_settings,
+                                    player_entity,
+                                    player,
+                                    &mut gravities,
+                                );
+                            }
+                            FeatureType::AddGravity2 => {
+                                let jump_settings =
+                                    player.settings.jump_data2.clone();
+                                add_gravity(
+                                    jump_settings,
+                                    player_entity,
+                                    player,
+                                    &mut gravities,
+                                );
                             }
                             FeatureType::AddJump => {
                                 can_jumps
@@ -182,4 +177,26 @@ impl<'a> System<'a> for FeatureSystem {
             }
         }
     }
+}
+
+fn add_gravity(
+    jump_settings: PlayerJumpSettings,
+    player_entity: Entity,
+    player: &mut Player,
+    gravities: &mut WriteStorage<Gravity>,
+) {
+    gravities
+        .insert(
+            player_entity,
+            Gravity::new(jump_settings.gravity.0, jump_settings.gravity.1),
+        )
+        .expect("Should add Gravity to Player");
+    player.jump_data = Some(PlayerJumpData {
+        jump_strength:      jump_settings.jump_strength,
+        wall_jump_strength: jump_settings.wall_jump_strength,
+        gravity:            jump_settings.gravity,
+        jump_gravity:       jump_settings.jump_gravity,
+        decr_jump_strength: jump_settings.decr_jump_strength,
+        min_jump_velocity:  jump_settings.min_jump_velocity,
+    });
 }

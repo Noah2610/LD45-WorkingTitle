@@ -19,6 +19,7 @@ mod system_prelude {
     pub use crate::audio::prelude::*;
     pub use crate::components::prelude::*;
     pub use crate::input::prelude::*;
+    pub use crate::settings::prelude::*;
     pub use crate::solid_tag::SolidTag;
     pub use crate::states::ResetLevel;
 }
