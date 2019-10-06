@@ -6,6 +6,8 @@ pub enum FeatureType {
     AddJump,
     AddSingleSprite,
     AddAnimatedSprite,
+    SetSong1,
+    SetSong2,
 }
 
 pub struct Feature {

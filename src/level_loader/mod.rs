@@ -353,6 +353,8 @@ impl LevelLoader {
                 "AddJump" => FeatureType::AddJump,
                 "AddSingleSprite" => FeatureType::AddSingleSprite,
                 "AddAnimatedSprite" => FeatureType::AddAnimatedSprite,
+                "SetSong1" => FeatureType::SetSong1,
+                "SetSong2" => FeatureType::SetSong2,
                 f => panic!(format!("Unknown feature_type {}", f)),
             };
 

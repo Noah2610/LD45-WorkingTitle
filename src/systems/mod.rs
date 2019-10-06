@@ -13,6 +13,7 @@ mod system_prelude {
     pub use deathframe::systems::system_prelude::*;
 
     pub use super::helpers::*;
+    pub use crate::audio::prelude::*;
     pub use crate::components::prelude::*;
     pub use crate::input::prelude::*;
     pub use crate::solid_tag::SolidTag;

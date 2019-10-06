@@ -21,6 +21,7 @@ pub enum Song {
     Song2,
 }
 
+#[derive(Default)]
 pub struct Music {
     songs:        HashMap<Song, SourceHandle>,
     current_song: Option<Song>,

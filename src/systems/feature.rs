@@ -7,6 +7,7 @@ pub struct FeatureSystem;
 impl<'a> System<'a> for FeatureSystem {
     type SystemData = (
         Entities<'a>,
+        Write<'a, Music>,
         ReadStorage<'a, Collision>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Feature>,
@@ -24,6 +25,7 @@ impl<'a> System<'a> for FeatureSystem {
         &mut self,
         (
             entities,
+            mut music,
             collisions,
             mut players,
             mut features,
@@ -132,6 +134,12 @@ impl<'a> System<'a> for FeatureSystem {
                                 scale_onces
                                     .insert(player_entity, ScaleOnce::default())
                                     .expect("Should add ScaleOnce to Player");
+                            }
+                            FeatureType::SetSong1 => {
+                                music.set(Song::Song1);
+                            }
+                            FeatureType::SetSong2 => {
+                                music.set(Song::Song2);
                             }
                         }
                         feature.applied = true;
