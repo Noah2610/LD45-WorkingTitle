@@ -23,6 +23,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, CanRun>,
         WriteStorage<'a, CanDash>,
+        WriteStorage<'a, Confined>,
     );
 
     fn run(
@@ -45,6 +46,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut has_animated_sprites,
             mut can_runs,
             mut can_dashes,
+            mut confineds,
         ): Self::SystemData,
     ) {
         if let Some((
@@ -82,6 +84,7 @@ impl<'a> System<'a> for FeatureSystem {
                                     player,
                                     &mut gravities,
                                 );
+                                confineds.remove(player_entity);
                             }
                             FeatureType::AddGravity2 => {
                                 let jump_settings =
@@ -92,6 +95,7 @@ impl<'a> System<'a> for FeatureSystem {
                                     player,
                                     &mut gravities,
                                 );
+                                confineds.remove(player_entity);
                             }
                             FeatureType::AddJump => {
                                 can_jumps

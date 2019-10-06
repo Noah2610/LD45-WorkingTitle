@@ -8,11 +8,16 @@ pub struct DeathFloorSystem;
 impl<'a> System<'a> for DeathFloorSystem {
     type SystemData = (
         Entities<'a>,
+        Write<'a, ResetLevel>,
         ReadStorage<'a, Transform>,
         ReadStorage<'a, Gravity>,
+        ReadStorage<'a, Player>,
     );
 
-    fn run(&mut self, (entities, transforms, gravities): Self::SystemData) {
+    fn run(
+        &mut self,
+        (entities, mut reset_level, transforms, gravities, players): Self::SystemData,
+    ) {
         for (entity, transform, _) in
             (&entities, &transforms, &gravities).join()
         {
@@ -22,6 +27,9 @@ impl<'a> System<'a> for DeathFloorSystem {
                     "Should delete entity, because they fell below the death \
                      floor",
                 );
+                if players.contains(entity) {
+                    reset_level.0 = true;
+                }
             }
         }
     }
