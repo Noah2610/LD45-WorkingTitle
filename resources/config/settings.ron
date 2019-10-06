@@ -24,10 +24,6 @@
             no_sprite:       (16.0, 16.0),
             single_sprite:   (6.0, 16.0),
             animated_sprite: (6.0, 16.0),
-            // 2.666667
-            // 42.666672
-            //single_sprite:   (16.0, 43.0),
-            //animated_sprite: (16.0, 43.0),
         )
     )
 )
