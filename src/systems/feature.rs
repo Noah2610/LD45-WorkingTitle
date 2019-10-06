@@ -9,6 +9,7 @@ impl<'a> System<'a> for FeatureSystem {
         Entities<'a>,
         Write<'a, Music>,
         ReadStorage<'a, Collision>,
+        ReadStorage<'a, Enemy>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Feature>,
         WriteStorage<'a, Size>,
@@ -27,6 +28,7 @@ impl<'a> System<'a> for FeatureSystem {
             entities,
             mut music,
             collisions,
+            enemies,
             mut players,
             mut features,
             mut sizes,
@@ -134,6 +136,21 @@ impl<'a> System<'a> for FeatureSystem {
                                 scale_onces
                                     .insert(player_entity, ScaleOnce::default())
                                     .expect("Should add ScaleOnce to Player");
+                            }
+                            FeatureType::AddEnemySprite => {
+                                for (enemy_entity, _) in
+                                    (&entities, &enemies).join()
+                                {
+                                    has_animated_sprites
+                                        .insert(
+                                            enemy_entity,
+                                            HasAnimatedSprite::default(),
+                                        )
+                                        .expect(
+                                            "Should add HasAnimatedSprite to \
+                                             Enemy",
+                                        );
+                                }
                             }
                             FeatureType::SetSong1 => {
                                 music.set(Song::Song1);

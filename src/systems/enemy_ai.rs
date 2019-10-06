@@ -5,27 +5,47 @@ pub struct EnemyAiSystem;
 
 impl<'a> System<'a> for EnemyAiSystem {
     type SystemData = (
+        Entities<'a>,
         Read<'a, Time>,
         ReadStorage<'a, Enemy>,
+        ReadStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, EnemyAi>,
         WriteStorage<'a, Transform>,
         WriteStorage<'a, Velocity>,
+        WriteStorage<'a, AnimationsContainer>,
     );
 
     fn run(
         &mut self,
         (
+            entities,
             time,
             enemies,
+            has_animated_sprites,
             mut enemy_ais,
             mut transforms,
             mut velocities,
+            mut animations_containers,
         ): Self::SystemData,
     ) {
         let dt = time.delta_seconds();
 
-        for (enemy, enemy_ai, enemy_transform, enemy_velocity) in
-            (&enemies, &mut enemy_ais, &mut transforms, &mut velocities).join()
+        for (
+            enemy_entity,
+            enemy,
+            enemy_ai,
+            enemy_transform,
+            enemy_velocity,
+            enemy_animations,
+        ) in (
+            &entities,
+            &enemies,
+            &mut enemy_ais,
+            &mut transforms,
+            &mut velocities,
+            &mut animations_containers,
+        )
+            .join()
         {
             match enemy_ai {
                 EnemyAi::Pacer(pacer_data) => run_for_pacer_ai(
@@ -35,6 +55,23 @@ impl<'a> System<'a> for EnemyAiSystem {
                     enemy_transform,
                     enemy_velocity,
                 ),
+            }
+
+            if has_animated_sprites.contains(enemy_entity) {
+                // Set animation
+                if enemy_velocity.x != 0.0 || enemy_velocity.y != 0.0 {
+                    enemy_animations.set("walk");
+                } else {
+                    enemy_animations.set("idle");
+                }
+                // Flip sprite
+                if enemy_velocity.x > 0.0 {
+                    let scale = enemy_transform.scale_mut();
+                    scale.x = scale.x.abs();
+                } else if enemy_velocity.x < 0.0 {
+                    let scale = enemy_transform.scale_mut();
+                    scale.x = -scale.x.abs();
+                }
             }
         }
     }

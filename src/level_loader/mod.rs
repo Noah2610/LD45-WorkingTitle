@@ -413,6 +413,7 @@ impl LevelLoader {
                 .with(Solid::new(SolidTag::Enemy))
                 .with(Collision::default())
                 .with(sprite_render)
+                .with(ScaleOnce)
                 .with(animations_container_from_file(
                     animations_path,
                     spritesheet_handle,

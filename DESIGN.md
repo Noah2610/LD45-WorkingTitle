@@ -28,6 +28,8 @@ No properties.
     Gives the player a single sprite.
   - `AddAnimatedSprite`  
     Gives the player its full set of animations (idle, walking, jumping, etc.).
+  - `AddEnemySprite`  
+    Adds full animations to all enemies.
   - `SetSong1`  
     Play first song.
   - `SetSong2`  
@@ -51,7 +53,7 @@ No properties.
 2.  first encounter with non solid tiles __DONE__
 3.  first encounter with solid tiles __DONE__
 4.  gravity + first music trigger __DONE (gravity)__
-5.  first encounter with non textured enemy
+5.  first encounter with non textured enemy __DONE__
 6.  jump __DONE__
 7.  player textures (single frame) __DONE__
 8.  bg + player animation + second music trigger __DONE (player animation)__

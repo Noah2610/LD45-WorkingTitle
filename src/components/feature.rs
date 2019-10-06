@@ -6,6 +6,7 @@ pub enum FeatureType {
     AddJump,
     AddSingleSprite,
     AddAnimatedSprite,
+    AddEnemySprite,
     SetSong1,
     SetSong2,
 }
@@ -19,6 +20,7 @@ impl From<&str> for FeatureType {
             "AddJump"           => FeatureType::AddJump,
             "AddSingleSprite"   => FeatureType::AddSingleSprite,
             "AddAnimatedSprite" => FeatureType::AddAnimatedSprite,
+            "AddEnemySprite"    => FeatureType::AddEnemySprite,
             "SetSong1"          => FeatureType::SetSong1,
             "SetSong2"          => FeatureType::SetSong2,
             s                   => panic!(format!("Unknown feature_type {}", s)),
