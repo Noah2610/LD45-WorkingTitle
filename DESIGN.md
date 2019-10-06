@@ -30,6 +30,8 @@ No properties.
     Gives the player its full set of animations (idle, walking, jumping, etc.).
   - `AddEnemySprite`  
     Adds full animations to all enemies.
+  - `AddRun`  
+    Gives the player the ability to move faster using the run button.
   - `SetSong1`  
     Play first song.
   - `SetSong2`  
