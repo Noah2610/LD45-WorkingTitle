@@ -71,16 +71,16 @@ No properties.
 3.  first encounter with solid tiles __DONE__
 4.  gravity + first music trigger __DONE__
 5.  first encounter with non textured enemy __DONE (not non-textured, rather single-sprite-textured)__
-6.  jump and wall jump __DONE (jump)__
+6.  jump and wall jump __DONE__
 7.  player textures (single frame) __DONE__
 8.  bg + player animation + second music trigger __DONE (player animation, music trigger)__
 9.  enemy textures __DONE__
 10. spikes __DONE__
 11. enemy animations __DONE (happens with 'enemy textures')__
 12. parallax bgs?
-13. jetpack jump + hover
+13. jetpack jump + hover __DONE (settings need to be tweaked for this)__
 14. first wave of environmental decoration
-15. sprint + third music trigger
+15. run button + third music trigger __DONE__
 16. second wave of environmental decoration
-17. dash
+17. dash __DONE__
 18. third wave of environmental decoration
