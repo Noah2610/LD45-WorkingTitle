@@ -4,6 +4,7 @@ pub mod prelude {
     pub use deathframe::geo::prelude::*;
 
     pub use super::can_jump::CanJump;
+    pub use super::can_run::CanRun;
     pub use super::enemy::{Enemy, EnemyType};
     pub use super::enemy_ai::{enemy_ai_data, EnemyAi};
     pub use super::feature::{Feature, FeatureType};
@@ -22,6 +23,7 @@ pub mod component_prelude {
 }
 
 mod can_jump;
+mod can_run;
 mod enemy;
 mod enemy_ai;
 mod feature;

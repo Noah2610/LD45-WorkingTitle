@@ -101,9 +101,15 @@ fn build_game_data<'a, 'b>(
             )?
             .with(
                 "ingame",
+                PlayerRunSystem::default(),
+                "player_run_system",
+                &[],
+            )?
+            .with(
+                "ingame",
                 ControlPlayerSystem::default(),
                 "control_player_system",
-                &[],
+                &["player_run_system"],
             )?
             .with("ingame", GravitySystem::default(), "gravity_system", &[
                 "control_player_system",

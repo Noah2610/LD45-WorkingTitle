@@ -24,13 +24,19 @@ pub struct CameraSettings {
 
 #[derive(Clone, Deserialize)]
 pub struct PlayerSettings {
-    pub acceleration:    Vector,
-    pub max_velocity:    (Option<f32>, Option<f32>),
+    pub normal_speed:    PlayerSpeedSettings,
+    pub run_speed:       PlayerSpeedSettings,
     pub decr_velocity:   Vector,
     pub jump_data1:      PlayerJumpSettings,
     pub jump_data2:      PlayerJumpSettings,
     pub animation_sizes: PlayerAnimationSizes,
     pub bounce_strength: f32,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct PlayerSpeedSettings {
+    pub acceleration: Vector,
+    pub max_velocity: (Option<f32>, Option<f32>),
 }
 
 #[derive(Clone, Deserialize)]

@@ -4,8 +4,14 @@
     ),
 
     player: (
-        acceleration:        (800.0, 800.0),
-        max_velocity:        (Some(500.0), Some(500.0)),
+        normal_speed: (
+            acceleration: (400.0, 400.0),
+            max_velocity: (Some(200.0), Some(200.0)),
+        ),
+        run_speed: (
+            acceleration: (800.0, 800.0),
+            max_velocity: (Some(400.0), Some(400.0)),
+        ),
         decr_velocity:       (2000.0, 2000.0),
         jump_data1: (
             jump_strength:      400.0,

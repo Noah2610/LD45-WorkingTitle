@@ -26,6 +26,7 @@ impl Default for AxisBinding {
 pub enum ActionBinding {
     None,
     PlayerJump,
+    PlayerRun,
 }
 
 impl Default for ActionBinding {

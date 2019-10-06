@@ -20,6 +20,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, CanJump>,
         WriteStorage<'a, HasSingleSprite>,
         WriteStorage<'a, HasAnimatedSprite>,
+        WriteStorage<'a, CanRun>,
     );
 
     fn run(
@@ -39,6 +40,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut can_jumps,
             mut has_single_sprites,
             mut has_animated_sprites,
+            mut can_runs,
         ): Self::SystemData,
     ) {
         if let Some((
@@ -151,6 +153,11 @@ impl<'a> System<'a> for FeatureSystem {
                                              Enemy",
                                         );
                                 }
+                            }
+                            FeatureType::AddRun => {
+                                can_runs
+                                    .insert(player_entity, CanRun::default())
+                                    .expect("Should add CanRun to Player");
                             }
                             FeatureType::SetSong1 => {
                                 music.set(Song::Song1);
