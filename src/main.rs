@@ -151,10 +151,19 @@ fn build_game_data<'a, 'b>(
                 "scale_sprites_system",
                 &["animation_system"],
             )?
+            .with(
+                "ingame",
+                KillEnemySystem::default(),
+                "kill_enemy_system",
+                &[
+                    "collision_system",
+                    "control_player_system",
+                    "gravity_system",
+                ],
+            )?
             .with("ingame", SpikeSystem::default(), "spike_system", &[
                 "collision_system",
-                "control_player_system",
-                "gravity_system",
+                "kill_enemy_system",
             ])?;
 
     Ok(custom_game_data)

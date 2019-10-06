@@ -25,7 +25,8 @@
             no_sprite:       (16.0, 16.0),
             single_sprite:   (6.0, 16.0),
             animated_sprite: (6.0, 16.0),
-        )
+        ),
+        bounce_strength: 200.0,
     ),
 
     enemies: (

@@ -25,8 +25,10 @@ impl<'a> System<'a> for SpikeSystem {
         if let Some((_, player_collision)) =
             (&players, &collisions).join().next()
         {
-            for (spike_entity, _) in (&entities, &spikes).join() {
-                if player_collision.in_collision_with(spike_entity.id()) {
+            for (spike_entity, spike) in (&entities, &spikes).join() {
+                if spike.enabled
+                    && player_collision.in_collision_with(spike_entity.id())
+                {
                     reset_level.0 = true;
                     break;
                 }

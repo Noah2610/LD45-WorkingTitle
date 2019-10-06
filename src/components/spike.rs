@@ -1,8 +1,15 @@
 use super::component_prelude::*;
 
-#[derive(Default)]
-pub struct Spike;
+pub struct Spike {
+    pub enabled: bool,
+}
+
+impl Default for Spike {
+    fn default() -> Self {
+        Self { enabled: true }
+    }
+}
 
 impl Component for Spike {
-    type Storage = NullStorage<Self>;
+    type Storage = VecStorage<Self>;
 }

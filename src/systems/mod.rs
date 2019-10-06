@@ -6,6 +6,7 @@ pub mod prelude {
     pub use super::enemy_ai::EnemyAiSystem;
     pub use super::feature::FeatureSystem;
     pub use super::handle_solid_collisions::HandleSolidCollisionsSystem;
+    pub use super::kill_enemy::KillEnemySystem;
     pub use super::spike::SpikeSystem;
 }
 
@@ -26,6 +27,7 @@ mod control_player;
 mod enemy_ai;
 mod feature;
 mod handle_solid_collisions;
+mod kill_enemy;
 mod spike;
 
 mod helpers;

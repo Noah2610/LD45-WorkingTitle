@@ -30,6 +30,7 @@ pub struct PlayerSettings {
     pub jump_data1:      PlayerJumpSettings,
     pub jump_data2:      PlayerJumpSettings,
     pub animation_sizes: PlayerAnimationSizes,
+    pub bounce_strength: f32,
 }
 
 #[derive(Clone, Deserialize)]
