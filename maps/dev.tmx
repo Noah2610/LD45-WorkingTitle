@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="13">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="24">
  <tileset firstgid="1" source="solids_concept.tsx"/>
  <tileset firstgid="3" source="plants.tsx"/>
  <objectgroup id="2" name="Object Layer 1">
@@ -47,6 +47,72 @@
    </properties>
   </object>
   <object id="12" name="Enemy Ground" type="Enemy" x="128" y="606.667" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Ground"/>
+    <property name="pace_distance_x" type="float" value="50"/>
+   </properties>
+  </object>
+  <object id="13" name="Enemy Flying" type="Enemy" x="880" y="528.667" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Flying"/>
+    <property name="pace_distance_x" type="float" value="100"/>
+    <property name="pace_distance_y" type="float" value="10"/>
+   </properties>
+  </object>
+  <object id="14" name="Enemy Ground" type="Enemy" x="896" y="575.334" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Ground"/>
+    <property name="pace_distance_x" type="float" value="50"/>
+   </properties>
+  </object>
+  <object id="15" name="Enemy Flying" type="Enemy" x="762" y="394.667" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Flying"/>
+    <property name="pace_distance_x" type="float" value="100"/>
+    <property name="pace_distance_y" type="float" value="10"/>
+   </properties>
+  </object>
+  <object id="16" name="Enemy Ground" type="Enemy" x="778" y="441.334" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Ground"/>
+    <property name="pace_distance_x" type="float" value="50"/>
+   </properties>
+  </object>
+  <object id="17" name="Enemy Flying" type="Enemy" x="800" y="514" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Flying"/>
+    <property name="pace_distance_x" type="float" value="100"/>
+    <property name="pace_distance_y" type="float" value="10"/>
+   </properties>
+  </object>
+  <object id="18" name="Enemy Flying" type="Enemy" x="835" y="483" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Flying"/>
+    <property name="pace_distance_x" type="float" value="100"/>
+    <property name="pace_distance_y" type="float" value="10"/>
+   </properties>
+  </object>
+  <object id="19" name="Enemy Flying" type="Enemy" x="711" y="477" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Flying"/>
+    <property name="pace_distance_x" type="float" value="100"/>
+    <property name="pace_distance_y" type="float" value="10"/>
+   </properties>
+  </object>
+  <object id="20" name="Enemy Flying" type="Enemy" x="601" y="445" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Flying"/>
+    <property name="pace_distance_x" type="float" value="100"/>
+    <property name="pace_distance_y" type="float" value="10"/>
+   </properties>
+  </object>
+  <object id="21" name="Enemy Ground" type="Enemy" x="661" y="591" width="16" height="16">
+   <properties>
+    <property name="enemy_type" value="Ground"/>
+    <property name="pace_distance_x" type="float" value="50"/>
+   </properties>
+  </object>
+  <object id="22" name="Enemy Ground" type="Enemy" x="533" y="574" width="16" height="16">
    <properties>
     <property name="enemy_type" value="Ground"/>
     <property name="pace_distance_x" type="float" value="50"/>

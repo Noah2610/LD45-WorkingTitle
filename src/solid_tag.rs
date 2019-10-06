@@ -20,8 +20,6 @@ impl STag for SolidTag {
         match (self, other) {
             (SolidTag::PlayerNoCollision, _)
             | (_, SolidTag::PlayerNoCollision) => false,
-            (SolidTag::PlayerWithCollision, SolidTag::Enemy)
-            | (SolidTag::Enemy, SolidTag::PlayerWithCollision) => true,
             (SolidTag::Tile, _) | (_, SolidTag::Tile) => true,
             _ => false,
         }

@@ -33,14 +33,14 @@
         ground: (
             size:         (16.0, 16.0),
             gravity:      Some((0.0, -600.0)),
-            acceleration: (400.0, 0.0),
-            max_velocity: (Some(200.0), Some(200.0)),
+            acceleration: (200.0, 0.0),
+            max_velocity: (Some(100.0), Some(100.0)),
         ),
         flying: (
             size:         (38.0, 20.0),
             gravity:      None,
-            acceleration: (400.0, 400.0),
-            max_velocity: (Some(200.0), Some(200.0)),
+            acceleration: (100.0, 400.0),
+            max_velocity: (Some(75.0), Some(75.0)),
         ),
     ),
 )
