@@ -50,9 +50,14 @@ No properties.
 - `pace_distance_x` (`float`) __optional__  
   How far this pacing enemy should walk, before turning around.  
   Specified distance is the distance from the placed object, to either the left or right sides.  
+  The number's sign specifies the initial direction, in which this enemy will move.  
+  So if the value is _larger than (or equal to) 0.0_, then the enemy will initially move _right_;  
+  if it is _less than 0.0_, the enemy will initially move _left_.
   If omitted, this enemy will _not pace horizontally_.
 - `pace_distance_y` (`float`) __optional__  
   Same as `pace_distance_x`, but for the `y` direction (vertically).  
+  If the value is _larger than (or equal to) 0.0_, then the enemy will initially move _up_;  
+  if it is _less than 0.0_, the enemy will initially move _down_.
   If omitted, this enemy will _not pace vertically_.
 
 ## Sequential Features
