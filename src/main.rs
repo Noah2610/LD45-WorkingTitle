@@ -56,7 +56,6 @@ fn start_logger() {
 
 fn build_game_data<'a, 'b>(
 ) -> amethyst::Result<CustomGameDataBuilder<'a, 'b, CustomData>> {
-    use amethyst::ecs::Read;
     use audio::prelude::*;
     use deathframe::systems::InputManagerSystem;
     use helpers::resource;
