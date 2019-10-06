@@ -1,19 +1,11 @@
 use super::component_prelude::*;
 
-pub struct PlayerJumpData {
-    pub jump_strength:      f32,
-    pub wall_jump_strength: Vector,
-    pub gravity:            Vector,
-    pub jump_gravity:       Vector,
-    pub decr_jump_strength: f32,
-    pub min_jump_velocity:  f32,
-}
-
 pub struct Player {
     pub settings:     PlayerSettings,
     pub acceleration: Vector,
     pub max_velocity: (Option<f32>, Option<f32>),
-    pub jump_data:    Option<PlayerJumpData>,
+    pub jump_data:    Option<PlayerJumpSettings>,
+    pub used_dash:    bool,
 }
 
 impl Player {
@@ -38,6 +30,7 @@ impl From<PlayerSettings> for Player {
             acceleration: settings.normal_speed.acceleration.clone(),
             max_velocity: settings.normal_speed.max_velocity.clone(),
             jump_data:    None,
+            used_dash:    false,
             settings:     settings,
         }
     }

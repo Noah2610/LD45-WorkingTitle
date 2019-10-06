@@ -12,6 +12,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
         ReadStorage<'a, Solid<SolidTag>>,
         ReadStorage<'a, CanJump>,
         ReadStorage<'a, CanWallJump>,
+        ReadStorage<'a, CanDash>,
         ReadStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Transform>,
@@ -31,6 +32,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
             solids,
             can_jumps,
             can_wall_jumps,
+            can_dashes,
             has_animated_sprites,
             mut players,
             mut transforms,
@@ -136,14 +138,22 @@ impl<'a> System<'a> for ControlPlayerSystem {
                     let mut jumped = false;
                     let is_button_down =
                         input_manager.is_down(ActionBinding::PlayerJump);
-                    let can_jump =
-                        is_button_down && sides_touching.is_touching_bottom;
+                    let is_touching_bottom = sides_touching.is_touching_bottom;
                     let is_touching_horizontally =
                         sides_touching.is_touching_horizontally();
+
+                    if is_touching_bottom {
+                        player.used_dash = false;
+                    }
+
+                    let can_jump = is_button_down && is_touching_bottom;
                     let can_wall_jump = can_wall_jumps.contains(player_entity)
                         && is_button_down
                         && !sides_touching.is_touching_bottom
                         && is_touching_horizontally;
+                    let can_dash = is_button_down
+                        && can_dashes.contains(player_entity)
+                        && !player.used_dash;
 
                     if is_touching_horizontally {
                         if player_velocity.y < player.settings.slide_velocity {
@@ -174,6 +184,60 @@ impl<'a> System<'a> for ControlPlayerSystem {
                         }
                         jumped = true;
                         player_velocity.y += jump_data.jump_strength;
+                    } else if can_dash {
+                        let dashed = match (
+                            input_manager.axis_value(AxisBinding::PlayerX),
+                            input_manager.axis_value(AxisBinding::PlayerY),
+                        ) {
+                            // RIGHT-UP
+                            (Some(x), Some(y)) if x > 0.0 && y > 0.0 => {
+                                player_velocity.x = jump_data.dash_strength.0;
+                                player_velocity.y = jump_data.dash_strength.1;
+                                true
+                            }
+                            // RIGHT-DOWN
+                            (Some(x), Some(y)) if x > 0.0 && y < 0.0 => {
+                                player_velocity.x = jump_data.dash_strength.0;
+                                player_velocity.y = -jump_data.dash_strength.1;
+                                true
+                            }
+                            // LEFT-UP
+                            (Some(x), Some(y)) if x < 0.0 && y > 0.0 => {
+                                player_velocity.x = -jump_data.dash_strength.0;
+                                player_velocity.y = jump_data.dash_strength.1;
+                                true
+                            }
+                            // LEFT-DOWN
+                            (Some(x), Some(y)) if x < 0.0 && y < 0.0 => {
+                                player_velocity.x = -jump_data.dash_strength.0;
+                                player_velocity.y = -jump_data.dash_strength.1;
+                                true
+                            }
+                            // RIGHT
+                            (Some(x), Some(y)) if x > 0.0 && y == 0.0 => {
+                                player_velocity.x = jump_data.dash_strength.0;
+                                true
+                            }
+                            // LEFT
+                            (Some(x), Some(y)) if x < 0.0 && y == 0.0 => {
+                                player_velocity.x = -jump_data.dash_strength.0;
+                                true
+                            }
+                            // UP
+                            (Some(x), Some(y)) if x == 0.0 && y > 0.0 => {
+                                player_velocity.y = jump_data.dash_strength.1;
+                                true
+                            }
+                            // DOWN
+                            (Some(x), Some(y)) if x == 0.0 && y < 0.0 => {
+                                player_velocity.y = -jump_data.dash_strength.1;
+                                true
+                            }
+                            _ => false,
+                        };
+                        if dashed {
+                            player.used_dash = true;
+                        }
                     }
 
                     if let Some(player_gravity) = player_gravity_opt {

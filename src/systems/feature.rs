@@ -22,6 +22,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, HasSingleSprite>,
         WriteStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, CanRun>,
+        WriteStorage<'a, CanDash>,
     );
 
     fn run(
@@ -43,6 +44,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut has_single_sprites,
             mut has_animated_sprites,
             mut can_runs,
+            mut can_dashes,
         ): Self::SystemData,
     ) {
         if let Some((
@@ -164,6 +166,11 @@ impl<'a> System<'a> for FeatureSystem {
                                     .insert(player_entity, CanRun::default())
                                     .expect("Should add CanRun to Player");
                             }
+                            FeatureType::AddDash => {
+                                can_dashes
+                                    .insert(player_entity, CanDash::default())
+                                    .expect("Should add CanDash to Player");
+                            }
                             FeatureType::SetSong(n) => {
                                 music.set(*n);
                             }
@@ -188,12 +195,5 @@ fn add_gravity(
             Gravity::new(jump_settings.gravity.0, jump_settings.gravity.1),
         )
         .expect("Should add Gravity to Player");
-    player.jump_data = Some(PlayerJumpData {
-        jump_strength:      jump_settings.jump_strength,
-        wall_jump_strength: jump_settings.wall_jump_strength,
-        gravity:            jump_settings.gravity,
-        jump_gravity:       jump_settings.jump_gravity,
-        decr_jump_strength: jump_settings.decr_jump_strength,
-        min_jump_velocity:  jump_settings.min_jump_velocity,
-    });
+    player.jump_data = Some(jump_settings);
 }

@@ -9,6 +9,7 @@ pub enum FeatureType {
     AddAnimatedSprite,
     AddEnemySprite,
     AddRun,
+    AddDash,
     SetSong(usize),
 }
 
@@ -24,6 +25,7 @@ impl From<&str> for FeatureType {
             "AddAnimatedSprite" => FeatureType::AddAnimatedSprite,
             "AddEnemySprite"    => FeatureType::AddEnemySprite,
             "AddRun"            => FeatureType::AddRun,
+            "AddDash"           => FeatureType::AddDash,
             s if s.starts_with("SetSong") => {
                 FeatureType::SetSong((&s[7 ..]).parse::<usize>().expect(
                     "Characters after 'SetSong' can only be integers, for \

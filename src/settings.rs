@@ -44,6 +44,7 @@ pub struct PlayerSpeedSettings {
 pub struct PlayerJumpSettings {
     pub jump_strength:      f32,
     pub wall_jump_strength: Vector,
+    pub dash_strength:      Vector,
     pub gravity:            Vector,
     pub jump_gravity:       Vector,
     pub decr_jump_strength: f32,

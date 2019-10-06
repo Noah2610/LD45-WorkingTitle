@@ -3,6 +3,7 @@ pub mod prelude {
     pub use deathframe::components::prelude::*;
     pub use deathframe::geo::prelude::*;
 
+    pub use super::can_dash::CanDash;
     pub use super::can_jump::CanJump;
     pub use super::can_run::CanRun;
     pub use super::can_wall_jump::CanWallJump;
@@ -11,7 +12,7 @@ pub mod prelude {
     pub use super::feature::{Feature, FeatureType};
     pub use super::has_animated_sprite::HasAnimatedSprite;
     pub use super::has_single_sprite::HasSingleSprite;
-    pub use super::player::{Player, PlayerJumpData};
+    pub use super::player::Player;
     pub use super::spike::Spike;
 }
 
@@ -23,6 +24,7 @@ pub mod component_prelude {
     pub use crate::states::ResetLevel;
 }
 
+mod can_dash;
 mod can_jump;
 mod can_run;
 mod can_wall_jump;
