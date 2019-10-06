@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="27">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="28">
  <tileset firstgid="1" source="solids_concept.tsx"/>
  <tileset firstgid="3" source="plants.tsx"/>
  <objectgroup id="2" name="Object Layer 1">
@@ -14,7 +14,7 @@
     <property name="feature_type" value="AddGravity1"/>
    </properties>
   </object>
-  <object id="6" name="Feature AddJump" type="Feature" x="560" y="0" width="64" height="640">
+  <object id="6" name="Feature AddJump" type="Feature" x="512" y="0" width="64" height="640">
    <properties>
     <property name="feature_type" value="AddJump"/>
    </properties>
@@ -125,6 +125,11 @@
   <object id="26" name="Feature SetSong0" type="Feature" x="16" y="0" width="64" height="640">
    <properties>
     <property name="feature_type" value="SetSong2"/>
+   </properties>
+  </object>
+  <object id="27" name="Feature AddDash" type="Feature" x="544" y="0" width="64" height="640">
+   <properties>
+    <property name="feature_type" value="AddDash"/>
    </properties>
   </object>
  </objectgroup>

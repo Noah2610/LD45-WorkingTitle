@@ -36,6 +36,11 @@ No properties.
     Adds full animations to all enemies.
   - `AddRun`  
     Gives the player the ability to move faster using the run button.
+  - `AddDash`  
+    Gives the player the ability to dash in-air, by pressing down any pair of movement keys,  
+    and then pressing the jump button again.  
+    They can dash once, after which the player must stand on solid ground again to recharge the dash.  
+    The dash is _8-directional_.
   - `SetSongN`  
     Set the currently playing song to the `N`th song.  
     `N` should be replaced with an integer, starting at `0` for the first song, etc.  
