@@ -66,6 +66,9 @@ No properties.
   If omitted, this enemy will _not pace vertically_.
 
 ### Type: "Background"
+Backgrounds will automatically start following the camera,  
+once the camera's left edge passes the background's left edge.
+
 - `image` (`string`)  
   The filename of the background image to used.  
   The background image must be placed to `resources/spritesheets/bg`.  
