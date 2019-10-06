@@ -24,7 +24,7 @@ No properties.
     Makes the player collide with solid walls.
   - `AddGravity1`  
     Gives the player the _first_ gravity and jump strength(s). (_before_ jetpack)
-  - `AddGravity1`  
+  - `AddGravity2`  
     Gives the player the _second_ gravity and jump strength(s). (_after_ jetpack)
   - `AddJump`  
     Gives the player the ability to _jump_ and to _wall jump_.
