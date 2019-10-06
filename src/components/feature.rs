@@ -9,8 +9,7 @@ pub enum FeatureType {
     AddAnimatedSprite,
     AddEnemySprite,
     AddRun,
-    SetSong1,
-    SetSong2,
+    SetSong(usize),
 }
 
 impl From<&str> for FeatureType {
@@ -25,9 +24,13 @@ impl From<&str> for FeatureType {
             "AddAnimatedSprite" => FeatureType::AddAnimatedSprite,
             "AddEnemySprite"    => FeatureType::AddEnemySprite,
             "AddRun"            => FeatureType::AddRun,
-            "SetSong1"          => FeatureType::SetSong1,
-            "SetSong2"          => FeatureType::SetSong2,
-            s                   => panic!(format!("Unknown feature_type {}", s)),
+            s if s.starts_with("SetSong") => {
+                FeatureType::SetSong((&s[7 ..]).parse::<usize>().expect(
+                    "Characters after 'SetSong' can only be integers, for \
+                     FeatureType::SetSong",
+                ))
+            }
+            s => panic!(format!("Unknown feature_type {}", s)),
         }
     }
 }

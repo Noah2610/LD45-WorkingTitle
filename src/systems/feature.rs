@@ -164,11 +164,8 @@ impl<'a> System<'a> for FeatureSystem {
                                     .insert(player_entity, CanRun::default())
                                     .expect("Should add CanRun to Player");
                             }
-                            FeatureType::SetSong1 => {
-                                music.set(Song::Song1);
-                            }
-                            FeatureType::SetSong2 => {
-                                music.set(Song::Song2);
+                            FeatureType::SetSong(n) => {
+                                music.set(*n);
                             }
                         }
                         feature.applied = true;

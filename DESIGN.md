@@ -36,10 +36,11 @@ No properties.
     Adds full animations to all enemies.
   - `AddRun`  
     Gives the player the ability to move faster using the run button.
-  - `SetSong1`  
-    Play first song.
-  - `SetSong2`  
-    Play second song.
+  - `SetSongN`  
+    Set the currently playing song to the `N`th song.  
+    `N` should be replaced with an integer, starting at `0` for the first song, etc.  
+    Will panic if `N` is not an integer.  
+    If `N` is an integer, but the song at the given index doesn't exist, then no song will be played.
 
 ### Type: "Enemy"
 - `enemy_type` (`string`)  

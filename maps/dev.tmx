@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="26">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="27">
  <tileset firstgid="1" source="solids_concept.tsx"/>
  <tileset firstgid="3" source="plants.tsx"/>
  <objectgroup id="2" name="Object Layer 1">
@@ -29,14 +29,14 @@
     <property name="feature_type" value="AddAnimatedSprite"/>
    </properties>
   </object>
-  <object id="9" name="Feature SetSong1" type="Feature" x="240" y="0" width="64" height="640">
+  <object id="9" name="Feature SetSong0" type="Feature" x="240" y="0" width="64" height="640">
    <properties>
-    <property name="feature_type" value="SetSong1"/>
+    <property name="feature_type" value="SetSong0"/>
    </properties>
   </object>
-  <object id="10" name="Feature SetSong2" type="Feature" x="464" y="0" width="64" height="640">
+  <object id="10" name="Feature SetSong1" type="Feature" x="464" y="0" width="64" height="640">
    <properties>
-    <property name="feature_type" value="SetSong2"/>
+    <property name="feature_type" value="SetSong1"/>
    </properties>
   </object>
   <object id="11" name="Enemy Flying" type="Enemy" x="112" y="560" width="16" height="16">
@@ -120,6 +120,11 @@
   <object id="25" name="Feature AddRun" type="Feature" x="336" y="0" width="64" height="640">
    <properties>
     <property name="feature_type" value="AddRun"/>
+   </properties>
+  </object>
+  <object id="26" name="Feature SetSong0" type="Feature" x="16" y="0" width="64" height="640">
+   <properties>
+    <property name="feature_type" value="SetSong2"/>
    </properties>
   </object>
  </objectgroup>

@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use amethyst::assets::Loader;
 use amethyst::audio::{AudioSink, OggFormat, SourceHandle};
 use amethyst::ecs::{World, WorldExt};
@@ -7,42 +5,35 @@ use amethyst::ecs::{World, WorldExt};
 pub mod prelude {
     pub use super::initialize_music;
     pub use super::Music;
-    pub use super::Song;
     pub use super::MUSIC_VOLUME;
 }
 
 pub const MUSIC_VOLUME: f32 = 1.0;
-const SONG_FILES: &[(Song, &str)] = &[
-    (Song::Song1, "audio/song1.ogg"),
-    (Song::Song2, "audio/song2.ogg"),
-];
-
-#[derive(Hash, PartialEq, Eq, Clone)]
-pub enum Song {
-    Song1,
-    Song2,
-}
+const SONG_FILES: &[&str] = &["audio/song1.ogg", "audio/song2.ogg"];
 
 #[derive(Default)]
 pub struct Music {
-    songs:        HashMap<Song, SourceHandle>,
-    current_song: Option<Song>,
+    songs:        Vec<SourceHandle>,
+    current_song: Option<usize>,
 }
 
 impl Music {
-    pub fn new(songs: HashMap<Song, SourceHandle>) -> Self {
+    pub fn new(songs: Vec<SourceHandle>) -> Self {
         Self {
             songs,
             current_song: None,
         }
     }
 
-    pub fn set(&mut self, song: Song) {
-        self.current_song = Some(song);
+    pub fn set(&mut self, index: usize) {
+        if index >= self.songs.len() {
+            eprintln!("WARNING: Given song index {} does not exist", index);
+        }
+        self.current_song = Some(index);
     }
 
     pub fn current(&self) -> Option<SourceHandle> {
-        if let Some(current) = self.current_song.as_ref() {
+        if let Some(current) = self.current_song {
             self.songs.get(current).map(Clone::clone)
         } else {
             None
@@ -62,10 +53,8 @@ pub fn initialize_music(world: &mut World) {
 
         let songs = SONG_FILES
             .iter()
-            .map(|(song, file)| {
-                (song.clone(), load_audio_track(&loader, &world, file))
-            })
-            .collect::<HashMap<_, _>>();
+            .map(|file| load_audio_track(&loader, &world, file))
+            .collect::<Vec<_>>();
         Music::new(songs)
     };
 
