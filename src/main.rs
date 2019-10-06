@@ -132,7 +132,7 @@ fn build_game_data<'a, 'b>(
                 "decrease_velocities_system",
                 &["move_entities_system"],
             )?
-            .with("ingame", CameraSystem::default(), "camera_system", &[
+            .with("ingame", FollowSystem::default(), "follow_system", &[
                 "control_player_system",
                 "move_entities_system",
             ])?
@@ -140,7 +140,7 @@ fn build_game_data<'a, 'b>(
                 "ingame",
                 ConfineEntitiesSystem::default(),
                 "confine_entities_system",
-                &["camera_system"],
+                &["follow_system"],
             )?
             .with("ingame", CollisionSystem::default(), "collision_system", &[
             ])?
@@ -180,7 +180,7 @@ fn build_game_data<'a, 'b>(
                 "ingame",
                 BackgroundSystem::default(),
                 "background_system",
-                &["camera_system"],
+                &["follow_system"],
             )?;
 
     Ok(custom_game_data)

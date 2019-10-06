@@ -241,7 +241,8 @@ impl LevelLoader {
                 .with(animations_container_from_file(
                     resource("animations/player.ron"),
                     spritesheet_handle,
-                ));
+                ))
+                .with(Followed::new(FollowTag::Player));
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(
@@ -274,7 +275,9 @@ impl LevelLoader {
                 .create_entity()
                 .with(transform)
                 .with(AmethystCamera::standard_2d(size.w, size.h))
-                .with(size);
+                .with(size)
+                .with(Follower::new(FollowTag::Player).with_priority(1))
+                .with(Followed::new(FollowTag::Camera));
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(
@@ -503,14 +506,24 @@ impl LevelLoader {
                 }
             };
 
-            world
+            let mut entity = world
                 .create_entity()
                 .with(transform)
                 .with(Size::from(*size))
                 .with(Background::default())
                 .with(sprite_render)
-                .with(ScaleOnce::default())
-                .build();
+                .with(ScaleOnce::default());
+
+            if let Some(level_size) = self.level_size.as_ref() {
+                entity = entity.with(Confined::new(
+                    Rect::builder()
+                        .top(level_size.1)
+                        .right(level_size.0)
+                        .build(),
+                ));
+            }
+
+            entity.build();
         }
     }
 }
