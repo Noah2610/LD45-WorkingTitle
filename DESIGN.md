@@ -20,6 +20,12 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
 - `AddAnimatedSprite`  
   Gives the player its full set of animations (idle, walking, jumping, etc.).
 
+## Tile Properties
+- `solid` (`boolean`)  
+  Marks a tile as solid (player will only collide with them once `AddCollisions` feature was triggered).
+- `spike` (`boolean`)  
+  Makes the tile a spike, which will reset the level when touched by the player.
+
 ## Sequential Features
 1.  4 directional movement, no gravity __DONE__
 2.  first encounter with non solid tiles __DONE__
@@ -30,7 +36,7 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
 7.  player textures (single frame) __DONE__
 8.  bg + player animation + second music trigger __DONE (player animation)__
 9.  enemy textures
-10. spikes
+10. spikes __DONE__
 11. enemy animations
 12. parallax bgs?
 13. jetpack jump + hover
