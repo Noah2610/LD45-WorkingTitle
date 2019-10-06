@@ -85,7 +85,7 @@ once the camera's left edge passes the background's left edge.
 5.  first encounter with non textured enemy __DONE (not non-textured, rather single-sprite-textured)__
 6.  jump and wall jump __DONE__
 7.  player textures (single frame) __DONE__
-8.  bg + player animation + second music trigger __DONE (player animation, music trigger)__
+8.  bg + player animation + second music trigger __DONE__
 9.  enemy textures __DONE__
 10. spikes __DONE__
 11. enemy animations __DONE (happens with 'enemy textures')__
