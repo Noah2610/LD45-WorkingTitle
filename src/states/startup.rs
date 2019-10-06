@@ -13,6 +13,7 @@ impl Startup {
         world.delete_all();
 
         world.write_resource::<ResetLevel>().0 = false;
+        world.write_resource::<Music>().reset();
 
         let mut level_loader = LevelLoader::default();
         level_loader.load(LEVEL_NAME);
@@ -24,6 +25,7 @@ impl Startup {
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
         insert_resources(data.world);
+        initialize_music(data.world);
 
         self.setup(data.world);
     }

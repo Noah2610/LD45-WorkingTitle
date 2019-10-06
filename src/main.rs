@@ -5,6 +5,7 @@ extern crate ron;
 #[macro_use]
 extern crate serde;
 
+mod audio;
 mod components;
 mod helpers;
 mod input;
@@ -55,6 +56,8 @@ fn start_logger() {
 
 fn build_game_data<'a, 'b>(
 ) -> amethyst::Result<CustomGameDataBuilder<'a, 'b, CustomData>> {
+    use amethyst::ecs::Read;
+    use audio::prelude::*;
     use deathframe::systems::InputManagerSystem;
     use helpers::resource;
     use systems::prelude::*;
@@ -86,11 +89,11 @@ fn build_game_data<'a, 'b>(
             .with_core_bundle(input_bundle)?
             .with_core_bundle(ui_bundle)?
             .with_core_bundle(audio_bundle)?
-            // .with_core_desc(
-            //     DjSystemDesc::new(|music: &mut Music| music.music.next()),
-            //     "dj_system",
-            //     &[],
-            // )?
+            .with_core_desc(
+                DjSystemDesc::new(|music: &mut Music| music.current()),
+                "dj_system",
+                &[],
+            )?
             .with_core(
                 InputManagerSystem::<input::Bindings>::default(),
                 "input_manager_system",

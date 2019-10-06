@@ -11,6 +11,7 @@ pub mod state_prelude {
 
     pub use super::prelude::*;
     pub use super::ResetLevel;
+    pub use crate::audio::prelude::*;
     pub use crate::components::prelude::*;
     pub use crate::helpers::*;
     pub use crate::settings::prelude::*;
