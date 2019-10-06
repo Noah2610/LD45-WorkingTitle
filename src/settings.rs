@@ -2,6 +2,8 @@ use deathframe::geo::Vector;
 
 pub mod prelude {
     pub use super::CameraSettings;
+    pub use super::EnemiesSettings;
+    pub use super::EnemySettings;
     pub use super::PlayerAnimationSizes;
     pub use super::PlayerJumpSettings;
     pub use super::PlayerSettings;
@@ -10,8 +12,9 @@ pub mod prelude {
 
 #[derive(Clone, Deserialize)]
 pub struct Settings {
-    pub camera: CameraSettings,
-    pub player: PlayerSettings,
+    pub camera:  CameraSettings,
+    pub player:  PlayerSettings,
+    pub enemies: EnemiesSettings,
 }
 
 #[derive(Clone, Deserialize)]
@@ -43,4 +46,16 @@ pub struct PlayerAnimationSizes {
     pub no_sprite:       Vector,
     pub single_sprite:   Vector,
     pub animated_sprite: Vector,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct EnemiesSettings {
+    pub ground: EnemySettings,
+    pub flying: EnemySettings,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct EnemySettings {
+    pub size:    Vector,
+    pub gravity: Vector,
 }

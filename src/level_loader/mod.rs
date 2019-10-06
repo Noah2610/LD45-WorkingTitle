@@ -16,8 +16,9 @@ const TILE_SIZE: (f32, f32) = (16.0, 16.0);
 const TILE_Z: f32 = 0.0;
 const PROPERTY_Z_KEY: &str = "z";
 const CAMERA_Z: f32 = 10.0;
-const PLAYER_Z: f32 = 1.0;
+const PLAYER_Z: f32 = 2.0;
 const PLAYER_SPRITESHEET_FILENAME: &str = "player.png";
+const ENEMY_Z: f32 = 1.0;
 
 struct EntityData {
     pub pos:        Vector,
@@ -37,6 +38,7 @@ pub struct LevelLoader {
     level_size:       Option<Vector>,
     player_data:      Option<EntityData>,
     tiles_data:       Vec<EntityData>,
+    enemies_data:     Vec<EntityData>,
     features_data:    Vec<EntityData>,
 }
 
@@ -67,6 +69,7 @@ impl LevelLoader {
         self.build_player(world);
         self.build_camera(world);
         self.build_tiles(world);
+        self.build_enemies(world);
         self.build_features(world);
 
         self.finished_loading = true;
@@ -130,6 +133,12 @@ impl LevelLoader {
                             properties: properties.clone(),
                         });
                     }
+                    "Enemy" => self.enemies_data.push(EntityData {
+                        pos,
+                        size,
+                        sprite: None,
+                        properties: properties.clone(),
+                    }),
                     _ => {
                         eprintln!("Unknown object type: {}", obj_type);
                     }
@@ -175,7 +184,7 @@ impl LevelLoader {
     fn build_player(&self, world: &mut World) {
         if let Some(EntityData {
             pos,
-            size,
+            size: _,
             properties,
             sprite: _,
         }) = self.player_data.as_ref()
@@ -189,7 +198,6 @@ impl LevelLoader {
                 pos.1,
                 properties[PROPERTY_Z_KEY].as_f32().unwrap_or(PLAYER_Z),
             );
-            // let size = Size::from(*size);
             let size = Size::new(
                 player_settings.animation_sizes.no_sprite.0,
                 player_settings.animation_sizes.no_sprite.1,
@@ -336,6 +344,61 @@ impl LevelLoader {
         }
     }
 
+    fn build_enemies(&self, world: &mut World) {
+        let enemies_settings =
+            world.read_resource::<Settings>().enemies.clone();
+
+        for EntityData {
+            pos,
+            size: _,
+            sprite: _,
+            properties,
+        } in &self.enemies_data
+        {
+            let enemy_type = EnemyType::from(
+                properties["enemy_type"]
+                    .as_str()
+                    .expect("Enemy has to have 'enemy_type' property"),
+            );
+
+            let enemy_settings = enemy_type.settings(&enemies_settings);
+
+            let mut transform = Transform::default();
+            transform.set_translation_xyz(pos.0, pos.1, ENEMY_Z);
+
+            let spritesheet_path = enemy_type.spritesheet_path();
+            let animations_path = enemy_type.animations_config_path();
+
+            let (spritesheet_handle, sprite_render) = {
+                let spritesheet_handle = world
+                    .write_resource::<SpriteSheetHandles>()
+                    .get_or_load(spritesheet_path, &world);
+                (spritesheet_handle.clone(), SpriteRender {
+                    sprite_sheet:  spritesheet_handle.clone(),
+                    sprite_number: 0,
+                })
+            };
+
+            world
+                .create_entity()
+                .with(transform)
+                .with(Size::from(enemy_settings.size))
+                .with(Enemy::new(enemy_type))
+                .with(Solid::new(SolidTag::Enemy))
+                .with(Collision::default())
+                .with(Gravity::new(
+                    enemy_settings.gravity.0,
+                    enemy_settings.gravity.1,
+                ))
+                .with(sprite_render)
+                .with(animations_container_from_file(
+                    animations_path,
+                    spritesheet_handle,
+                ))
+                .build();
+        }
+    }
+
     fn build_features(&self, world: &mut World) {
         for EntityData {
             pos,
@@ -347,16 +410,7 @@ impl LevelLoader {
             let feature_type = properties["feature_type"]
                 .as_str()
                 .expect("Feature has to have 'feature_type' property");
-            let feature = match feature_type {
-                "AddCollisions" => FeatureType::AddCollisions,
-                "AddGravity1" => FeatureType::AddGravity1,
-                "AddJump" => FeatureType::AddJump,
-                "AddSingleSprite" => FeatureType::AddSingleSprite,
-                "AddAnimatedSprite" => FeatureType::AddAnimatedSprite,
-                "SetSong1" => FeatureType::SetSong1,
-                "SetSong2" => FeatureType::SetSong2,
-                f => panic!(format!("Unknown feature_type {}", f)),
-            };
+            let feature = FeatureType::from(feature_type);
 
             let mut transform = Transform::default();
             transform.set_translation_xyz(pos.0, pos.1, 0.0);

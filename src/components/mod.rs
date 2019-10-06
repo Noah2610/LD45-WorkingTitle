@@ -4,6 +4,7 @@ pub mod prelude {
     pub use deathframe::geo::prelude::*;
 
     pub use super::can_jump::CanJump;
+    pub use super::enemy::{Enemy, EnemyType};
     pub use super::feature::{Feature, FeatureType};
     pub use super::has_animated_sprite::HasAnimatedSprite;
     pub use super::has_single_sprite::HasSingleSprite;
@@ -20,6 +21,7 @@ pub mod component_prelude {
 }
 
 mod can_jump;
+mod enemy;
 mod feature;
 mod has_animated_sprite;
 mod has_single_sprite;

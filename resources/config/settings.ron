@@ -2,6 +2,7 @@
     camera: (
         size: (200.0, 200.0),
     ),
+
     player: (
         acceleration:        (800.0, 800.0),
         max_velocity:        (Some(500.0), Some(500.0)),
@@ -21,9 +22,20 @@
             min_jump_velocity:  50.0,
         ),
         animation_sizes: (
-            no_sprite:       (32.0, 32.0),
+            no_sprite:       (16.0, 16.0),
             single_sprite:   (6.0, 16.0),
             animated_sprite: (6.0, 16.0),
         )
-    )
+    ),
+
+    enemies: (
+        ground: (
+            size:    (16.0, 16.0),
+            gravity: (0.0, -600.0),
+        ),
+        flying: (
+            size:    (38.0, 20.0),
+            gravity: (0.0, 0.0),
+        ),
+    ),
 )
