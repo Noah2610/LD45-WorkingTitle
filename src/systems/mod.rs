@@ -1,6 +1,7 @@
 pub mod prelude {
     pub use deathframe::systems::prelude::*;
 
+    pub use super::background::BackgroundSystem;
     pub use super::camera::CameraSystem;
     pub use super::control_player::ControlPlayerSystem;
     pub use super::death_floor::DeathFloorSystem;
@@ -25,6 +26,7 @@ mod system_prelude {
     pub use crate::states::ResetLevel;
 }
 
+mod background;
 mod camera;
 mod control_player;
 mod death_floor;

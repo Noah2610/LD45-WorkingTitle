@@ -175,6 +175,12 @@ fn build_game_data<'a, 'b>(
                 DeathFloorSystem::default(),
                 "death_floor_system",
                 &["move_entities_system"],
+            )?
+            .with(
+                "ingame",
+                BackgroundSystem::default(),
+                "background_system",
+                &["camera_system"],
             )?;
 
     Ok(custom_game_data)

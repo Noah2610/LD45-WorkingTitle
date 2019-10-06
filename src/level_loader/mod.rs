@@ -245,7 +245,10 @@ impl LevelLoader {
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(
-                    Rect::new().top(level_size.1).right(level_size.0).build(),
+                    Rect::builder()
+                        .top(level_size.1)
+                        .right(level_size.0)
+                        .build(),
                 ))
             }
 
@@ -275,7 +278,10 @@ impl LevelLoader {
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(
-                    Rect::new().top(level_size.1).right(level_size.0).build(),
+                    Rect::builder()
+                        .top(level_size.1)
+                        .right(level_size.0)
+                        .build(),
                 ));
             }
 
