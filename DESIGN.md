@@ -1,12 +1,4 @@
 # LD45 Design
-## Features (conceptually)
-- Left/right movement
-- Simple jump
-- Improved jump (short press kills velocity)
-- Hover (hold jump in-air)
-- Walls without collision
-- Walls with collision
-
 ## Tile Properties
 - `solid` (`boolean`)  
   Marks a tile as solid (player will only collide with them once `AddCollisions` feature was triggered).
