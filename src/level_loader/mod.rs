@@ -19,6 +19,8 @@ const CAMERA_Z: f32 = 10.0;
 const PLAYER_Z: f32 = 2.0;
 const PLAYER_SPRITESHEET_FILENAME: &str = "player.png";
 const ENEMY_Z: f32 = 1.0;
+const BACKGROUND_Z: f32 = -1.0;
+const BACKGROUNDS_DIR: &str = "spritesheets/bg";
 
 struct EntityData {
     pub pos:        Vector,
@@ -40,6 +42,7 @@ pub struct LevelLoader {
     tiles_data:       Vec<EntityData>,
     enemies_data:     Vec<EntityData>,
     features_data:    Vec<EntityData>,
+    backgrounds_data: Vec<EntityData>,
 }
 
 impl LevelLoader {
@@ -71,6 +74,7 @@ impl LevelLoader {
         self.build_tiles(world);
         self.build_enemies(world);
         self.build_features(world);
+        self.build_backgrounds(world);
 
         self.finished_loading = true;
     }
@@ -123,17 +127,21 @@ impl LevelLoader {
                             size,
                             sprite: None,
                             properties: properties.clone(),
-                        });
+                        })
                     }
-                    "Feature" => {
-                        self.features_data.push(EntityData {
-                            pos,
-                            size,
-                            sprite: None,
-                            properties: properties.clone(),
-                        });
-                    }
+                    "Feature" => self.features_data.push(EntityData {
+                        pos,
+                        size,
+                        sprite: None,
+                        properties: properties.clone(),
+                    }),
                     "Enemy" => self.enemies_data.push(EntityData {
+                        pos,
+                        size,
+                        sprite: None,
+                        properties: properties.clone(),
+                    }),
+                    "Background" => self.backgrounds_data.push(EntityData {
                         pos,
                         size,
                         sprite: None,
@@ -388,7 +396,11 @@ impl LevelLoader {
             let enemy_settings = enemy_type.settings(&enemies_settings);
 
             let mut transform = Transform::default();
-            transform.set_translation_xyz(pos.0, pos.1, ENEMY_Z);
+            transform.set_translation_xyz(
+                pos.0,
+                pos.1,
+                properties[PROPERTY_Z_KEY].as_f32().unwrap_or(ENEMY_Z),
+            );
 
             let spritesheet_path = enemy_type.spritesheet_path();
             let animations_path = enemy_type.animations_config_path();
@@ -450,6 +462,48 @@ impl LevelLoader {
                 .with(Size::from(*size))
                 .with(Feature::new(feature))
                 .with(Collision::default())
+                .build();
+        }
+    }
+
+    fn build_backgrounds(&self, world: &mut World) {
+        for EntityData {
+            pos,
+            size,
+            sprite: _,
+            properties,
+        } in &self.backgrounds_data
+        {
+            let mut transform = Transform::default();
+            transform.set_translation_xyz(
+                pos.0,
+                pos.1,
+                properties[PROPERTY_Z_KEY].as_f32().unwrap_or(BACKGROUND_Z),
+            );
+
+            let image_name = properties["image"]
+                .as_str()
+                .expect("Background object has to have an 'image' property");
+
+            let spritesheet_path =
+                resource(format!("{}/{}", BACKGROUNDS_DIR, image_name));
+            let sprite_render = {
+                let spritesheet_handle = world
+                    .write_resource::<SpriteSheetHandles>()
+                    .get_or_load(spritesheet_path, &world);
+                SpriteRender {
+                    sprite_sheet:  spritesheet_handle,
+                    sprite_number: 0,
+                }
+            };
+
+            world
+                .create_entity()
+                .with(transform)
+                .with(Size::from(*size))
+                .with(Background::default())
+                .with(sprite_render)
+                .with(ScaleOnce::default())
                 .build();
         }
     }

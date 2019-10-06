@@ -65,6 +65,15 @@ No properties.
   if it is _less than 0.0_, the enemy will initially move _down_.
   If omitted, this enemy will _not pace vertically_.
 
+### Type: "Background"
+- `image` (`string`)  
+  The filename of the background image to used.  
+  The background image must be placed to `resources/spritesheets/bg`.  
+  Accompanying the image file, you must also create a config `.ron` file,  
+  in the same directory.  
+  See the example `.ron` file `resources/spritesheets/bg/background_example.ron`  
+  for more information on how to create the `.ron` file.
+
 ## Sequential Features
 1.  4 directional movement, no gravity __DONE__
 2.  first encounter with non solid tiles __DONE__

@@ -3,6 +3,7 @@ pub mod prelude {
     pub use deathframe::components::prelude::*;
     pub use deathframe::geo::prelude::*;
 
+    pub use super::background::Background;
     pub use super::can_dash::CanDash;
     pub use super::can_jump::CanJump;
     pub use super::can_run::CanRun;
@@ -24,6 +25,7 @@ pub mod component_prelude {
     pub use crate::states::ResetLevel;
 }
 
+mod background;
 mod can_dash;
 mod can_jump;
 mod can_run;
