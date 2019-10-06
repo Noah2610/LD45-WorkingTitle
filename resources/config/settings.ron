@@ -21,7 +21,7 @@
             min_jump_velocity:  50.0,
         ),
         animation_sizes: (
-            no_sprite:       (16.0, 16.0),
+            no_sprite:       (32.0, 32.0),
             single_sprite:   (6.0, 16.0),
             animated_sprite: (6.0, 16.0),
         )

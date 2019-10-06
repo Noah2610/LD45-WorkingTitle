@@ -8,8 +8,10 @@ pub mod prelude {
     pub use super::initialize_music;
     pub use super::Music;
     pub use super::Song;
+    pub use super::MUSIC_VOLUME;
 }
 
+pub const MUSIC_VOLUME: f32 = 1.0;
 const SONG_FILES: &[(Song, &str)] = &[
     (Song::Song1, "audio/song1.ogg"),
     (Song::Song2, "audio/song2.ogg"),
@@ -56,7 +58,7 @@ pub fn initialize_music(world: &mut World) {
     let music = {
         let loader = world.read_resource::<Loader>();
         let mut sink = world.write_resource::<AudioSink>();
-        sink.set_volume(0.5);
+        sink.set_volume(MUSIC_VOLUME);
 
         let songs = SONG_FILES
             .iter()

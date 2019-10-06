@@ -13,7 +13,18 @@ impl Startup {
         world.delete_all();
 
         world.write_resource::<ResetLevel>().0 = false;
+        // Reset audio
         world.write_resource::<Music>().reset();
+        {
+            use amethyst::audio::output::Output;
+            use amethyst::audio::AudioSink;
+
+            let output = world.read_resource::<Output>();
+            let mut sink = world.write_resource::<AudioSink>();
+            sink.stop();
+            *sink = AudioSink::new(&output);
+            sink.set_volume(MUSIC_VOLUME);
+        }
 
         let mut level_loader = LevelLoader::default();
         level_loader.load(LEVEL_NAME);
