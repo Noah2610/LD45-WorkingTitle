@@ -30,12 +30,16 @@
 
     enemies: (
         ground: (
-            size:    (16.0, 16.0),
-            gravity: (0.0, -600.0),
+            size:         (16.0, 16.0),
+            gravity:      Some((0.0, -600.0)),
+            acceleration: (400.0, 0.0),
+            max_velocity: (Some(200.0), Some(200.0)),
         ),
         flying: (
-            size:    (38.0, 20.0),
-            gravity: (0.0, 0.0),
+            size:         (38.0, 20.0),
+            gravity:      None,
+            acceleration: (400.0, 400.0),
+            max_velocity: (Some(200.0), Some(200.0)),
         ),
     ),
 )

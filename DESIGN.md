@@ -7,28 +7,44 @@
 - Walls without collision
 - Walls with collision
 
-## Features (ingame)
-In _Tiled_, objects of type `Feature` need to have the property `feature_type`.  
-`feature_type`'s value has to be one of the following:
-
-- `AddCollisions`  
-  Makes the player collide with solid walls.
-- `AddGravity1`  
-  Gives the player the _first_ gravity. (_before_ jetpack)
-- `AddSingleSprite`  
-  Gives the player a single sprite.
-- `AddAnimatedSprite`  
-  Gives the player its full set of animations (idle, walking, jumping, etc.).
-- `SetSong1`  
-  Play first song.
-- `SetSong2`  
-  Play second song.
-
 ## Tile Properties
 - `solid` (`boolean`)  
   Marks a tile as solid (player will only collide with them once `AddCollisions` feature was triggered).
 - `spike` (`boolean`)  
   Makes the tile a spike, which will reset the level when touched by the player.
+
+## Object Properties
+### Type: "Player"
+No properties.
+
+### Type: "Feature"
+- `feature_type` (`string`)  
+  One of:  
+  - `AddCollisions`  
+    Makes the player collide with solid walls.
+  - `AddGravity1`  
+    Gives the player the _first_ gravity. (_before_ jetpack)
+  - `AddSingleSprite`  
+    Gives the player a single sprite.
+  - `AddAnimatedSprite`  
+    Gives the player its full set of animations (idle, walking, jumping, etc.).
+  - `SetSong1`  
+    Play first song.
+  - `SetSong2`  
+    Play second song.
+
+### Type: "Enemy"
+- `enemy_type` (`string`)  
+  One of:  
+  - `Ground`
+  - `Flying`
+- `pace_distance_x` (`float`) __optional__  
+  How far this pacing enemy should walk, before turning around.  
+  Specified distance is the distance from the placed object, to either the left or right sides.  
+  If omitted, this enemy will _not pace horizontally_.
+- `pace_distance_y` (`float`) __optional__  
+  Same as `pace_distance_x`, but for the `y` direction (vertically).  
+  If omitted, this enemy will _not pace vertically_.
 
 ## Sequential Features
 1.  4 directional movement, no gravity __DONE__

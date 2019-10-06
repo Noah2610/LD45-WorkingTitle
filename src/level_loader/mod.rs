@@ -361,6 +361,30 @@ impl LevelLoader {
                     .expect("Enemy has to have 'enemy_type' property"),
             );
 
+            let pace_distance = {
+                (
+                    if let Some(x) = properties["pace_distance_x"].as_f32() {
+                        Some(x)
+                    } else {
+                        None
+                    },
+                    if let Some(y) = properties["pace_distance_y"].as_f32() {
+                        Some(y)
+                    } else {
+                        None
+                    },
+                )
+            };
+
+            let enemy_ai = match enemy_type {
+                EnemyType::Ground => EnemyAi::Pacer(
+                    enemy_ai_data::PacerData::new(pos.clone(), pace_distance),
+                ),
+                EnemyType::Flying => EnemyAi::Pacer(
+                    enemy_ai_data::PacerData::new(pos.clone(), pace_distance),
+                ),
+            };
+
             let enemy_settings = enemy_type.settings(&enemies_settings);
 
             let mut transform = Transform::default();
@@ -379,23 +403,26 @@ impl LevelLoader {
                 })
             };
 
-            world
+            let mut entity = world
                 .create_entity()
                 .with(transform)
+                .with(Velocity::default())
                 .with(Size::from(enemy_settings.size))
-                .with(Enemy::new(enemy_type))
+                .with(Enemy::new(enemy_type, &enemy_settings))
+                .with(enemy_ai)
                 .with(Solid::new(SolidTag::Enemy))
                 .with(Collision::default())
-                .with(Gravity::new(
-                    enemy_settings.gravity.0,
-                    enemy_settings.gravity.1,
-                ))
                 .with(sprite_render)
                 .with(animations_container_from_file(
                     animations_path,
                     spritesheet_handle,
-                ))
-                .build();
+                ));
+
+            if let Some(gravity) = enemy_settings.gravity {
+                entity = entity.with(Gravity::new(gravity.0, gravity.1));
+            }
+
+            entity.build();
         }
     }
 

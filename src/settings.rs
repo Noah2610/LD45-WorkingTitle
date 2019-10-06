@@ -56,6 +56,8 @@ pub struct EnemiesSettings {
 
 #[derive(Clone, Deserialize)]
 pub struct EnemySettings {
-    pub size:    Vector,
-    pub gravity: Vector,
+    pub size:         Vector,
+    pub gravity:      Option<Vector>,
+    pub acceleration: Vector,
+    pub max_velocity: (Option<f32>, Option<f32>),
 }

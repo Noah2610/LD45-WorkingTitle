@@ -108,11 +108,12 @@ fn build_game_data<'a, 'b>(
             .with("ingame", GravitySystem::default(), "gravity_system", &[
                 "control_player_system",
             ])?
+            .with("ingame", EnemyAiSystem::default(), "enemy_ai_system", &[])?
             .with(
                 "ingame",
                 MoveEntitiesSystem::<solid_tag::SolidTag>::default(),
                 "move_entities_system",
-                &["control_player_system", "gravity_system"],
+                &["control_player_system", "gravity_system", "enemy_ai_system"],
             )?
             .with(
                 "ingame",

@@ -44,12 +44,18 @@ impl From<&str> for EnemyType {
 }
 
 pub struct Enemy {
-    pub enemy_type: EnemyType,
+    pub enemy_type:   EnemyType,
+    pub acceleration: Vector,
+    pub max_velocity: (Option<f32>, Option<f32>),
 }
 
 impl Enemy {
-    pub fn new(enemy_type: EnemyType) -> Self {
-        Self { enemy_type }
+    pub fn new(enemy_type: EnemyType, settings: &EnemySettings) -> Self {
+        Self {
+            enemy_type,
+            acceleration: settings.acceleration,
+            max_velocity: settings.max_velocity,
+        }
     }
 }
 
