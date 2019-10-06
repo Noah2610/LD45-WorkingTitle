@@ -8,14 +8,28 @@ pub struct Startup {
     level_loader: Option<LevelLoader>,
 }
 
+impl Startup {
+    fn setup(&mut self, world: &mut World) {
+        world.delete_all();
+
+        world.write_resource::<ResetLevel>().0 = false;
+
+        let mut level_loader = LevelLoader::default();
+        level_loader.load(LEVEL_NAME);
+        level_loader.build(world);
+        self.level_loader = Some(level_loader);
+    }
+}
+
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
         insert_resources(data.world);
 
-        let mut level_loader = LevelLoader::default();
-        level_loader.load(LEVEL_NAME);
-        level_loader.build(data.world);
-        self.level_loader = Some(level_loader);
+        self.setup(data.world);
+    }
+
+    fn on_resume(&mut self, data: StateData<CustomGameData<CustomData>>) {
+        self.setup(data.world);
     }
 
     fn update(
@@ -41,6 +55,7 @@ fn insert_resources(world: &mut World) {
 
     world.insert(load_settings());
     world.insert(SpriteSheetHandles::default());
+    world.insert(ResetLevel(false));
 }
 
 fn load_settings() -> Settings {

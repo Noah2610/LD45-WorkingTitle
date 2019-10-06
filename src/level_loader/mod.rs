@@ -324,12 +324,13 @@ impl LevelLoader {
                 }
             }
 
-            // TODO
-            // if let Some(harmful_damage) = properties["harmful"].as_u32() {
-            //     entity = entity
-            //         .with(Collision::new())
-            //         .with(Harmful::with_damage(harmful_damage));
-            // }
+            if let Some(is_spike) = properties["spike"].as_bool() {
+                if is_spike {
+                    entity = entity
+                        .with(Collision::default())
+                        .with(Spike::default());
+                }
+            }
 
             entity.build();
         }

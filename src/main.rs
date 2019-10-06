@@ -141,8 +141,14 @@ fn build_game_data<'a, 'b>(
             .with("ingame", AnimationSystem::default(), "animation_system", &[
                 "feature_system",
             ])?
-            .with("ingame", ScaleSpritesSystem, "scale_sprites_system", &[
-                "animation_system",
+            .with(
+                "ingame",
+                ScaleSpritesSystem::default(),
+                "scale_sprites_system",
+                &["animation_system"],
+            )?
+            .with("ingame", SpikeSystem::default(), "spike_system", &[
+                "collision_system",
             ])?;
 
     Ok(custom_game_data)

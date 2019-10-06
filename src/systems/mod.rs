@@ -5,6 +5,7 @@ pub mod prelude {
     pub use super::control_player::ControlPlayerSystem;
     pub use super::feature::FeatureSystem;
     pub use super::handle_solid_collisions::HandleSolidCollisionsSystem;
+    pub use super::spike::SpikeSystem;
 }
 
 mod system_prelude {
@@ -15,11 +16,13 @@ mod system_prelude {
     pub use crate::components::prelude::*;
     pub use crate::input::prelude::*;
     pub use crate::solid_tag::SolidTag;
+    pub use crate::states::ResetLevel;
 }
 
 mod camera;
 mod control_player;
 mod feature;
 mod handle_solid_collisions;
+mod spike;
 
 mod helpers;

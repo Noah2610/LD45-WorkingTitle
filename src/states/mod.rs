@@ -10,6 +10,7 @@ pub mod state_prelude {
     pub use deathframe::custom_game_data::CustomGameData;
 
     pub use super::prelude::*;
+    pub use super::ResetLevel;
     pub use crate::components::prelude::*;
     pub use crate::helpers::*;
     pub use crate::settings::prelude::*;
@@ -21,3 +22,6 @@ mod startup;
 
 pub use ingame::Ingame;
 pub use startup::Startup;
+
+#[derive(Default)]
+pub struct ResetLevel(pub bool);
