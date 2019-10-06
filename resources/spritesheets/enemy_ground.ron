@@ -1,0 +1,18 @@
+(
+    texture_width:  80,
+    texture_height: 20,
+    sprites: [
+        ( // 0 - walking 0
+            x:      0,
+            y:      0,
+            width:  38,
+            height: 20,
+        ),
+        ( // 1 - walking 1
+            x:      38,
+            y:      0,
+            width:  38,
+            height: 20,
+        ),
+    ],
+)

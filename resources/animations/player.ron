@@ -33,7 +33,7 @@
         ),
         (
             name: "dash",
-            default_delay_ms: Some(500),
+            default_delay_ms: Some(200),
             sprite_ids: [23, 24, 25, 26],
         ),
     ],
