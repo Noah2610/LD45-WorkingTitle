@@ -138,9 +138,18 @@ impl<'a> System<'a> for ControlPlayerSystem {
                         input_manager.is_down(ActionBinding::PlayerJump);
                     let can_jump =
                         is_button_down && sides_touching.is_touching_bottom;
-                    let can_wall_jump = is_button_down
+                    let is_touching_horizontally =
+                        sides_touching.is_touching_horizontally();
+                    let can_wall_jump = can_wall_jumps.contains(player_entity)
+                        && is_button_down
                         && !sides_touching.is_touching_bottom
-                        && sides_touching.is_touching_horizontally();
+                        && is_touching_horizontally;
+
+                    if is_touching_horizontally {
+                        if player_velocity.y < player.settings.slide_velocity {
+                            player_velocity.y = player.settings.slide_velocity;
+                        }
+                    }
 
                     if can_wall_jump {
                         if player_velocity.y < 0.0 {

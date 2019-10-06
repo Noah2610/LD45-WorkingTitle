@@ -35,6 +35,7 @@
             animated_sprite: (6.0, 16.0),
         ),
         bounce_strength: 200.0,
+        slide_velocity:  -10.0,
     ),
 
     enemies: (
