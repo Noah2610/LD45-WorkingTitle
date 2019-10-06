@@ -56,7 +56,7 @@ No properties.
 3.  first encounter with solid tiles __DONE__
 4.  gravity + first music trigger __DONE__
 5.  first encounter with non textured enemy __DONE (not non-textured, rather single-sprite-textured)__
-6.  jump __DONE__
+6.  jump and wall jump __DONE (jump)__
 7.  player textures (single frame) __DONE__
 8.  bg + player animation + second music trigger __DONE (player animation, music trigger)__
 9.  enemy textures __DONE__
