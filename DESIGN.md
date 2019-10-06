@@ -19,6 +19,10 @@ In _Tiled_, objects of type `Feature` need to have the property `feature_type`.
   Gives the player a single sprite.
 - `AddAnimatedSprite`  
   Gives the player its full set of animations (idle, walking, jumping, etc.).
+- `SetSong1`  
+  Play first song.
+- `SetSong2`  
+  Play second song.
 
 ## Tile Properties
 - `solid` (`boolean`)  
