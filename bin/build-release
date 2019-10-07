@@ -60,7 +60,11 @@
 
 # shellcheck source=./share.sh source=./travis-share.sh
 _dir="$( dirname "$0" )"
-source "${_dir}/share.sh"
+if [ -z "$TRAVIS" ]; then
+  source "${_dir}/share.sh"
+else
+  source "${_dir}/travis-share.sh"
+fi
 unset _dir
 
 set -e
@@ -198,12 +202,19 @@ function run {
       "windows")
         local RUST_TARGET_DIR=
         local maybe_target=
-        # Use non-default rust target path when cross-compiling
-        RUST_TARGET_DIR="${ROOT}/target/${WINDOWS_TARGET}/release"
-        maybe_target="--target $WINDOWS_TARGET"
+        if [ -n "$TRAVIS" ]; then
+          # Use default rust target path when run from travis (is windows OS on travis)
+          RUST_TARGET_DIR="${ROOT}/target/release"
+          maybe_target=
+        else
+          # Use non-default rust target path when cross-compiling
+          RUST_TARGET_DIR="${ROOT}/target/${WINDOWS_TARGET}/release"
+          maybe_target="--target $WINDOWS_TARGET"
+        fi
         RELEASE_EXE_NAME="${RELEASE_EXE_NAME/.exe/}.exe"
         RELEASE_EXE_NAME_OUTPUT="${RELEASE_EXE_NAME_OUTPUT/.exe/}.exe"
         exclude_file "${RELEASE_EXE_NAME_OUTPUT}.desktop"
+        [[ "$RELEASE_FEATURES" =~ "controller" ]] && include_file "SDL2.dll"
 
         build_release "$@" $maybe_target
         ;;
@@ -241,6 +252,16 @@ function build_release {
   spacing="$prev_spacing"
 
   mk_archive "$target_dir"
+
+  # If this script was run from travis,
+  # write the filepath of the generated zip to a file.
+  # (used by bin/travis-upload-atrifact script)
+  if [ -n "$TRAVIS" ]; then
+    local file_with_path="${ROOT}/.travis-release-path-${target}"
+    local zip_path
+    zip_path="$( dirname "$target_dir" )/${RELEASE_ZIP_PREFIX}$( basename "$target_dir" )${RELEASE_ZIP_SUFFIX}.zip"
+    echo -n "$zip_path" > "$file_with_path"
+  fi
 }
 
 # Set global settings variables.
