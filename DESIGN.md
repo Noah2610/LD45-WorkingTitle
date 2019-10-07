@@ -76,6 +76,9 @@ once the camera's left edge passes the background's left edge.
   Makes this tile always be loaded. Use with caution.  
   (shouldn't be necessary for background)
 
+### Type: "Checkpoint"
+No properties.
+
 ## Sequential Features
 1.  4 directional movement, no gravity __DONE__
 2.  first encounter with non solid tiles __DONE__
