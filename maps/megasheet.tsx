@@ -166,4 +166,9 @@
    <property name="solid" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="214">
+  <properties>
+   <property name="spike" type="bool" value="true"/>
+  </properties>
+ </tile>
 </tileset>
