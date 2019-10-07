@@ -1,6 +1,7 @@
 pub mod prelude {
     pub use super::Ingame;
     pub use super::Startup;
+    pub use super::Win;
 }
 
 pub mod state_prelude {
@@ -20,9 +21,11 @@ pub mod state_prelude {
 
 mod ingame;
 mod startup;
+mod win;
 
 pub use ingame::Ingame;
 pub use startup::Startup;
+pub use win::Win;
 
 pub mod resources {
     #[derive(Default)]

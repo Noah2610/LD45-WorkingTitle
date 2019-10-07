@@ -17,7 +17,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
 
         // Win game
         if data.world.read_resource::<WinGame>().0 {
-            // return Trans::Push
+            return Trans::Push(Box::new(Win::default()));
         }
 
         Trans::None

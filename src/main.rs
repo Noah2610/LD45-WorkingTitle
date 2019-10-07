@@ -87,6 +87,7 @@ fn build_game_data<'a, 'b>(
             .custom(CustomData::default())
             .dispatcher("startup")?
             .dispatcher("ingame")?
+            .dispatcher("win")?
             .with_core_bundle(rendering_bundle)?
             .with_core_bundle(transform_bundle)?
             .with_core_bundle(input_bundle)?
