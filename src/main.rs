@@ -30,6 +30,7 @@ fn main() -> Result<(), String> {
 }
 
 fn init_game() -> amethyst::Result<()> {
+    use amethyst::utils::app_root_dir::application_root_dir;
     use helpers::resource;
 
     start_logger();
@@ -37,11 +38,14 @@ fn init_game() -> amethyst::Result<()> {
     let game_data = build_game_data()?;
 
     let mut game: amethyst::CoreApplication<CustomGameData<CustomData>> =
-        ApplicationBuilder::new("./", states::Startup::default())?
-            .with_frame_limit_config(FrameRateLimitConfig::load(resource(
-                "config/frame_limiter.ron",
-            )))
-            .build(game_data)?;
+        ApplicationBuilder::new(
+            application_root_dir().unwrap(),
+            states::Startup::default(),
+        )?
+        .with_frame_limit_config(FrameRateLimitConfig::load(resource(
+            "config/frame_limiter.ron",
+        )))
+        .build(game_data)?;
     game.run();
 
     Ok(())
