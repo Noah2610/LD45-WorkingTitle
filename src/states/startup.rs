@@ -1,4 +1,4 @@
-use amethyst::ecs::{Entities, Join, ReadStorage, WriteStorage};
+use amethyst::ecs::{Entities, Entity, Join, ReadStorage, WriteStorage};
 
 use super::state_prelude::*;
 use crate::level_loader::LevelLoader;
@@ -65,8 +65,9 @@ impl Startup {
                     }
 
                     // Set features to force apply
-                    let mut song_feature = None;
-                    let mut gravity_feature = None;
+                    let mut song_feature: Option<(Entity, FeatureType)> = None;
+                    let mut gravity_feature: Option<(Entity, FeatureType)> =
+                        None;
 
                     for (feature_entity, feature) in
                         (&entities, &features).join()
@@ -75,13 +76,13 @@ impl Startup {
                             match feature.feature_type {
                                 FeatureType::SetSong(n) => {
                                     if let Some((
-                                        FeatureType::SetSong(last_n),
                                         feature_entity,
+                                        FeatureType::SetSong(last_n),
                                     )) = song_feature.as_ref()
                                     {
                                         if n > *last_n {
                                             song_feature = Some((
-                                                feature_entity,
+                                                feature_entity.clone(),
                                                 feature.feature_type.clone(),
                                             ));
                                         }
