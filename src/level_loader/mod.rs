@@ -148,7 +148,7 @@ impl LevelLoader {
                         properties: properties.clone(),
                     }),
                     _ => {
-                        eprintln!("Unknown object type: {}", obj_type);
+                        eprintln!("WARNING: Unknown object type: {}", obj_type);
                     }
                 }
             }
