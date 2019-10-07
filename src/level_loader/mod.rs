@@ -288,7 +288,12 @@ impl LevelLoader {
             transform.set_translation_xyz(player_pos.0, player_pos.1, CAMERA_Z);
 
             let size = Size::from(camera_settings.size);
-            let loading_distance = (size.w * 0.5, size.h * 0.5).into();
+            const LOADING_DISTANCE_PADDING: (f32, f32) = (64.0, 0.0);
+            let loading_distance = (
+                size.w * 0.5 + LOADING_DISTANCE_PADDING.0,
+                size.h * 0.5 + LOADING_DISTANCE_PADDING.1,
+            )
+                .into();
 
             let mut entity = world
                 .create_entity()
@@ -475,7 +480,10 @@ impl LevelLoader {
             }
 
             if !is_always_loaded(&properties) {
-                entity = entity.with(Loadable::default());
+                entity = entity.with(Loadable::default()).with(Loader::new(
+                    (enemy_settings.size.0 * 2.0, enemy_settings.size.1 * 2.0)
+                        .into(),
+                ));
             }
 
             entity.build();
