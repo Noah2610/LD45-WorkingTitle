@@ -9,7 +9,19 @@ pub mod prelude {
 }
 
 pub const MUSIC_VOLUME: f32 = 1.0;
-const SONG_FILES: &[&str] = &["audio/song1.ogg", "audio/song2.ogg"];
+const SONG_FILES: &[&str] = &[
+    "audio/song01.ogg",
+    "audio/song02.ogg",
+    "audio/song03.ogg",
+    "audio/song04.ogg",
+    "audio/song05.ogg",
+    "audio/song06.ogg",
+    "audio/song07.ogg",
+    "audio/song08.ogg",
+    "audio/song09.ogg",
+    "audio/song10.ogg",
+    "audio/song11.ogg",
+];
 
 #[derive(Default)]
 pub struct Music {
