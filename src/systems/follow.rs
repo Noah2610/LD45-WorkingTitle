@@ -35,20 +35,20 @@ impl<'a> System<'a> for FollowSystem {
             if let Some(followed_pos) =
                 followeds_data.get(&follower.tag).cloned()
             {
-                let pos = if follower.round_pos {
+                let follow_pos = if follower.round_pos {
                     (followed_pos.0.round(), followed_pos.1.round()).into()
                 } else {
                     followed_pos
                 };
-                follower_transform.set_translation_x(pos.0);
-                follower_transform.set_translation_y(pos.1);
+                follower_transform.set_translation_x(follow_pos.0);
+                follower_transform.set_translation_y(follow_pos.1);
 
                 if let Some(follower_followed) = followeds.get(follower_entity)
                 {
                     if let Some(pos) =
                         followeds_data.get_mut(&follower_followed.tag)
                     {
-                        *pos = pos.clone();
+                        *pos = follow_pos.clone();
                     }
                 }
             }

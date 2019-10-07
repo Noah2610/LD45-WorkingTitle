@@ -66,7 +66,9 @@ impl<'a> System<'a> for BackgroundSystem {
                             followers
                                 .insert(
                                     bg_entity,
-                                    Follower::new(FollowTag::Camera),
+                                    Follower::new(FollowTag::Camera)
+                                        .with_priority(0)
+                                        .with_round_pos(),
                                 )
                                 .expect("Should add Follower to Background");
                         }
