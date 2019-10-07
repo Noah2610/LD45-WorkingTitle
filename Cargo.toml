@@ -6,7 +6,8 @@ edition = "2018"
 
 [dependencies]
 amethyst   = { version = "0.13.2", features = ["vulkan"] }
-deathframe = { git = "https://github.com/Noah2610/deathframe" }
+# deathframe = { git = "https://github.com/Noah2610/deathframe" }
+deathframe = { path = "../deathframe" }
 serde      = "1.0.101"
 ron        = "0.5.1"
 json       = "0.12.0"
