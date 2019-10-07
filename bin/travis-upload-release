@@ -1,0 +1,29 @@
+#!/bin/bash
+# Script, which is run after a travis build.
+# Uploads the built release to Google Drive
+# using `gdrive` (https://github.com/gdrive-org/gdrive).
+
+# shellcheck source=./travis-share.sh
+_dir="$( dirname "$0" )"
+source "${_dir}/travis-share.sh"
+unset _dir
+
+function upload_release {
+  check "gdrive"
+  [ -n "$GDRIVE_REFRESH_TOKEN" ] || \
+    err "$( colored "$COLOR_CODE" "\$GDRIVE_REFRESH_TOKEN" ) must be set"
+  [ -n "$GDRIVE_DIR_ID" ] || \
+    err "$( colored "$COLOR_CODE" "\$GDRIVE_DIR_ID" ) must be set"
+
+  local release_path
+  release_path="$( get_release_path )"
+  check_file "$release_path"
+
+  msg "Uploading release to Google Drive using \`$( colored "$COLOR_CODE" "gdrive" )\`"
+  gdrive upload                             \
+    --refresh-token "$GDRIVE_REFRESH_TOKEN" \
+    --parent "$GDRIVE_DIR_ID"               \
+    "$release_path"
+}
+
+upload_release
