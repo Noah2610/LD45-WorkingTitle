@@ -14,8 +14,8 @@
         ),
         decr_velocity:       (2000.0, 2000.0),
         jump_data1: (
-            jump_strength:      400.0,
-            wall_jump_strength: (250.0, 600.0),
+            jump_strength:      420.0,
+            wall_jump_strength: (350.0, 650.0),
             dash_strength:      (800.0, 800.0),
             gravity:            (0.0, -500.0),
             jump_gravity:       (0.0, -600.0),
@@ -36,7 +36,7 @@
             single_sprite:   (6.0, 16.0),
             animated_sprite: (6.0, 16.0),
         ),
-        bounce_strength: 700.0,
+        bounce_strength: 625.0,
         slide_velocity:  -10.0,
     ),
 
