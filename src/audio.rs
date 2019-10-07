@@ -46,6 +46,13 @@ impl Music {
         self.queue.insert(0, index);
     }
 
+    pub fn force_set(&mut self, index: usize) {
+        if index >= self.songs.len() {
+            eprintln!("WARNING: Given song index {} does not exist", index);
+        }
+        self.queue = vec![index];
+    }
+
     pub fn current(&mut self) -> Option<SourceHandle> {
         if let Some(in_queue) = self.queue.pop() {
             self.last_played = Some(in_queue);

@@ -180,7 +180,12 @@ impl<'a> System<'a> for FeatureSystem {
                                     .expect("Should add CanDash to Player");
                             }
                             FeatureType::SetSong(n) => {
-                                music.set(*n);
+                                if force_apply_features.contains(feature_entity)
+                                {
+                                    music.force_set(*n);
+                                } else {
+                                    music.set(*n);
+                                }
                             }
                         }
                         feature.applied = true;
