@@ -184,6 +184,7 @@ fn build_game_data<'a, 'b>(
             )?
             .with("ingame", LoadingSystem::default(), "loading_system", &[
                 "move_entities_system",
+                "confine_entities_system",
             ])?;
 
     Ok(custom_game_data)
