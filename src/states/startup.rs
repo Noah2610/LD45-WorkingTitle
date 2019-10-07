@@ -66,49 +66,82 @@ impl Startup {
 
                     // Set features to force apply
                     let mut song_feature = None;
+                    let mut gravity_feature = None;
+
                     for (feature_entity, feature) in
                         (&entities, &features).join()
                     {
                         if checkpoint.features.contains(&feature.feature_type) {
-                            if let FeatureType::SetSong(n) =
-                                feature.feature_type
-                            {
-                                if let Some((_, FeatureType::SetSong(last_n))) =
-                                    song_feature.as_ref()
-                                {
-                                    if n > *last_n {
+                            match feature.feature_type {
+                                FeatureType::SetSong(n) => {
+                                    if let Some((
+                                        FeatureType::SetSong(last_n),
+                                        feature_entity,
+                                    )) = song_feature.as_ref()
+                                    {
+                                        if n > *last_n {
+                                            song_feature = Some((
+                                                feature_entity,
+                                                feature.feature_type.clone(),
+                                            ));
+                                        }
+                                    } else {
                                         song_feature = Some((
                                             feature_entity,
                                             feature.feature_type.clone(),
                                         ));
                                     }
-                                } else {
-                                    song_feature = Some((
+                                }
+                                FeatureType::AddGravity1 => {
+                                    if gravity_feature.is_none() {
+                                        gravity_feature = Some((
+                                            feature_entity,
+                                            FeatureType::AddGravity1,
+                                        ));
+                                    }
+                                }
+                                FeatureType::AddGravity2 => {
+                                    gravity_feature = Some((
                                         feature_entity,
-                                        feature.feature_type.clone(),
+                                        FeatureType::AddGravity2,
                                     ));
                                 }
-                            } else {
-                                force_apply_features
-                                    .insert(
-                                        feature_entity,
-                                        ForceApplyFeature::default(),
-                                    )
-                                    .expect(
-                                        "Should add ForceApplyFeature to \
-                                         Feature",
-                                    );
+                                _ => {
+                                    force_apply_features
+                                        .insert(
+                                            feature_entity,
+                                            ForceApplyFeature::default(),
+                                        )
+                                        .expect(
+                                            "Should add ForceApplyFeature to \
+                                             Feature",
+                                        );
+                                }
                             }
                         }
                     }
 
+                    if let Some((feature_entity, _)) = gravity_feature {
+                        force_apply_features
+                            .insert(
+                                feature_entity,
+                                ForceApplyFeature::default(),
+                            )
+                            .expect(
+                                "Should add ForceApplyFeature to Feature \
+                                 (gravity)",
+                            );
+                    }
                     if let Some((feature_entity, _)) = song_feature {
                         force_apply_features
                             .insert(
                                 feature_entity,
                                 ForceApplyFeature::default(),
                             )
-                            .expect("Should add ForceApplyFeature to Feature");
+                            .expect(
+                                "Should add ForceApplyFeature to Feature \
+                                 (song)",
+                            );
                     }
                 },
             );

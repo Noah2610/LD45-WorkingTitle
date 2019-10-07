@@ -98,6 +98,7 @@ fn build_game_data<'a, 'b>(
                 "dj_system",
                 &[],
             )?
+            .with_core(DebugSystem::default(), "debug_system", &[])?
             .with_core(
                 InputManagerSystem::<input::Bindings>::default(),
                 "input_manager_system",

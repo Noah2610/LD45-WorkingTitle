@@ -5,6 +5,7 @@ pub mod prelude {
     pub use super::checkpoint::CheckpointSystem;
     pub use super::control_player::ControlPlayerSystem;
     pub use super::death_floor::DeathFloorSystem;
+    pub use super::debug::DebugSystem;
     pub use super::enemy_ai::EnemyAiSystem;
     pub use super::feature::FeatureSystem;
     pub use super::follow::FollowSystem;
@@ -33,6 +34,7 @@ mod background;
 mod checkpoint;
 mod control_player;
 mod death_floor;
+mod debug;
 mod enemy_ai;
 mod feature;
 mod follow;
