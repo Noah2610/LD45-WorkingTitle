@@ -35,11 +35,15 @@ impl<'a> System<'a> for SpikeSystem {
                 if let (None, None) | (Some(_), Some(_)) =
                     (loadable_opt, loaded_opt)
                 {
-                    if spike.enabled
-                        && player_collision.in_collision_with(spike_entity.id())
-                    {
-                        reset_level.0 = true;
-                        break;
+                    if spike.enabled {
+                        if let Some(collision::Data {
+                            side: Side::Inner, ..
+                        }) =
+                            player_collision.collision_with(spike_entity.id())
+                        {
+                            reset_level.0 = true;
+                            break;
+                        }
                     }
                 }
             }
