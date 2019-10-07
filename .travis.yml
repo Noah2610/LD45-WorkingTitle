@@ -1,0 +1,24 @@
+os:
+  - windows
+dist: xenial
+language: rust
+rust:
+  - 1.38.0
+env:
+  global:
+    - RELEASE_VERSION="cargo"
+    - RELEASE_FILE_PREFIX="LD45-"
+    - RELEASE_ZIP_SUFFIX="-CI"
+    - RELEASE_EXE_NAME_OUTPUT="ld45"
+    - RELEASE_RUST_VERSION="1.38.0"
+    - RELEASE_FEATURES=""
+    - RELEASE_PRINT_CARGO_STDERR="1"
+before_install:
+  - bin/travis-setup
+script:
+  - bin/build-release
+after_success:
+  - bin/travis-upload-release
+# branches:
+#   only:
+#     - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
