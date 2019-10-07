@@ -15,6 +15,7 @@ impl Startup {
         world.delete_all();
 
         world.write_resource::<ResetLevel>().0 = false;
+        world.write_resource::<WinGame>().0 = false;
         // Reset audio
         world.write_resource::<Music>().reset();
         {
@@ -121,6 +122,7 @@ fn insert_resources(world: &mut World) {
     world.insert(SpriteSheetHandles::default());
     world.insert(ResetLevel(false));
     world.insert(CheckpointRes::default());
+    world.insert(WinGame(false));
 }
 
 fn load_settings() -> Settings {

@@ -8,6 +8,7 @@ pub mod prelude {
     pub use super::enemy_ai::EnemyAiSystem;
     pub use super::feature::FeatureSystem;
     pub use super::follow::FollowSystem;
+    pub use super::goal::GoalSystem;
     pub use super::handle_solid_collisions::HandleSolidCollisionsSystem;
     pub use super::kill_enemy::KillEnemySystem;
     pub use super::loading::LoadingSystem;
@@ -35,6 +36,7 @@ mod death_floor;
 mod enemy_ai;
 mod feature;
 mod follow;
+mod goal;
 mod handle_solid_collisions;
 mod kill_enemy;
 mod loading;

@@ -13,6 +13,7 @@ pub mod prelude {
     pub use super::enemy_ai::{enemy_ai_data, EnemyAi};
     pub use super::feature::{Feature, FeatureType, ForceApplyFeature};
     pub use super::follow::{FollowTag, Followed, Follower};
+    pub use super::goal::Goal;
     pub use super::has_animated_sprite::HasAnimatedSprite;
     pub use super::has_single_sprite::HasSingleSprite;
     pub use super::loader::Loader;
@@ -38,6 +39,7 @@ mod enemy;
 mod enemy_ai;
 mod feature;
 mod follow;
+mod goal;
 mod has_animated_sprite;
 mod has_single_sprite;
 mod loader;

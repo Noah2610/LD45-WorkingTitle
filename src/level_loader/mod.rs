@@ -44,6 +44,7 @@ pub struct LevelLoader {
     features_data:    Vec<EntityData>,
     backgrounds_data: Vec<EntityData>,
     checkpoints_data: Vec<EntityData>,
+    goal_data:        Option<EntityData>,
 }
 
 impl LevelLoader {
@@ -77,6 +78,7 @@ impl LevelLoader {
         self.build_features(world);
         self.build_backgrounds(world);
         self.build_checkpoints(world);
+        self.build_goal(world);
 
         self.finished_loading = true;
     }
@@ -155,6 +157,14 @@ impl LevelLoader {
                         sprite: None,
                         properties: properties.clone(),
                     }),
+                    "Goal" => {
+                        self.goal_data = Some(EntityData {
+                            pos,
+                            size,
+                            sprite: None,
+                            properties: properties.clone(),
+                        })
+                    }
                     _ => {
                         eprintln!("WARNING: Unknown object type: {}", obj_type);
                     }
@@ -570,6 +580,27 @@ impl LevelLoader {
                 .with(transform)
                 .with(Size::from(*size))
                 .with(Checkpoint::default())
+                .with(Collision::default())
+                .build();
+        }
+    }
+
+    fn build_goal(&self, world: &mut World) {
+        if let Some(EntityData {
+            pos,
+            size,
+            sprite: _,
+            properties: _,
+        }) = self.goal_data.as_ref()
+        {
+            let mut transform = Transform::default();
+            transform.set_translation_xyz(pos.0, pos.1, 0.0);
+
+            world
+                .create_entity()
+                .with(transform)
+                .with(Size::from(*size))
+                .with(Goal::default())
                 .with(Collision::default())
                 .build();
         }

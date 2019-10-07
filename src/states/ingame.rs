@@ -15,6 +15,11 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
             return Trans::Pop;
         }
 
+        // Win game
+        if data.world.read_resource::<WinGame>().0 {
+            // return Trans::Push
+        }
+
         Trans::None
     }
 }

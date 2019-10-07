@@ -36,4 +36,7 @@ pub mod resources {
 
     #[derive(Default)]
     pub struct CheckpointRes(pub Option<CheckpointData>);
+
+    #[derive(Default)]
+    pub struct WinGame(pub bool);
 }
