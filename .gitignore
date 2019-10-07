@@ -3,6 +3,7 @@
 
 .DS_Store
 
+/releases
 _ignore
 /bin/util.sh
 *.log
