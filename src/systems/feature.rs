@@ -10,6 +10,7 @@ impl<'a> System<'a> for FeatureSystem {
         Write<'a, Music>,
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Enemy>,
+        ReadStorage<'a, ForceApplyFeature>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Feature>,
         WriteStorage<'a, Size>,
@@ -33,6 +34,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut music,
             collisions,
             enemies,
+            force_apply_features,
             mut players,
             mut features,
             mut sizes,
@@ -69,7 +71,9 @@ impl<'a> System<'a> for FeatureSystem {
         {
             for (feature_entity, feature) in (&entities, &mut features).join() {
                 if !feature.applied {
-                    if player_collision.in_collision_with(feature_entity.id()) {
+                    if player_collision.in_collision_with(feature_entity.id())
+                        || force_apply_features.contains(feature_entity)
+                    {
                         match &feature.feature_type {
                             FeatureType::AddCollisions => {
                                 player_solid.tag =

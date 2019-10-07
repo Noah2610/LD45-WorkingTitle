@@ -1,6 +1,6 @@
 use super::component_prelude::*;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum FeatureType {
     AddCollisions,
     AddGravity1,
@@ -54,4 +54,11 @@ impl Feature {
 
 impl Component for Feature {
     type Storage = VecStorage<Self>;
+}
+
+#[derive(Default)]
+pub struct ForceApplyFeature;
+
+impl Component for ForceApplyFeature {
+    type Storage = NullStorage<Self>;
 }

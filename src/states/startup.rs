@@ -1,7 +1,7 @@
+use amethyst::ecs::{Entities, Join, ReadStorage, WriteStorage};
+
 use super::state_prelude::*;
 use crate::level_loader::LevelLoader;
-
-use amethyst::ecs::{Join, Read, ReadStorage, Write, WriteStorage};
 
 const LEVEL_NAME: &str = "level.json";
 
@@ -40,9 +40,18 @@ impl Startup {
         let checkpoint_data = world.read_resource::<CheckpointRes>().0.clone();
         if let Some(checkpoint) = checkpoint_data {
             world.exec(
-                |(players, mut transforms): (
+                |(
+                    entities,
+                    players,
+                    features,
+                    mut transforms,
+                    mut force_apply_features,
+                ): (
+                    Entities,
                     ReadStorage<Player>,
+                    ReadStorage<Feature>,
                     WriteStorage<Transform>,
+                    WriteStorage<ForceApplyFeature>,
                 )| {
                     // Set player position
                     if let Some((_, player_transform)) =
@@ -52,6 +61,22 @@ impl Startup {
                             .set_translation_x(checkpoint.position.0);
                         player_transform
                             .set_translation_y(checkpoint.position.1);
+                    }
+
+                    // Set features to force apply
+                    for (feature_entity, feature) in
+                        (&entities, &features).join()
+                    {
+                        if checkpoint.features.contains(&feature.feature_type) {
+                            force_apply_features
+                                .insert(
+                                    feature_entity,
+                                    ForceApplyFeature::default(),
+                                )
+                                .expect(
+                                    "Should add ForceApplyFeature to Feature",
+                                );
+                        }
                     }
                 },
             );
