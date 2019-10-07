@@ -834,7 +834,7 @@ dependencies = [
 [[package]]
 name = "deathframe"
 version = "0.3.1"
-source = "git+https://github.com/Noah2610/deathframe#23fec4b475fb1ce416b1eaa935c2998234e63dc4"
+source = "git+https://github.com/Noah2610/deathframe#7ccab222999cbef4db35b8cbf7721014832b10cc"
 dependencies = [
  "amethyst 0.13.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "bitflags 1.0.4 (registry+https://github.com/rust-lang/crates.io-index)",

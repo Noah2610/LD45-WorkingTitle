@@ -1,0 +1,34 @@
+#![enable(implicit_some)]
+Container(
+    transform: (
+        id:             "win_menu",
+        x:              0.0,
+        y:              0.0,
+        width:          1.0,
+        height:         1.0,
+        anchor:         Middle,
+        mouse_reactive: false,
+        percent:        true,
+    ),
+    children: [
+        Label(
+            transform: (
+                id:             "label_thank_you",
+                x:              0.0,
+                y:              0.0,
+                width:          1.0,
+                height:         1.0,
+                anchor:         Middle,
+                mouse_reactive: false,
+                percent:        true,
+            ),
+            text: (
+                text:      "Thank You For Playing <3",
+                font_size: 20.0,
+                color:     (1.0, 1.0, 1.0, 1.0),
+                font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                align:     Middle,
+            ),
+        ),
+    ],
+)
