@@ -23,7 +23,7 @@
             min_jump_velocity:  50.0,
         ),
         jump_data2: (
-            jump_strength:      500.0,
+            jump_strength:      650.0,
             wall_jump_strength: (450.0, 800.0),
             dash_strength:      (1000.0, 1000.0),
             gravity:            (0.0, -265.0),
@@ -36,7 +36,7 @@
             single_sprite:   (6.0, 16.0),
             animated_sprite: (6.0, 16.0),
         ),
-        bounce_strength: 500.0,
+        bounce_strength: 700.0,
         slide_velocity:  -10.0,
     ),
 
