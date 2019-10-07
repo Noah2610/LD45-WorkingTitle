@@ -28,6 +28,7 @@ pub mod resources {
     #[derive(Default)]
     pub struct ResetLevel(pub bool);
 
+    #[derive(Clone)]
     pub struct CheckpointData {
         pub position: super::state_prelude::Vector,
         pub features: Vec<super::state_prelude::FeatureType>,

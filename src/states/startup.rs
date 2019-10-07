@@ -1,6 +1,8 @@
 use super::state_prelude::*;
 use crate::level_loader::LevelLoader;
 
+use amethyst::ecs::{Join, Read, ReadStorage, Write, WriteStorage};
+
 const LEVEL_NAME: &str = "level.json";
 
 #[derive(Default)]
@@ -30,6 +32,30 @@ impl Startup {
         level_loader.load(LEVEL_NAME);
         level_loader.build(world);
         self.level_loader = Some(level_loader);
+
+        self.apply_checkpoint(world);
+    }
+
+    fn apply_checkpoint(&self, world: &mut World) {
+        let checkpoint_data = world.read_resource::<CheckpointRes>().0.clone();
+        if let Some(checkpoint) = checkpoint_data {
+            world.exec(
+                |(players, mut transforms): (
+                    ReadStorage<Player>,
+                    WriteStorage<Transform>,
+                )| {
+                    // Set player position
+                    if let Some((_, player_transform)) =
+                        (&players, &mut transforms).join().next()
+                    {
+                        player_transform
+                            .set_translation_x(checkpoint.position.0);
+                        player_transform
+                            .set_translation_y(checkpoint.position.1);
+                    }
+                },
+            );
+        }
     }
 }
 
