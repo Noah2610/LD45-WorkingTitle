@@ -4,7 +4,7 @@ where
 {
     use amethyst::utils::app_root_dir::application_dir;
 
-    let path = if cfg!(target = "windows") {
+    let path = if cfg!(target_os = "windows") {
         path.to_string().replace("/", "\\")
     } else {
         path.to_string()
