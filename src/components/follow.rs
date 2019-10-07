@@ -10,17 +10,27 @@ pub enum FollowTag {
 
 #[derive(PartialEq)]
 pub struct Follower {
-    pub tag:      FollowTag,
-    pub priority: u32,
+    pub tag:       FollowTag,
+    pub priority:  u32,
+    pub round_pos: bool,
 }
 
 impl Follower {
     pub fn new(tag: FollowTag) -> Self {
-        Self { tag, priority: 0 }
+        Self {
+            tag,
+            priority: 0,
+            round_pos: false,
+        }
     }
 
     pub fn with_priority(mut self, priority: u32) -> Self {
         self.priority = priority;
+        self
+    }
+
+    pub fn with_round_pos(mut self) -> Self {
+        self.round_pos = true;
         self
     }
 }

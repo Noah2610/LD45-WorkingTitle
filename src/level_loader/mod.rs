@@ -277,7 +277,11 @@ impl LevelLoader {
                 .with(transform)
                 .with(AmethystCamera::standard_2d(size.w, size.h))
                 .with(size)
-                .with(Follower::new(FollowTag::Player).with_priority(1))
+                .with(
+                    Follower::new(FollowTag::Player)
+                        .with_priority(1)
+                        .with_round_pos(),
+                )
                 .with(Followed::new(FollowTag::Camera))
                 .with(Loader::new(loading_distance));
 
