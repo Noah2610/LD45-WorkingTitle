@@ -271,10 +271,14 @@ impl<'a> System<'a> for ControlPlayerSystem {
                         player_animations_container.set("walk");
                     }
                 } else {
-                    if player_velocity.y > 0.0 {
-                        player_animations_container.set("jump");
+                    if player.used_dash {
+                        player_animations_container.set("dash");
                     } else {
-                        player_animations_container.set("fall");
+                        if player_velocity.y > 0.0 {
+                            player_animations_container.set("jump");
+                        } else {
+                            player_animations_container.set("fall");
+                        }
                     }
                 }
                 // Flip sprite

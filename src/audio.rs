@@ -13,15 +13,17 @@ const SONG_FILES: &[&str] = &["audio/song1.ogg", "audio/song2.ogg"];
 
 #[derive(Default)]
 pub struct Music {
-    songs:        Vec<SourceHandle>,
-    current_song: Option<usize>,
+    songs:       Vec<SourceHandle>,
+    queue:       Vec<usize>,
+    last_played: Option<usize>,
 }
 
 impl Music {
     pub fn new(songs: Vec<SourceHandle>) -> Self {
         Self {
             songs,
-            current_song: None,
+            queue: Vec::new(),
+            last_played: None,
         }
     }
 
@@ -29,19 +31,25 @@ impl Music {
         if index >= self.songs.len() {
             eprintln!("WARNING: Given song index {} does not exist", index);
         }
-        self.current_song = Some(index);
+        self.queue.insert(0, index);
     }
 
-    pub fn current(&self) -> Option<SourceHandle> {
-        if let Some(current) = self.current_song {
-            self.songs.get(current).map(Clone::clone)
+    pub fn current(&mut self) -> Option<SourceHandle> {
+        if let Some(in_queue) = self.queue.pop() {
+            self.last_played = Some(in_queue);
+            self.songs.get(in_queue).map(Clone::clone)
         } else {
-            None
+            if let Some(last) = self.last_played {
+                self.songs.get(last).map(Clone::clone)
+            } else {
+                None
+            }
         }
     }
 
     pub fn reset(&mut self) {
-        self.current_song = None;
+        self.queue.clear();
+        self.last_played = None;
     }
 }
 
