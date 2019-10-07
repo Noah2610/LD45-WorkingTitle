@@ -68,8 +68,8 @@ impl<'a> System<'a> for FeatureSystem {
             .next()
         {
             for (feature_entity, feature) in (&entities, &mut features).join() {
-                if player_collision.in_collision_with(feature_entity.id()) {
-                    if !feature.applied {
+                if !feature.applied {
+                    if player_collision.in_collision_with(feature_entity.id()) {
                         match &feature.feature_type {
                             FeatureType::AddCollisions => {
                                 player_solid.tag =

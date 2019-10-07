@@ -69,6 +69,7 @@ fn insert_resources(world: &mut World) {
     world.insert(load_settings());
     world.insert(SpriteSheetHandles::default());
     world.insert(ResetLevel(false));
+    world.insert(CheckpointRes::default());
 }
 
 fn load_settings() -> Settings {
