@@ -270,6 +270,7 @@ impl LevelLoader {
             transform.set_translation_xyz(player_pos.0, player_pos.1, CAMERA_Z);
 
             let size = Size::from(camera_settings.size);
+            let loading_distance = (size.w * 0.5, size.h * 0.5).into();
 
             let mut entity = world
                 .create_entity()
@@ -277,7 +278,8 @@ impl LevelLoader {
                 .with(AmethystCamera::standard_2d(size.w, size.h))
                 .with(size)
                 .with(Follower::new(FollowTag::Player).with_priority(1))
-                .with(Followed::new(FollowTag::Camera));
+                .with(Followed::new(FollowTag::Camera))
+                .with(Loader::new(loading_distance));
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(
@@ -331,7 +333,8 @@ impl LevelLoader {
                 .with(transform)
                 .with(Size::from(*size))
                 .with(ScaleOnce::default())
-                .with(Transparent);
+                .with(Transparent)
+                .with(Loadable::default());
 
             if let Some(sprite_render) = sprite_render_opt {
                 entity = entity.with(sprite_render);
@@ -355,6 +358,10 @@ impl LevelLoader {
                         .with(Collision::default())
                         .with(Spike::default());
                 }
+            }
+
+            if !is_always_loaded(&properties) {
+                entity = entity.with(Loadable::default());
             }
 
             entity.build();
@@ -445,6 +452,10 @@ impl LevelLoader {
                 entity = entity.with(Gravity::new(gravity.0, gravity.1));
             }
 
+            if !is_always_loaded(&properties) {
+                entity = entity.with(Loadable::default());
+            }
+
             entity.build();
         }
     }
@@ -523,7 +534,15 @@ impl LevelLoader {
                 ));
             }
 
+            if !is_always_loaded(&properties) {
+                entity = entity.with(Loadable::default());
+            }
+
             entity.build();
         }
     }
+}
+
+fn is_always_loaded(properties: &JsonValue) -> bool {
+    properties["always_loaded"].as_bool().unwrap_or(false)
 }

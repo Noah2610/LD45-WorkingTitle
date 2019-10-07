@@ -9,6 +9,8 @@ impl<'a> System<'a> for EnemyAiSystem {
         Read<'a, Time>,
         ReadStorage<'a, Enemy>,
         ReadStorage<'a, HasAnimatedSprite>,
+        ReadStorage<'a, Loadable>,
+        ReadStorage<'a, Loaded>,
         WriteStorage<'a, EnemyAi>,
         WriteStorage<'a, Transform>,
         WriteStorage<'a, Velocity>,
@@ -22,6 +24,8 @@ impl<'a> System<'a> for EnemyAiSystem {
             time,
             enemies,
             has_animated_sprites,
+            loadables,
+            loadeds,
             mut enemy_ais,
             mut transforms,
             mut velocities,
@@ -37,6 +41,8 @@ impl<'a> System<'a> for EnemyAiSystem {
             enemy_transform,
             enemy_velocity,
             enemy_animations,
+            loadable_opt,
+            loaded_opt,
         ) in (
             &entities,
             &enemies,
@@ -44,33 +50,39 @@ impl<'a> System<'a> for EnemyAiSystem {
             &mut transforms,
             &mut velocities,
             &mut animations_containers,
+            loadables.maybe(),
+            loadeds.maybe(),
         )
             .join()
         {
-            match enemy_ai {
-                EnemyAi::Pacer(pacer_data) => run_for_pacer_ai(
-                    dt,
-                    enemy,
-                    pacer_data,
-                    enemy_transform,
-                    enemy_velocity,
-                ),
-            }
-
-            if has_animated_sprites.contains(enemy_entity) {
-                // Set animation
-                if enemy_velocity.x != 0.0 || enemy_velocity.y != 0.0 {
-                    enemy_animations.set("walk");
-                } else {
-                    enemy_animations.set("idle");
+            if let (None, None) | (Some(_), Some(_)) =
+                (loadable_opt, loaded_opt)
+            {
+                match enemy_ai {
+                    EnemyAi::Pacer(pacer_data) => run_for_pacer_ai(
+                        dt,
+                        enemy,
+                        pacer_data,
+                        enemy_transform,
+                        enemy_velocity,
+                    ),
                 }
-                // Flip sprite
-                if enemy_velocity.x > 0.0 {
-                    let scale = enemy_transform.scale_mut();
-                    scale.x = scale.x.abs();
-                } else if enemy_velocity.x < 0.0 {
-                    let scale = enemy_transform.scale_mut();
-                    scale.x = -scale.x.abs();
+
+                if has_animated_sprites.contains(enemy_entity) {
+                    // Set animation
+                    if enemy_velocity.x != 0.0 || enemy_velocity.y != 0.0 {
+                        enemy_animations.set("walk");
+                    } else {
+                        enemy_animations.set("idle");
+                    }
+                    // Flip sprite
+                    if enemy_velocity.x > 0.0 {
+                        let scale = enemy_transform.scale_mut();
+                        scale.x = scale.x.abs();
+                    } else if enemy_velocity.x < 0.0 {
+                        let scale = enemy_transform.scale_mut();
+                        scale.x = -scale.x.abs();
+                    }
                 }
             }
         }

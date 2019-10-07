@@ -14,6 +14,7 @@ pub mod prelude {
     pub use super::follow::{FollowTag, Followed, Follower};
     pub use super::has_animated_sprite::HasAnimatedSprite;
     pub use super::has_single_sprite::HasSingleSprite;
+    pub use super::loader::Loader;
     pub use super::player::Player;
     pub use super::spike::Spike;
 }
@@ -37,5 +38,6 @@ mod feature;
 mod follow;
 mod has_animated_sprite;
 mod has_single_sprite;
+mod loader;
 mod player;
 mod spike;

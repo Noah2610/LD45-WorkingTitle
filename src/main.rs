@@ -181,7 +181,10 @@ fn build_game_data<'a, 'b>(
                 BackgroundSystem::default(),
                 "background_system",
                 &["follow_system"],
-            )?;
+            )?
+            .with("ingame", LoadingSystem::default(), "loading_system", &[
+                "move_entities_system",
+            ])?;
 
     Ok(custom_game_data)
 }

@@ -10,6 +10,8 @@ impl<'a> System<'a> for BackgroundSystem {
         ReadStorage<'a, Size>,
         ReadStorage<'a, Background>,
         ReadStorage<'a, AmethystCamera>,
+        ReadStorage<'a, Loadable>,
+        ReadStorage<'a, Loaded>,
         WriteStorage<'a, Follower>,
     );
 
@@ -21,6 +23,8 @@ impl<'a> System<'a> for BackgroundSystem {
             sizes,
             backgrounds,
             cameras,
+            loadables,
+            loadeds,
             mut followers,
         ): Self::SystemData,
     ) {
@@ -32,19 +36,40 @@ impl<'a> System<'a> for BackgroundSystem {
                 pos.x - camera_size.w * 0.5
             };
 
-            for (bg_entity, _, bg_transform, bg_size) in
-                (&entities, &backgrounds, &transforms, &sizes).join()
+            for (
+                bg_entity,
+                _,
+                bg_transform,
+                bg_size,
+                loadable_opt,
+                loaded_opt,
+            ) in (
+                &entities,
+                &backgrounds,
+                &transforms,
+                &sizes,
+                loadables.maybe(),
+                loadeds.maybe(),
+            )
+                .join()
             {
-                if !followers.contains(bg_entity) {
-                    let bg_left = {
-                        let pos = bg_transform.translation();
-                        pos.x - bg_size.w * 0.5
-                    };
+                if let (None, None) | (Some(_), Some(_)) =
+                    (loadable_opt, loaded_opt)
+                {
+                    if !followers.contains(bg_entity) {
+                        let bg_left = {
+                            let pos = bg_transform.translation();
+                            pos.x - bg_size.w * 0.5
+                        };
 
-                    if bg_left <= camera_left {
-                        followers
-                            .insert(bg_entity, Follower::new(FollowTag::Camera))
-                            .expect("Should add Follower to Background");
+                        if bg_left <= camera_left {
+                            followers
+                                .insert(
+                                    bg_entity,
+                                    Follower::new(FollowTag::Camera),
+                                )
+                                .expect("Should add Follower to Background");
+                        }
                     }
                 }
             }

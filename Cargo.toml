@@ -14,3 +14,21 @@ bitflags   = "=1.0.4"  # https://github.com/rust-lang/rust/issues/59134#issuecom
 
 [features]
 nightly = ["amethyst/nightly"]
+
+[profile.dev]
+opt-level        = 2
+debug            = true
+lto              = false
+debug-assertions = true
+codegen-units    = 16
+incremental      = true
+overflow-checks  = true
+
+[profile.release]
+opt-level        = 3
+debug            = false
+lto              = false
+debug-assertions = false
+codegen-units    = 1
+incremental      = true
+overflow-checks  = false
