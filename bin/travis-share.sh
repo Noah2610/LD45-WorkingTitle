@@ -33,7 +33,6 @@ function try_run {
   [ -z "$cmd" ] && err "No command given."
   local out
   local out_files=("$LOGFILE")
-  [ -n "$also_to_stderr" ] && out_files+=("/dev/stderr")
   msg "${spacing}Running: \033[${COLOR_CODE}m${cmd}\033[m"
   if ! $cmd 2>&1 | tee -a "${out_files[@]}"; then
     err "Command failed:\n  \033[${COLOR_CODE}m${cmd}\033[m\nReturned:\n${out}"
