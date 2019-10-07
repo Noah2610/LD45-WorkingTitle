@@ -1,5 +1,6 @@
 use super::component_prelude::*;
 
+#[derive(Clone)]
 pub enum FeatureType {
     AddCollisions,
     AddGravity1,

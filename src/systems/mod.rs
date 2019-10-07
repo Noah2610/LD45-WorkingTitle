@@ -2,6 +2,7 @@ pub mod prelude {
     pub use deathframe::systems::prelude::*;
 
     pub use super::background::BackgroundSystem;
+    pub use super::checkpoint::CheckpointSystem;
     pub use super::control_player::ControlPlayerSystem;
     pub use super::death_floor::DeathFloorSystem;
     pub use super::enemy_ai::EnemyAiSystem;
@@ -24,10 +25,11 @@ mod system_prelude {
     pub use crate::input::prelude::*;
     pub use crate::settings::prelude::*;
     pub use crate::solid_tag::SolidTag;
-    pub use crate::states::ResetLevel;
+    pub use crate::states::resources::*;
 }
 
 mod background;
+mod checkpoint;
 mod control_player;
 mod death_floor;
 mod enemy_ai;

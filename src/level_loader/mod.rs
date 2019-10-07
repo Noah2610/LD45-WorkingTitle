@@ -43,6 +43,7 @@ pub struct LevelLoader {
     enemies_data:     Vec<EntityData>,
     features_data:    Vec<EntityData>,
     backgrounds_data: Vec<EntityData>,
+    checkpoints_data: Vec<EntityData>,
 }
 
 impl LevelLoader {
@@ -75,6 +76,7 @@ impl LevelLoader {
         self.build_enemies(world);
         self.build_features(world);
         self.build_backgrounds(world);
+        self.build_checkpoints(world);
 
         self.finished_loading = true;
     }
@@ -142,6 +144,12 @@ impl LevelLoader {
                         properties: properties.clone(),
                     }),
                     "Background" => self.backgrounds_data.push(EntityData {
+                        pos,
+                        size,
+                        sprite: None,
+                        properties: properties.clone(),
+                    }),
+                    "Checkpoint" => self.checkpoints_data.push(EntityData {
                         pos,
                         size,
                         sprite: None,
@@ -543,6 +551,27 @@ impl LevelLoader {
             }
 
             entity.build();
+        }
+    }
+
+    fn build_checkpoints(&self, world: &mut World) {
+        for EntityData {
+            pos,
+            size,
+            sprite: _,
+            properties: _,
+        } in &self.checkpoints_data
+        {
+            let mut transform = Transform::default();
+            transform.set_translation_xyz(pos.0, pos.1, 0.0);
+
+            world
+                .create_entity()
+                .with(transform)
+                .with(Size::from(*size))
+                .with(Checkpoint::default())
+                .with(Collision::default())
+                .build();
         }
     }
 }

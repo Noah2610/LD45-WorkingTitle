@@ -10,7 +10,7 @@ pub mod state_prelude {
     pub use deathframe::custom_game_data::CustomGameData;
 
     pub use super::prelude::*;
-    pub use super::ResetLevel;
+    pub use super::resources::*;
     pub use crate::audio::prelude::*;
     pub use crate::components::prelude::*;
     pub use crate::helpers::*;
@@ -24,5 +24,15 @@ mod startup;
 pub use ingame::Ingame;
 pub use startup::Startup;
 
-#[derive(Default)]
-pub struct ResetLevel(pub bool);
+pub mod resources {
+    #[derive(Default)]
+    pub struct ResetLevel(pub bool);
+
+    pub struct CheckpointData {
+        pub position: super::state_prelude::Vector,
+        pub features: Vec<super::state_prelude::FeatureType>,
+    }
+
+    #[derive(Default)]
+    pub struct CheckpointRes(pub Option<CheckpointData>);
+}
