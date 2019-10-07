@@ -8,3 +8,4 @@ _ignore
 *.log
 /logs
 /resources/levels/*.ron
+*.exe
