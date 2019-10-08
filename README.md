@@ -17,5 +17,8 @@ Experience a work in progress.
 
 __Vulkan support is needed!__
 
+## License
+Licensed under the terms of the [MIT license][mit].
 
 [ludumdare]: https://ldjam.com/
+[mit]:       https://github.com/Noah2610/LD45/tree/master/LICENSE
