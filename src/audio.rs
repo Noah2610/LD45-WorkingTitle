@@ -40,17 +40,27 @@ impl Music {
     }
 
     pub fn set(&mut self, index: usize) {
-        if index >= self.songs.len() {
-            eprintln!("WARNING: Given song index {} does not exist", index);
-        }
+        self.print_warning_if_invalid_index(index);
         self.queue.insert(0, index);
     }
 
     pub fn force_set(&mut self, index: usize) {
-        if index >= self.songs.len() {
-            eprintln!("WARNING: Given song index {} does not exist", index);
-        }
-        self.queue = vec![index];
+        self.print_warning_if_invalid_index(index);
+        let new_queue = self
+            .queue
+            .iter()
+            .filter(|i| **i <= index)
+            .map(Clone::clone)
+            .collect::<Vec<usize>>();
+        self.queue = new_queue;
+        self.last_played = self.last_played.and_then(|last| {
+            Some(index.min(last))
+            // if last <= index {
+            //     Some(last)
+            // } else {
+            //     Some(index)
+            // }
+        });
     }
 
     pub fn current(&mut self) -> Option<SourceHandle> {
@@ -66,9 +76,19 @@ impl Music {
         }
     }
 
-    pub fn reset(&mut self) {
-        self.queue.clear();
+    pub fn should_audio_stop(&self) -> bool {
+        self.last_played.is_none()
+    }
+
+    pub fn clear(&mut self) {
         self.last_played = None;
+        self.queue.clear();
+    }
+
+    fn print_warning_if_invalid_index(&self, index: usize) {
+        if index >= self.songs.len() {
+            eprintln!("WARNING: Given song index {} does not exist", index);
+        }
     }
 }
 

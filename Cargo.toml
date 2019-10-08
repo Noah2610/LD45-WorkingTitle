@@ -1,5 +1,5 @@
 [package]
-name = "ld45"
+name = "ld45-working-title"
 version = "1.0.1"
 authors = ["Noah Rosenzweig <rosenzweig.noah@gmail.com>"]
 edition = "2018"

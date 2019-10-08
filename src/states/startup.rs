@@ -16,17 +16,8 @@ impl Startup {
 
         world.write_resource::<ResetLevel>().0 = false;
         world.write_resource::<WinGame>().0 = false;
-        // Reset audio
-        world.write_resource::<Music>().reset();
-        {
-            use amethyst::audio::output::Output;
-            use amethyst::audio::AudioSink;
-
-            let output = world.read_resource::<Output>();
-            let mut sink = world.write_resource::<AudioSink>();
-            sink.stop();
-            *sink = AudioSink::new(&output);
-            sink.set_volume(MUSIC_VOLUME);
+        if world.read_resource::<Music>().should_audio_stop() {
+            world.write_resource::<StopAudio>().0 = true;
         }
 
         let mut level_loader = LevelLoader::default();
@@ -146,6 +137,10 @@ impl Startup {
                     }
                 },
             );
+        } else {
+            // If no checkpoint was set, then stop audio
+            println!("STOP AUDIO");
+            world.write_resource::<StopAudio>().0 = true;
         }
     }
 }
@@ -185,9 +180,10 @@ fn insert_resources(world: &mut World) {
 
     world.insert(load_settings());
     world.insert(SpriteSheetHandles::default());
-    world.insert(ResetLevel(false));
+    world.insert(ResetLevel::default());
     world.insert(CheckpointRes::default());
-    world.insert(WinGame(false));
+    world.insert(WinGame::default());
+    world.insert(StopAudio::default());
 }
 
 fn load_settings() -> Settings {

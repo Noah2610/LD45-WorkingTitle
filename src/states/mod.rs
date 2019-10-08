@@ -43,4 +43,7 @@ pub mod resources {
 
     #[derive(Default)]
     pub struct WinGame(pub bool);
+
+    #[derive(Default)]
+    pub struct StopAudio(pub bool);
 }

@@ -22,6 +22,7 @@ use amethyst::core::transform::TransformBundle;
 use amethyst::renderer::types::DefaultBackend;
 use amethyst::renderer::{RenderFlat2D, RenderToWindow, RenderingBundle};
 use amethyst::ui::{RenderUi, UiBundle};
+use amethyst::utils::fps_counter::FpsCounterBundle;
 use amethyst::{ApplicationBuilder, LogLevelFilter, LoggerConfig};
 use deathframe::custom_game_data::prelude::*;
 
@@ -81,6 +82,7 @@ fn build_game_data<'a, 'b>(
         .unwrap();
     let ui_bundle = UiBundle::<input::Bindings>::new();
     let audio_bundle = AudioBundle::default();
+    let fps_bundle = FpsCounterBundle;
 
     let custom_game_data =
         CustomGameDataBuilder::<'a, 'b, CustomData>::default()
@@ -93,6 +95,7 @@ fn build_game_data<'a, 'b>(
             .with_core_bundle(input_bundle)?
             .with_core_bundle(ui_bundle)?
             .with_core_bundle(audio_bundle)?
+            .with_core_bundle(fps_bundle)?
             .with_core_desc(
                 DjSystemDesc::new(|music: &mut Music| music.current()),
                 "dj_system",
