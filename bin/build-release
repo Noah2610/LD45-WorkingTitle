@@ -13,7 +13,7 @@
 #       "linux"   (host's target triple, this is stupid)
 #       "osx"     (host's target triple, this is stupid)
 #       "windows"
-#     DEFAULT: "linux windows"
+#     DEFAULT: "linux"
 #   $RELEASE_DIR
 #     Directory path for the generated releases to be saved to.
 #     DEFAULT: "releases/" directory next to the project root.
@@ -268,7 +268,7 @@ function build_release {
 }
 
 # Set global settings variables.
-[ -z "$RELEASE_TARGETS" ] && RELEASE_TARGETS="linux windows"
+[ -z "$RELEASE_TARGETS" ] && RELEASE_TARGETS="linux"
 RELEASE_TARGETS=($RELEASE_TARGETS)
 [ -z "$RELEASE_DIR" ]                && RELEASE_DIR="${ROOT}/releases"
 [ -d "$RELEASE_DIR" ]                || mkdir -p "$RELEASE_DIR"
