@@ -53,14 +53,8 @@ impl Music {
             .map(Clone::clone)
             .collect::<Vec<usize>>();
         self.queue = new_queue;
-        self.last_played = self.last_played.and_then(|last| {
-            Some(index.min(last))
-            // if last <= index {
-            //     Some(last)
-            // } else {
-            //     Some(index)
-            // }
-        });
+        self.last_played =
+            self.last_played.and_then(|last| Some(index.min(last)));
     }
 
     pub fn current(&mut self) -> Option<SourceHandle> {
