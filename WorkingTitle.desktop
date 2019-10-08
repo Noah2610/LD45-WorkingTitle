@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=WorkingTitle
+Comment=Play the game!
+TryExec=./l45-working-title
+Exec=./l45-working-title
+Terminal=false
+Categories=Game;
