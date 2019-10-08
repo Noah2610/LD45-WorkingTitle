@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="560" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="64">
  <tileset firstgid="1" source="megasheet.tsx"/>
- <tileset firstgid="257" source="../../../Desktop/ldnowFINAL/TSX/testtiles.tsx"/>
  <objectgroup id="7" name="BG">
   <properties>
    <property name="always_loaded" type="bool" value="true"/>
