@@ -166,7 +166,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
                             player_velocity.y = 0.0;
                         }
                         jumped = true;
-                        player_velocity.y += jump_data.wall_jump_strength.0;
+                        player_velocity.y += jump_data.wall_jump_strength.1;
                         if sides_touching.is_touching_left {
                             if player_velocity.x < 0.0 {
                                 player_velocity.x = 0.0;

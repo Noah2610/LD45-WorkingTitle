@@ -139,7 +139,6 @@ impl Startup {
             );
         } else {
             // If no checkpoint was set, then stop audio
-            println!("STOP AUDIO");
             world.write_resource::<StopAudio>().0 = true;
         }
     }
