@@ -132,6 +132,11 @@ impl<'a> System<'a> for ControlPlayerSystem {
                 }
             }
 
+            // Don't decrease y velocity if player has gravity
+            if player_gravity_opt.is_some() {
+                player_decr_velocity.dont_decrease_y();
+            }
+
             // JUMPING
             if can_jumps.contains(player_entity) {
                 if let Some(jump_data) = player.jump_data.as_ref() {
