@@ -96,8 +96,8 @@ Licensed under the terms of the [MIT license][mit].
 [itch]:             https://noahro.itch.io/working-title
 [vulkan-intel]:     https://www.archlinux.org/packages/extra/x86_64/vulkan-intel/
 [undefined-medium]: https://github.com/andirueckel/undefined-medium
-[mit]:              https://github.com/Noah2610/LD45/tree/master/LICENSE
-[DESIGN.md]:        https://github.com/Noah2610/LD45/tree/master/DESIGN.md
+[mit]:              https://github.com/Noah2610/LD45/blob/master/LICENSE
+[DESIGN.md]:        https://github.com/Noah2610/LD45/blob/master/DESIGN.md
 [Rust]:             https://www.rust-lang.org/
 [Amethyst]:         https://amethyst.rs/
 [Deathframe]:       https://github.com/Noah2610/deathframe
