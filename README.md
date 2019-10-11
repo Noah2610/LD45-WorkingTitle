@@ -10,13 +10,25 @@ The theme...
 > Start with nothing
 
 ## Screenshots
-__TODO!__
+<p align="center">
+  <img
+   width="400px"
+   src="./screenshots/mid.png"
+   alt="Screenshot of the middle section of the level" />
+  <img
+   width="400px"
+   src="./screenshots/end.png"
+   alt="Screenshot of the ending section of the level" />
+</p>
 
 ## Description
 _Experience a work in progress._  
 
 Play through the development process of a 2D platformer game,  
 and watch your environment transform as you progress...
+
+The further you get, the more features are added, including  
+menacing enemies, destructive spikes, and adaptive music.
 
 ## Controls
 | Action | Keyboard        |
@@ -40,6 +52,21 @@ For Intel graphics on Arch Linux (or arch-based distros),
 the package [vulkan-intel] did the trick for me.  
 
 Sorry about this inconvenience, I'm not sure how to circumvent this.
+
+## Change-Log
+| Version | Download | Notes |
+| :-----: | :------: | :---- |
+| __1.0.0__ | [Windows][v1.0.0-windows]<br />[Linux][v1.0.0-linux] | Initial Ludum Dare jam release. <br /> Has some major bugs, which prevent the game from being completed: <br /> When dying and respawning at a checkpoint, after getting the high-jump feature <br /> you lose your high-jump, which prevents the game from being completed <br /> (unless you beat it without dying). <br /> The order in which the music tracks are played are messed-up; <br /> you won't experience the intended flow of the music in this build. |
+| __1.0.1__ | [Windows][v1.0.1-windows]<br />[Linux][v1.0.1-linux] | Partially fixes the music playing-order bug from v1.0.0 (still has some bugs). <br /> Was released about 20 minutes after the deadline. |
+| __1.0.2__ | [Windows][v1.0.2-windows]<br />[Linux][v1.0.2-linux] | Properly fixes the music playing-order bug. <br /> Fixes the bug where player's high-jump is taken away after respawning, making the game beatable. <br /> Adds frame rate counter system, which prints FPS to the console. <br /> Adds the `WorkingTitle.desktop` file for Linux file manager GUIs. <br /> Some minor, meta stuff. <br /> Was released about 5 hours after the deadline. |
+
+
+[v1.0.0-windows]: https://drive.google.com/open?id=1KVx1OpiFyv8DIjm8x0AYwkH_wrwRz_BT
+[v1.0.0-linux]:   https://drive.google.com/open?id=1ELAu_Xnh_CRx41qACSeJjiExs5I5Pziu
+[v1.0.1-windows]: https://drive.google.com/open?id=1trgy3J-jKcHcjwICZeNqIR1PuSDjjDnb
+[v1.0.1-linux]:   https://drive.google.com/open?id=1IqgaudYNlWc_npcTbaSceo0xReDhQn6W
+[v1.0.2-windows]: https://drive.google.com/open?id=1thVKQmxqulxDKRW7RW2tMQMt2Cej52VV
+[v1.0.2-linux]:   https://drive.google.com/open?id=1aX_bZkpaJTXFlQlgM1Pz4fQY9uryUDYo
 
 ## Fonts Used
 Used [undefined-medium] for the text at the end.
