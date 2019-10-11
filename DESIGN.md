@@ -1,4 +1,6 @@
-# LD45 Design
+# LD45 Tiled Documentation
+Tiled maps must have a tile size of __16x16px__.
+
 ## Tile Properties
 - `solid` (`boolean`)  
   Marks a tile as solid (player will only collide with them once `AddCollisions` feature was triggered).
@@ -79,7 +81,7 @@ once the camera's left edge passes the background's left edge.
 ### Type: "Checkpoint"
 No properties.
 
-## Sequential Features
+# Sequential Features
 1.  4 directional movement, no gravity __DONE__
 2.  first encounter with non solid tiles __DONE__
 3.  first encounter with solid tiles __DONE__
