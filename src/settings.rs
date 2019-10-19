@@ -30,7 +30,6 @@ pub struct PlayerSettings {
     pub jump_data1:      PlayerJumpSettings,
     pub jump_data2:      PlayerJumpSettings,
     pub animation_sizes: PlayerAnimationSizes,
-    pub bounce_strength: f32,
     pub slide_velocity:  f32,
 }
 
@@ -49,6 +48,8 @@ pub struct PlayerJumpSettings {
     pub jump_gravity:       Vector,
     pub decr_jump_strength: f32,
     pub min_jump_velocity:  f32,
+    pub decr_velocity:      Vector,
+    pub bounce_strength:    f32,
 }
 
 #[derive(Clone, Deserialize)]

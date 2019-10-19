@@ -53,7 +53,9 @@ impl<'a> System<'a> for KillEnemySystem {
                         if player_collision.in_collision_with(enemy_entity.id())
                         {
                             // Kill enemy and make the player bounce off their head
-                            player_velocity.y = player.settings.bounce_strength;
+                            if let Some(jump_data) = player.jump_data.as_ref() {
+                                player_velocity.y = jump_data.bounce_strength;
+                            }
                             entities
                                 .delete(enemy_entity)
                                 .expect("Tried to kill enemy");

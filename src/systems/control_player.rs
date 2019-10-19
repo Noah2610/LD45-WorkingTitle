@@ -50,7 +50,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
             player_decr_velocity,
             player_collision,
             player_solid,
-            player_gravity_opt,
+            mut player_gravity_opt,
             player_animations_container,
         )) = (
             &entities,
@@ -132,9 +132,15 @@ impl<'a> System<'a> for ControlPlayerSystem {
                 }
             }
 
-            // Don't decrease y velocity if player has gravity
+            // Only decrease y velocity when player is moving _upwards_.
+            // if let Some(player_gravity) = player_gravity_opt.as_mut() {
             if player_gravity_opt.is_some() {
-                player_decr_velocity.dont_decrease_y();
+                // if player_velocity.y > 0.0 {
+                // player_gravity.disable();
+                player_decr_velocity.dont_decrease_y_when_neg();
+                // } else {
+                // player_gravity.enable();
+                // }
             }
 
             // JUMPING

@@ -25,6 +25,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, CanRun>,
         WriteStorage<'a, CanDash>,
         WriteStorage<'a, Confined>,
+        WriteStorage<'a, DecreaseVelocity>,
     );
 
     fn run(
@@ -49,6 +50,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut can_runs,
             mut can_dashes,
             mut confineds,
+            mut decr_velocities,
         ): Self::SystemData,
     ) {
         if let Some((
@@ -87,6 +89,7 @@ impl<'a> System<'a> for FeatureSystem {
                                     player_entity,
                                     player,
                                     &mut gravities,
+                                    &mut decr_velocities,
                                 );
                                 confineds.remove(player_entity);
                             }
@@ -98,6 +101,7 @@ impl<'a> System<'a> for FeatureSystem {
                                     player_entity,
                                     player,
                                     &mut gravities,
+                                    &mut decr_velocities,
                                 );
                                 confineds.remove(player_entity);
                             }
@@ -201,6 +205,7 @@ fn add_gravity(
     player_entity: Entity,
     player: &mut Player,
     gravities: &mut WriteStorage<Gravity>,
+    decr_velocities: &mut WriteStorage<DecreaseVelocity>,
 ) {
     gravities
         .insert(
@@ -208,5 +213,14 @@ fn add_gravity(
             Gravity::new(jump_settings.gravity.0, jump_settings.gravity.1),
         )
         .expect("Should add Gravity to Player");
+    decr_velocities
+        .insert(
+            player_entity,
+            DecreaseVelocity::new(
+                jump_settings.decr_velocity.0,
+                jump_settings.decr_velocity.1,
+            ),
+        )
+        .expect("Should add DecreaseVelocity to Player");
     player.jump_data = Some(jump_settings);
 }
