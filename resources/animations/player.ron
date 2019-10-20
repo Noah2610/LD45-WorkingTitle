@@ -32,6 +32,12 @@
             sprite_ids: [13, 14],
         ),
         (
+            // Same as "walk"
+            name: "hover",
+            default_delay_ms: Some(100),
+            sprite_ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12],
+        ),
+        (
             name: "dash",
             default_delay_ms: Some(200),
             sprite_ids: [23, 24, 25, 26],

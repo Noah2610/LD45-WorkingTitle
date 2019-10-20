@@ -139,14 +139,19 @@ impl<'a> System<'a> for ControlPlayerSystem {
                 player_decr_velocity.dont_decrease_y_when_neg();
             }
 
+            let mut player_animation_override = None;
+
             // HOVER
+            let player_hover_velocity = player.settings.hover_velocity;
             if can_hovers.contains(player_entity) {
-                if player_velocity.y <= 0.0
+                if player_velocity.y <= player_hover_velocity
                     && input_manager.is_pressed(ActionBinding::PlayerJump)
                     && !sides_touching.is_touching_bottom
                 {
-                    player_velocity.y = player.settings.hover_velocity;
+                    player_velocity.y = player_hover_velocity;
                     player_gravity_opt.as_mut().map(|g| g.disable());
+                    // Set hover animation
+                    player_animation_override = Some("hover");
                 } else {
                     player_gravity_opt.as_mut().map(|g| g.enable());
                 }
@@ -284,20 +289,24 @@ impl<'a> System<'a> for ControlPlayerSystem {
 
             if has_animated_sprites.contains(player_entity) {
                 // Set animation
-                if sides_touching.is_touching_bottom {
-                    if player_velocity.x == 0.0 {
-                        player_animations_container.set("idle");
-                    } else {
-                        player_animations_container.set("walk");
-                    }
+                if let Some(animation_override) = player_animation_override {
+                    player_animations_container.set(animation_override);
                 } else {
-                    if player.used_dash {
-                        player_animations_container.set("dash");
-                    } else {
-                        if player_velocity.y > 0.0 {
-                            player_animations_container.set("jump");
+                    if sides_touching.is_touching_bottom {
+                        if player_velocity.x == 0.0 {
+                            player_animations_container.set("idle");
                         } else {
-                            player_animations_container.set("fall");
+                            player_animations_container.set("walk");
+                        }
+                    } else {
+                        if player.used_dash {
+                            player_animations_container.set("dash");
+                        } else {
+                            if player_velocity.y > 0.0 {
+                                player_animations_container.set("jump");
+                            } else {
+                                player_animations_container.set("fall");
+                            }
                         }
                     }
                 }
