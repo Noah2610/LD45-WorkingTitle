@@ -13,6 +13,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
         ReadStorage<'a, CanJump>,
         ReadStorage<'a, CanWallJump>,
         ReadStorage<'a, CanDash>,
+        ReadStorage<'a, CanHover>,
         ReadStorage<'a, HasAnimatedSprite>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Transform>,
@@ -33,6 +34,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
             can_jumps,
             can_wall_jumps,
             can_dashes,
+            can_hovers,
             has_animated_sprites,
             mut players,
             mut transforms,
@@ -133,14 +135,21 @@ impl<'a> System<'a> for ControlPlayerSystem {
             }
 
             // Only decrease y velocity when player is moving _upwards_.
-            // if let Some(player_gravity) = player_gravity_opt.as_mut() {
             if player_gravity_opt.is_some() {
-                // if player_velocity.y > 0.0 {
-                // player_gravity.disable();
                 player_decr_velocity.dont_decrease_y_when_neg();
-                // } else {
-                // player_gravity.enable();
-                // }
+            }
+
+            // HOVER
+            if can_hovers.contains(player_entity) {
+                if player_velocity.y <= 0.0
+                    && input_manager.is_pressed(ActionBinding::PlayerJump)
+                    && !sides_touching.is_touching_bottom
+                {
+                    player_velocity.y = player.settings.hover_velocity;
+                    player_gravity_opt.as_mut().map(|g| g.disable());
+                } else {
+                    player_gravity_opt.as_mut().map(|g| g.enable());
+                }
             }
 
             // JUMPING

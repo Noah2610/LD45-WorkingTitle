@@ -26,6 +26,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, CanDash>,
         WriteStorage<'a, Confined>,
         WriteStorage<'a, DecreaseVelocity>,
+        WriteStorage<'a, CanHover>,
     );
 
     fn run(
@@ -51,6 +52,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut can_dashes,
             mut confineds,
             mut decr_velocities,
+            mut can_hovers,
         ): Self::SystemData,
     ) {
         if let Some((
@@ -104,6 +106,9 @@ impl<'a> System<'a> for FeatureSystem {
                                     &mut decr_velocities,
                                 );
                                 confineds.remove(player_entity);
+                                can_hovers
+                                    .insert(player_entity, CanHover::default())
+                                    .expect("Should add CanHover to Player");
                             }
                             FeatureType::AddJump => {
                                 can_jumps

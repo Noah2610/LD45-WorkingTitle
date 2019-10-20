@@ -31,6 +31,7 @@ pub struct PlayerSettings {
     pub jump_data2:      PlayerJumpSettings,
     pub animation_sizes: PlayerAnimationSizes,
     pub slide_velocity:  f32,
+    pub hover_velocity:  f32,
 }
 
 #[derive(Clone, Deserialize)]

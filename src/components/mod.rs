@@ -5,6 +5,7 @@ pub mod prelude {
 
     pub use super::background::Background;
     pub use super::can_dash::CanDash;
+    pub use super::can_hover::CanHover;
     pub use super::can_jump::CanJump;
     pub use super::can_run::CanRun;
     pub use super::can_wall_jump::CanWallJump;
@@ -31,6 +32,7 @@ pub mod component_prelude {
 
 mod background;
 mod can_dash;
+mod can_hover;
 mod can_jump;
 mod can_run;
 mod can_wall_jump;

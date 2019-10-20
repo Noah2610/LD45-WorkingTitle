@@ -27,7 +27,7 @@
         ),
         jump_data2: (
             jump_strength:      200.0,
-            wall_jump_strength: (300.0, 200.0),
+            wall_jump_strength: (200.0, 200.0),
             dash_strength:      (300.0, 200.0),
             gravity:            (0.0, -150.0),
             jump_gravity:       (0.0, -50.0),
@@ -43,7 +43,8 @@
             single_sprite:   (7.5, 20.0),
             animated_sprite: (7.5, 20.0),
         ),
-        slide_velocity:  -10.0,
+        slide_velocity: -10.0,
+        hover_velocity: -4.0,
     ),
 
     enemies: (
