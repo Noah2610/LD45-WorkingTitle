@@ -15,7 +15,7 @@
         decr_velocity: (2000.0, 2000.0),
         jump_data1: (
             jump_strength:      300.0,
-            wall_jump_strength: (350.0, 200.0),
+            wall_jump_strength: (370.0, 210.0),
             dash_strength:      (800.0, 200.0),
             gravity:            (0.0, -800.0),
             jump_gravity:       (0.0, -800.0),
@@ -23,11 +23,11 @@
             min_jump_velocity:  50.0,
             // Y velocity is only decreased when player is moving _upwards_.
             decr_velocity:      (2000.0, 200.0),
-            bounce_strength:    400.0,
+            bounce_strength:    415.0,
         ),
         jump_data2: (
             jump_strength:      200.0,
-            wall_jump_strength: (200.0, 200.0),
+            wall_jump_strength: (250.0, 160.0),
             dash_strength:      (300.0, 200.0),
             gravity:            (0.0, -150.0),
             jump_gravity:       (0.0, -50.0),

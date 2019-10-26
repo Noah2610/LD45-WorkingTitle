@@ -291,4 +291,19 @@
    <property name="spike" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="241">
+  <properties>
+   <property name="spike" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="242">
+  <properties>
+   <property name="spike" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="245">
+  <properties>
+   <property name="spike" type="bool" value="true"/>
+  </properties>
+ </tile>
 </tileset>
