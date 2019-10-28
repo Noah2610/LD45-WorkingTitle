@@ -3,7 +3,7 @@
         (
             name: "no_sprite",
             default_delay_ms: Some(1000),
-            sprite_ids: [0],
+            sprite_ids: [6],
         ),
         (
             name: "idle",

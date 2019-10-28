@@ -38,5 +38,11 @@
             width:  16,
             height: 16,
         ),
+        ( // 6 - red square
+            x:      32,
+            y:      16,
+            width:  16,
+            height: 16,
+        ),
     ],
 )
