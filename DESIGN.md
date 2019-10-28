@@ -6,7 +6,7 @@ Tiled maps must have a tile size of __16x16px__.
   Marks a tile as solid (player will only collide with them once `AddCollisions` feature was triggered).
 - `spike` (`boolean`)  
   Makes the tile a spike, which will reset the level when touched by the player.
-- `always_loaded` (`boolean`)  
+- `always_loaded` (`boolean`) __optional__  
   Makes this tile always be loaded. Use with caution.
 
 ## Object Properties
@@ -60,7 +60,7 @@ No properties.
   If the value is _larger than (or equal to) 0.0_, then the enemy will initially move _up_;  
   if it is _less than 0.0_, the enemy will initially move _down_.
   If omitted, this enemy will _not pace vertically_.
-- `always_loaded` (`boolean`)  
+- `always_loaded` (`boolean`) __optional__  
   Makes this tile always be loaded. Use with caution.
 
 ### Type: "Background"
@@ -74,7 +74,7 @@ once the camera's left edge passes the background's left edge.
   in the same directory.  
   See the example `.ron` file `resources/spritesheets/bg/background_example.ron`  
   for more information on how to create the `.ron` file.
-- `always_loaded` (`boolean`)  
+- `always_loaded` (`boolean`) __optional__  
   Makes this tile always be loaded. Use with caution.  
   (shouldn't be necessary for background)
 
@@ -94,7 +94,7 @@ Indicators are images, which only become visible after the associated feature wa
 - `feature_trigger` (`string`)  
   The `Feature`, which will make this indicator visible when triggered.  
   The value has the same format as the `Feature`'s `feature_type`.
-- `always_loaded` (`boolean`)  
+- `always_loaded` (`boolean`) __optional__  
   Makes this tile always be loaded. Use with caution.  
   (shouldn't be necessary for indicators)
 
