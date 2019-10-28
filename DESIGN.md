@@ -68,8 +68,8 @@ Backgrounds will automatically start following the camera,
 once the camera's left edge passes the background's left edge.
 
 - `image` (`string`)  
-  The filename of the background image to used.  
-  The background image must be placed to `resources/spritesheets/bg`.  
+  The filename of the background image to use.  
+  The background image must be placed under `resources/spritesheets/bg`.  
   Accompanying the image file, you must also create a config `.ron` file,  
   in the same directory.  
   See the example `.ron` file `resources/spritesheets/bg/background_example.ron`  
@@ -80,6 +80,23 @@ once the camera's left edge passes the background's left edge.
 
 ### Type: "Checkpoint"
 No properties.
+
+### Type: "Indicator"
+Indicators are images, which only become visible after the associated feature was triggered.
+
+- `image` (`string`)  
+  The filename of the image to use.  
+  The image file must be placed under `resources/spritesheets/indicators`.  
+  Accompanying the image file, you must also create a config `.ron` file,  
+  in the same directory.  
+  See the example `.ron` file `resources/spritesheets/bg/background_example.ron`  
+  for more information on how to create the `.ron` file.
+- `feature_trigger` (`string`)  
+  The `Feature`, which will make this indicator visible when triggered.  
+  The value has the same format as the `Feature`'s `feature_type`.
+- `always_loaded` (`boolean`)  
+  Makes this tile always be loaded. Use with caution.  
+  (shouldn't be necessary for indicators)
 
 # Sequential Features
 1.  4 directional movement, no gravity __DONE__

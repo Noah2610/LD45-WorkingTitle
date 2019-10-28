@@ -17,6 +17,7 @@ pub mod prelude {
     pub use super::goal::Goal;
     pub use super::has_animated_sprite::HasAnimatedSprite;
     pub use super::has_single_sprite::HasSingleSprite;
+    pub use super::indicator::Indicator;
     pub use super::loader::Loader;
     pub use super::player::Player;
     pub use super::spike::Spike;
@@ -44,6 +45,7 @@ mod follow;
 mod goal;
 mod has_animated_sprite;
 mod has_single_sprite;
+mod indicator;
 mod loader;
 mod player;
 mod spike;
