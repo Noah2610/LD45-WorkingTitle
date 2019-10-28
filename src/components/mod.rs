@@ -28,8 +28,8 @@ pub mod component_prelude {
     pub use deathframe::components::component_prelude::*;
 
     pub use super::prelude::*;
+    pub use crate::resources::prelude::*;
     pub use crate::settings::prelude::*;
-    pub use crate::states::resources::*;
 }
 
 mod background;

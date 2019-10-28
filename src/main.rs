@@ -10,6 +10,7 @@ mod components;
 mod helpers;
 mod input;
 mod level_loader;
+mod resources;
 mod settings;
 mod solid_tag;
 mod states;

@@ -12,10 +12,10 @@ pub mod state_prelude {
     pub use deathframe::menu::prelude::*;
 
     pub use super::prelude::*;
-    pub use super::resources::*;
     pub use crate::audio::prelude::*;
     pub use crate::components::prelude::*;
     pub use crate::helpers::*;
+    pub use crate::resources::prelude::*;
     pub use crate::settings::prelude::*;
     pub use crate::CustomData;
 }
@@ -27,23 +27,3 @@ mod win;
 pub use ingame::Ingame;
 pub use startup::Startup;
 pub use win::Win;
-
-pub mod resources {
-    #[derive(Default)]
-    pub struct ResetLevel(pub bool);
-
-    #[derive(Clone)]
-    pub struct CheckpointData {
-        pub position: super::state_prelude::Vector,
-        pub features: Vec<super::state_prelude::FeatureType>,
-    }
-
-    #[derive(Default)]
-    pub struct CheckpointRes(pub Option<CheckpointData>);
-
-    #[derive(Default)]
-    pub struct WinGame(pub bool);
-
-    #[derive(Default)]
-    pub struct StopAudio(pub bool);
-}
