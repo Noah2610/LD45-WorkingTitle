@@ -5,37 +5,37 @@
 
     player: (
         normal_speed: (
-            acceleration: (400.0, 400.0),
-            max_velocity: (Some(180.0), Some(180.0)),
+            acceleration: (500.0, 500.0),
+            max_velocity: (Some(240.0), Some(240.0)),
         ),
         run_speed: (
-            acceleration: (600.0, 600.0),
-            max_velocity: (Some(400.0), Some(400.0)),
+            acceleration: (660.0, 660.0),
+            max_velocity: (Some(460.0), Some(460.0)),
         ),
         decr_velocity: (2000.0, 2000.0),
         jump_data1: (
-            jump_strength:      300.0,
-            wall_jump_strength: (370.0, 210.0),
+            jump_strength:      360.0,
+            wall_jump_strength: (430.0, 270.0),
             dash_strength:      (800.0, 200.0),
-            gravity:            (0.0, -800.0),
-            jump_gravity:       (0.0, -800.0),
+            gravity:            (0.0, -860.0),
+            jump_gravity:       (0.0, -860.0),
             decr_jump_strength: 0.0,
             min_jump_velocity:  50.0,
             // Y velocity is only decreased when player is moving _upwards_.
             decr_velocity:      (2000.0, 200.0),
-            bounce_strength:    415.0,
+            bounce_strength:    475.0,
         ),
         jump_data2: (
-            jump_strength:      200.0,
-            wall_jump_strength: (250.0, 160.0),
-            dash_strength:      (300.0, 200.0),
-            gravity:            (0.0, -150.0),
-            jump_gravity:       (0.0, -50.0),
+            jump_strength:      260.0,
+            wall_jump_strength: (310.0, 220.0),
+            dash_strength:      (360.0, 260.0),
+            gravity:            (0.0, -210.0),
+            jump_gravity:       (0.0, -110.0),
             decr_jump_strength: 100.0,
             min_jump_velocity:  15.0,
             // Y velocity is only decreased when player is moving _upwards_.
             decr_velocity:      (600.0, 150.0),
-            bounce_strength:    200.0,
+            bounce_strength:    260.0,
         ),
         animation_sizes: (
             no_sprite:       (16.0, 16.0),
@@ -43,22 +43,22 @@
             single_sprite:   (7.5, 20.0),
             animated_sprite: (7.5, 20.0),
         ),
-        slide_velocity: -10.0,
-        hover_velocity: -4.0,
+        slide_velocity: -70.0,
+        hover_velocity: -64.0,
     ),
 
     enemies: (
         ground: (
             size:         (16.0, 16.0),
-            gravity:      Some((0.0, -600.0)),
-            acceleration: (50.0, 0.0),
-            max_velocity: (Some(10.0), Some(100.0)),
+            gravity:      Some((0.0, -660.0)),
+            acceleration: (200.0, 0.0),
+            max_velocity: (Some(70.0), Some(160.0)),
         ),
         flying: (
             size:         (38.0, 20.0),
             gravity:      None,
-            acceleration: (100.0, 100.0),
-            max_velocity: (Some(40.0), Some(20.0)),
+            acceleration: (400.0, 300.0),
+            max_velocity: (Some(100.0), Some(80.0)),
         ),
     ),
 )
