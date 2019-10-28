@@ -1,8 +1,15 @@
 use super::component_prelude::*;
 
-#[derive(Default)]
-pub struct Indicator;
+pub struct Indicator {
+    pub feature_trigger: FeatureType,
+}
+
+impl Indicator {
+    pub fn new(feature_trigger: FeatureType) -> Self {
+        Self { feature_trigger }
+    }
+}
 
 impl Component for Indicator {
-    type Storage = NullStorage<Self>;
+    type Storage = VecStorage<Self>;
 }

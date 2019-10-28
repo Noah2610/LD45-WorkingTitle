@@ -4,6 +4,7 @@ mod build_checkpoints;
 mod build_enemies;
 mod build_features;
 mod build_goal;
+mod build_indicators;
 mod build_player;
 mod build_tiles;
 mod helpers;
@@ -19,16 +20,18 @@ use crate::settings::prelude::*;
 use crate::solid_tag::SolidTag;
 use helpers::*;
 
+const PROPERTY_Z_KEY: &str = "z";
+const BACKGROUND_Z: f32 = -1.0;
+const CAMERA_Z: f32 = 10.0;
+const ENEMY_Z: f32 = 1.0;
+const PLAYER_Z: f32 = 2.0;
+const TILE_Z: f32 = 0.0;
+const INDICATOR_Z: f32 = 0.5;
 const LEVELS_DIR: &str = "levels";
 const TILE_SIZE: (f32, f32) = (16.0, 16.0);
-const TILE_Z: f32 = 0.0;
-const PROPERTY_Z_KEY: &str = "z";
-const CAMERA_Z: f32 = 10.0;
-const PLAYER_Z: f32 = 2.0;
 const PLAYER_SPRITESHEET_FILENAME: &str = "player.png";
-const ENEMY_Z: f32 = 1.0;
-const BACKGROUND_Z: f32 = -1.0;
 const BACKGROUNDS_DIR: &str = "spritesheets/bg";
+const INDICATORS_DIR: &str = "spritesheets/indicators";
 
 struct EntityData {
     pub pos:        Vector,
@@ -53,6 +56,7 @@ pub struct LevelLoader {
     backgrounds_data: Vec<EntityData>,
     checkpoints_data: Vec<EntityData>,
     goal_data:        Option<EntityData>,
+    indicators_data:  Vec<EntityData>,
 }
 
 impl LevelLoader {
@@ -84,6 +88,7 @@ impl LevelLoader {
         self.build_tiles(world);
         self.build_enemies(world);
         self.build_features(world);
+        self.build_indicators(world);
         self.build_backgrounds(world);
         self.build_checkpoints(world);
         self.build_goal(world);
@@ -173,6 +178,12 @@ impl LevelLoader {
                             properties: properties.clone(),
                         })
                     }
+                    "Indicator" => self.indicators_data.push(EntityData {
+                        pos,
+                        size,
+                        sprite: None,
+                        properties: properties.clone(),
+                    }),
                     _ => {
                         eprintln!("WARNING: Unknown object type: {}", obj_type);
                     }
