@@ -11,6 +11,7 @@ impl<'a> System<'a> for KillEnemySystem {
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Loadable>,
         ReadStorage<'a, Loaded>,
+        ReadStorage<'a, Gravity>,
         WriteStorage<'a, Velocity>,
         WriteStorage<'a, Spike>,
     );
@@ -24,12 +25,16 @@ impl<'a> System<'a> for KillEnemySystem {
             collisions,
             loadables,
             loadeds,
+            gravities,
             mut velocities,
             mut spikes,
         ): Self::SystemData,
     ) {
-        if let Some((player, player_collision, player_velocity)) =
-            (&players, &collisions, &mut velocities).join().next()
+        // NOTE: The player can only kill enemies if the player already has gravity.
+        if let Some((player, player_collision, player_velocity, _)) =
+            (&players, &collisions, &mut velocities, &gravities)
+                .join()
+                .next()
         {
             if player_velocity.y < 0.0 {
                 for (
