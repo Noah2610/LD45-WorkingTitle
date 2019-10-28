@@ -43,7 +43,8 @@ impl LevelLoader {
                 .with(Size::from(*size))
                 .with(Indicator::new(feature_trigger))
                 .with(sprite_render)
-                .with(ScaleOnce::default());
+                .with(ScaleOnce::default())
+                .with(Hidden);
 
             if !is_always_loaded(&properties) {
                 entity = entity.with(Loadable::default());

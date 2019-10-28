@@ -11,6 +11,7 @@ impl<'a> System<'a> for FeatureSystem {
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Enemy>,
         ReadStorage<'a, ForceApplyFeature>,
+        ReadStorage<'a, Indicator>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Feature>,
         WriteStorage<'a, Size>,
@@ -27,6 +28,7 @@ impl<'a> System<'a> for FeatureSystem {
         WriteStorage<'a, Confined>,
         WriteStorage<'a, DecreaseVelocity>,
         WriteStorage<'a, CanHover>,
+        WriteStorage<'a, Hidden>,
     );
 
     fn run(
@@ -37,6 +39,7 @@ impl<'a> System<'a> for FeatureSystem {
             collisions,
             enemies,
             force_apply_features,
+            indicators,
             mut players,
             mut features,
             mut sizes,
@@ -53,6 +56,7 @@ impl<'a> System<'a> for FeatureSystem {
             mut confineds,
             mut decr_velocities,
             mut can_hovers,
+            mut hiddens,
         ): Self::SystemData,
     ) {
         if let Some((
@@ -198,6 +202,22 @@ impl<'a> System<'a> for FeatureSystem {
                             }
                         }
                         feature.applied = true;
+
+                        // Show indicator(s)
+                        for indicator_entity in (&entities, &indicators)
+                            .join()
+                            .filter_map(|(indicator_entity, indicator)| {
+                                if indicator.feature_trigger
+                                    == feature.feature_type
+                                {
+                                    Some(indicator_entity.clone())
+                                } else {
+                                    None
+                                }
+                            })
+                        {
+                            hiddens.remove(indicator_entity);
+                        }
                     }
                 }
             }

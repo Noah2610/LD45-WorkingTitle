@@ -1,4 +1,5 @@
 pub mod prelude {
+    pub use amethyst::core::Hidden;
     pub use amethyst::renderer::{Camera as AmethystCamera, SpriteRender};
     pub use deathframe::components::prelude::*;
     pub use deathframe::geo::prelude::*;
