@@ -11,3 +11,4 @@ _ignore
 /resources/levels/*.ron
 *.exe
 *.zip
+savefile.json

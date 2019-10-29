@@ -2,6 +2,7 @@ use amethyst::audio::output::Output;
 use amethyst::audio::AudioSink;
 
 use super::state_prelude::*;
+use crate::savefile_data::SavefileData;
 
 #[derive(Default)]
 pub struct Ingame;
@@ -35,6 +36,35 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
             sink.set_volume(MUSIC_VOLUME);
 
             stop_audio.0 = false;
+        }
+
+        // Should save to savefile
+        if data.world.read_resource::<ShouldSave>().0 {
+            if let Some(checkpoint_data) =
+                data.world.read_resource::<CheckpointRes>().0.clone()
+            {
+                let savefile_settings =
+                    &data.world.read_resource::<Settings>().savefile;
+                let savefile_path = file(&savefile_settings.filename);
+                let savefile_data = SavefileData {
+                    checkpoint: checkpoint_data.clone(),
+                };
+
+                match serde_json::to_string(&savefile_data) {
+                    Ok(serialized) => {
+                        dbg!("Writing to savefile");
+                        dbg!(&serialized);
+                        write_file(savefile_path, serialized).unwrap();
+                    }
+                    Err(err) => eprintln!(
+                        "Couldn't save savefile data to file, an error \
+                         occured while serializing save data:\n{:#?}",
+                        err
+                    ),
+                }
+            }
+
+            data.world.write_resource::<ShouldSave>().0 = false;
         }
 
         Trans::None

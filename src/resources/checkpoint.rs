@@ -1,7 +1,7 @@
 use crate::components::prelude::FeatureType;
 use deathframe::geo::Vector;
 
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct CheckpointData {
     pub position: Vector,
     pub features: Vec<FeatureType>,

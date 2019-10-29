@@ -2,7 +2,7 @@ use std::cmp;
 
 use super::component_prelude::*;
 
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Debug, Deserialize, Serialize)]
 pub enum FeatureType {
     AddCollisions,
     AddGravity1,

@@ -4,6 +4,7 @@ extern crate json;
 extern crate ron;
 #[macro_use]
 extern crate serde;
+extern crate serde_json;
 
 mod audio;
 mod components;
@@ -11,6 +12,7 @@ mod helpers;
 mod input;
 mod level_manager;
 mod resources;
+mod savefile_data;
 mod settings;
 mod solid_tag;
 mod states;

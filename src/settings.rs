@@ -7,14 +7,16 @@ pub mod prelude {
     pub use super::PlayerAnimationSizes;
     pub use super::PlayerJumpSettings;
     pub use super::PlayerSettings;
+    pub use super::SavefileSettings;
     pub use super::Settings;
 }
 
 #[derive(Clone, Deserialize)]
 pub struct Settings {
-    pub camera:  CameraSettings,
-    pub player:  PlayerSettings,
-    pub enemies: EnemiesSettings,
+    pub camera:   CameraSettings,
+    pub player:   PlayerSettings,
+    pub enemies:  EnemiesSettings,
+    pub savefile: SavefileSettings,
 }
 
 #[derive(Clone, Deserialize)]
@@ -72,4 +74,9 @@ pub struct EnemySettings {
     pub gravity:      Option<Vector>,
     pub acceleration: Vector,
     pub max_velocity: (Option<f32>, Option<f32>),
+}
+
+#[derive(Clone, Deserialize)]
+pub struct SavefileSettings {
+    pub filename: String,
 }

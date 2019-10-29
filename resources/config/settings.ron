@@ -61,4 +61,8 @@
             max_velocity: (Some(100.0), Some(80.0)),
         ),
     ),
+
+    savefile: (
+        filename: "savefile.json",
+    ),
 )

@@ -41,6 +41,7 @@ fn insert_resources(world: &mut World) {
     world.insert(CheckpointRes::default());
     world.insert(WinGame::default());
     world.insert(StopAudio::default());
+    world.insert(ShouldSave::default());
 }
 
 fn load_settings() -> Settings {

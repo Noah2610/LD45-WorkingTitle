@@ -7,6 +7,7 @@ impl<'a> System<'a> for CheckpointSystem {
     type SystemData = (
         Entities<'a>,
         Write<'a, CheckpointRes>,
+        Write<'a, ShouldSave>,
         ReadStorage<'a, Transform>,
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Player>,
@@ -19,6 +20,7 @@ impl<'a> System<'a> for CheckpointSystem {
         (
             entities,
             mut checkpoint_res,
+            mut should_save,
             transforms,
             collisions,
             players,
@@ -53,6 +55,7 @@ impl<'a> System<'a> for CheckpointSystem {
                         };
                         checkpoint_res.0 = Some(checkpoint_data);
                         checkpoint.applied = true;
+                        should_save.0 = true;
                     }
                 }
             }
