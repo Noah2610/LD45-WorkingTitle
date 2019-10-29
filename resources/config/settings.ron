@@ -38,7 +38,7 @@
             bounce_strength:    260.0,
         ),
         animation_sizes: (
-            no_sprite:       (16.0, 16.0),
+            no_sprite:       (20.0, 20.0),
             // 0.375
             single_sprite:   (7.5, 20.0),
             animated_sprite: (7.5, 20.0),
