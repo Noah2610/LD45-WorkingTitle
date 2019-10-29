@@ -11,7 +11,10 @@ use amethyst::ecs::{
 };
 
 use crate::components::prelude::*;
+use crate::helpers::*;
 use crate::resources::prelude::*;
+use crate::savefile_data::SavefileData;
+use crate::settings::prelude::*;
 use level_loader::{BuildType, LevelLoader, ToBuild};
 
 const LEVEL_NAME: &str = "level.json";
@@ -30,6 +33,37 @@ impl LevelManager {
         self.level_loader = LevelLoader::default();
         self.level_loader.load(LEVEL_NAME);
         self.level_loader.build(world);
+
+        // Load from savefile
+        {
+            use std::fs::File;
+            use std::path::PathBuf;
+
+            let savefile_settings =
+                world.read_resource::<Settings>().savefile.clone();
+            let savefile_path =
+                PathBuf::from(file(&savefile_settings.filename));
+            if savefile_path.is_file() {
+                let savefile_file = File::open(savefile_path)
+                    .expect("Savefile should exist at this point");
+                let savefile_data: Option<SavefileData> =
+                    match serde_json::de::from_reader(savefile_file) {
+                        Ok(data) => Some(data),
+                        Err(e) => {
+                            eprintln!(
+                                "Couldn't deserialize savefile data: {:#?}",
+                                e
+                            );
+                            None
+                        }
+                    };
+                if let Some(savefile_data) = savefile_data {
+                    world.write_resource::<CheckpointRes>().0 =
+                        Some(savefile_data.checkpoint.clone());
+                    self.apply_checkpoint(world);
+                }
+            }
+        }
     }
 
     pub fn reset(&mut self, world: &mut World) {
