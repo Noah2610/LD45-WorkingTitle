@@ -23,11 +23,11 @@ const SONG_FILES: &[&str] = &[
     "audio/song11.ogg",
 ];
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Music {
-    songs:       Vec<SourceHandle>,
-    queue:       Vec<usize>,
-    last_played: Option<usize>,
+    songs:           Vec<SourceHandle>,
+    pub queue:       Vec<usize>,
+    pub last_played: Option<usize>,
 }
 
 impl Music {
