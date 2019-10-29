@@ -86,8 +86,6 @@ impl LevelManager {
 
                     // Set features to force apply
                     let mut song_feature: Option<(Entity, FeatureType)> = None;
-                    let mut gravity_feature: Option<(Entity, FeatureType)> =
-                        None;
 
                     for (feature_entity, feature) in
                         (&entities, &features).join()
@@ -96,13 +94,13 @@ impl LevelManager {
                             match feature.feature_type {
                                 FeatureType::SetSong(n) => {
                                     if let Some((
-                                        feature_entity,
+                                        _,
                                         FeatureType::SetSong(last_n),
                                     )) = song_feature.as_ref()
                                     {
                                         if n > *last_n {
                                             song_feature = Some((
-                                                feature_entity.clone(),
+                                                feature_entity,
                                                 feature.feature_type.clone(),
                                             ));
                                         }
@@ -112,20 +110,6 @@ impl LevelManager {
                                             feature.feature_type.clone(),
                                         ));
                                     }
-                                }
-                                FeatureType::AddGravity1 => {
-                                    if gravity_feature.is_none() {
-                                        gravity_feature = Some((
-                                            feature_entity,
-                                            FeatureType::AddGravity1,
-                                        ));
-                                    }
-                                }
-                                FeatureType::AddGravity2 => {
-                                    gravity_feature = Some((
-                                        feature_entity,
-                                        FeatureType::AddGravity2,
-                                    ));
                                 }
                                 _ => {
                                     force_apply_features
@@ -142,17 +126,6 @@ impl LevelManager {
                         }
                     }
 
-                    if let Some((feature_entity, _)) = gravity_feature {
-                        force_apply_features
-                            .insert(
-                                feature_entity,
-                                ForceApplyFeature::default(),
-                            )
-                            .expect(
-                                "Should add ForceApplyFeature to Feature \
-                                 (gravity)",
-                            );
-                    }
                     if let Some((feature_entity, _)) = song_feature {
                         force_apply_features
                             .insert(

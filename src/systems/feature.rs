@@ -10,8 +10,8 @@ impl<'a> System<'a> for FeatureSystem {
         Write<'a, Music>,
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Enemy>,
-        ReadStorage<'a, ForceApplyFeature>,
         ReadStorage<'a, Indicator>,
+        WriteStorage<'a, ForceApplyFeature>,
         WriteStorage<'a, Player>,
         WriteStorage<'a, Feature>,
         WriteStorage<'a, Size>,
@@ -38,8 +38,8 @@ impl<'a> System<'a> for FeatureSystem {
             mut music,
             collisions,
             enemies,
-            force_apply_features,
             indicators,
+            mut force_apply_features,
             mut players,
             mut features,
             mut sizes,
@@ -77,134 +77,134 @@ impl<'a> System<'a> for FeatureSystem {
             .join()
             .next()
         {
-            for (feature_entity, feature) in (&entities, &mut features).join() {
-                if force_apply_features.contains(feature_entity)
-                    || (!feature.applied
-                        && player_collision
-                            .in_collision_with(feature_entity.id()))
-                {
-                    match &feature.feature_type {
-                        FeatureType::AddCollisions => {
-                            player_solid.tag = SolidTag::PlayerWithCollision;
-                        }
-                        FeatureType::AddGravity1 => {
-                            let jump_settings =
-                                player.settings.jump_data1.clone();
-                            add_gravity(
-                                jump_settings,
-                                player_entity,
-                                player,
-                                &mut gravities,
-                                &mut decr_velocities,
-                            );
-                            confineds.remove(player_entity);
-                        }
-                        FeatureType::AddGravity2 => {
-                            let jump_settings =
-                                player.settings.jump_data2.clone();
-                            add_gravity(
-                                jump_settings,
-                                player_entity,
-                                player,
-                                &mut gravities,
-                                &mut decr_velocities,
-                            );
-                            confineds.remove(player_entity);
-                            can_hovers
-                                .insert(player_entity, CanHover::default())
-                                .expect("Should add CanHover to Player");
-                        }
-                        FeatureType::AddJump => {
-                            can_jumps
-                                .insert(player_entity, CanJump::default())
-                                .expect("Should add CanJump to Player");
-                            can_wall_jumps
-                                .insert(player_entity, CanWallJump::default())
-                                .expect("Should add CanWallJump to Player");
-                        }
-                        FeatureType::AddSingleSprite => {
-                            has_single_sprites
-                                .insert(
-                                    player_entity,
-                                    HasSingleSprite::default(),
-                                )
-                                .expect("Should add HasSingleSprite to Player");
-                            player_animations.set("single_sprite");
-                            let animation_size =
-                                player.settings.animation_sizes.single_sprite;
-                            player_size.w = animation_size.0;
-                            player_size.h = animation_size.1;
-                            scale_onces
-                                .insert(player_entity, ScaleOnce::default())
-                                .expect("Should add ScaleOnce to Player");
-                        }
-                        FeatureType::AddAnimatedSprite => {
-                            has_single_sprites.remove(player_entity);
+            let mut features_to_apply_join = (&entities, &mut features)
+                .join()
+                .filter(|(feature_entity, feature)| {
+                    force_apply_features.contains(*feature_entity)
+                        || (!feature.applied
+                            && player_collision
+                                .in_collision_with(feature_entity.id()))
+                })
+                .collect::<Vec<_>>();
+            features_to_apply_join.sort_by(|(_, feature_a), (_, feature_b)| {
+                feature_a
+                    .feature_type
+                    .partial_cmp(&feature_b.feature_type)
+                    .unwrap()
+            });
+
+            for (feature_entity, feature) in features_to_apply_join {
+                match &feature.feature_type {
+                    FeatureType::AddCollisions => {
+                        player_solid.tag = SolidTag::PlayerWithCollision;
+                    }
+                    FeatureType::AddGravity1 => {
+                        let jump_settings = player.settings.jump_data1.clone();
+                        add_gravity(
+                            jump_settings,
+                            player_entity,
+                            player,
+                            &mut gravities,
+                            &mut decr_velocities,
+                        );
+                        confineds.remove(player_entity);
+                    }
+                    FeatureType::AddGravity2 => {
+                        let jump_settings = player.settings.jump_data2.clone();
+                        add_gravity(
+                            jump_settings,
+                            player_entity,
+                            player,
+                            &mut gravities,
+                            &mut decr_velocities,
+                        );
+                        confineds.remove(player_entity);
+                        can_hovers
+                            .insert(player_entity, CanHover::default())
+                            .expect("Should add CanHover to Player");
+                    }
+                    FeatureType::AddJump => {
+                        can_jumps
+                            .insert(player_entity, CanJump::default())
+                            .expect("Should add CanJump to Player");
+                        can_wall_jumps
+                            .insert(player_entity, CanWallJump::default())
+                            .expect("Should add CanWallJump to Player");
+                    }
+                    FeatureType::AddSingleSprite => {
+                        has_single_sprites
+                            .insert(player_entity, HasSingleSprite::default())
+                            .expect("Should add HasSingleSprite to Player");
+                        player_animations.set("single_sprite");
+                        let animation_size =
+                            player.settings.animation_sizes.single_sprite;
+                        player_size.w = animation_size.0;
+                        player_size.h = animation_size.1;
+                        scale_onces
+                            .insert(player_entity, ScaleOnce::default())
+                            .expect("Should add ScaleOnce to Player");
+                    }
+                    FeatureType::AddAnimatedSprite => {
+                        has_single_sprites.remove(player_entity);
+                        has_animated_sprites
+                            .insert(player_entity, HasAnimatedSprite::default())
+                            .expect("Should add HasAnimatedSprite to Player");
+                        player_animations.set("idle");
+                        let animation_size =
+                            player.settings.animation_sizes.animated_sprite;
+                        player_size.w = animation_size.0;
+                        player_size.h = animation_size.1;
+                        scale_onces
+                            .insert(player_entity, ScaleOnce::default())
+                            .expect("Should add ScaleOnce to Player");
+                    }
+                    FeatureType::AddEnemySprite => {
+                        for (enemy_entity, _) in (&entities, &enemies).join() {
                             has_animated_sprites
                                 .insert(
-                                    player_entity,
+                                    enemy_entity,
                                     HasAnimatedSprite::default(),
                                 )
                                 .expect(
-                                    "Should add HasAnimatedSprite to Player",
+                                    "Should add HasAnimatedSprite to Enemy",
                                 );
-                            player_animations.set("idle");
-                            let animation_size =
-                                player.settings.animation_sizes.animated_sprite;
-                            player_size.w = animation_size.0;
-                            player_size.h = animation_size.1;
-                            scale_onces
-                                .insert(player_entity, ScaleOnce::default())
-                                .expect("Should add ScaleOnce to Player");
-                        }
-                        FeatureType::AddEnemySprite => {
-                            for (enemy_entity, _) in
-                                (&entities, &enemies).join()
-                            {
-                                has_animated_sprites
-                                    .insert(
-                                        enemy_entity,
-                                        HasAnimatedSprite::default(),
-                                    )
-                                    .expect(
-                                        "Should add HasAnimatedSprite to Enemy",
-                                    );
-                            }
-                        }
-                        FeatureType::AddRun => {
-                            can_runs
-                                .insert(player_entity, CanRun::default())
-                                .expect("Should add CanRun to Player");
-                        }
-                        FeatureType::AddDash => {
-                            can_dashes
-                                .insert(player_entity, CanDash::default())
-                                .expect("Should add CanDash to Player");
-                        }
-                        FeatureType::SetSong(n) => {
-                            if force_apply_features.contains(feature_entity) {
-                                music.force_set(*n);
-                            } else {
-                                music.set(*n);
-                            }
                         }
                     }
-                    feature.applied = true;
+                    FeatureType::AddRun => {
+                        can_runs
+                            .insert(player_entity, CanRun::default())
+                            .expect("Should add CanRun to Player");
+                    }
+                    FeatureType::AddDash => {
+                        can_dashes
+                            .insert(player_entity, CanDash::default())
+                            .expect("Should add CanDash to Player");
+                    }
+                    FeatureType::SetSong(n) => {
+                        if force_apply_features.contains(feature_entity) {
+                            music.force_set(*n);
+                        } else {
+                            music.set(*n);
+                        }
+                    }
+                }
+                feature.applied = true;
+                if force_apply_features.contains(feature_entity) {
+                    force_apply_features.remove(feature_entity);
+                }
 
-                    // Show indicator(s)
-                    for indicator_entity in (&entities, &indicators)
-                        .join()
-                        .filter_map(|(indicator_entity, indicator)| {
-                            if indicator.feature_trigger == feature.feature_type
-                            {
-                                Some(indicator_entity.clone())
-                            } else {
-                                None
-                            }
-                        })
-                    {
-                        hiddens.remove(indicator_entity);
-                    }
+                // Show indicator(s)
+                for indicator_entity in (&entities, &indicators)
+                    .join()
+                    .filter_map(|(indicator_entity, indicator)| {
+                        if indicator.feature_trigger == feature.feature_type {
+                            Some(indicator_entity.clone())
+                        } else {
+                            None
+                        }
+                    })
+                {
+                    hiddens.remove(indicator_entity);
                 }
             }
         }

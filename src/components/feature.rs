@@ -1,6 +1,8 @@
+use std::cmp;
+
 use super::component_prelude::*;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Debug)]
 pub enum FeatureType {
     AddCollisions,
     AddGravity1,
@@ -38,6 +40,30 @@ impl From<&str> for FeatureType {
     }
 }
 
+impl cmp::PartialOrd for FeatureType {
+    fn partial_cmp(&self, other: &Self) -> Option<cmp::Ordering> {
+        match (self, other) {
+            (FeatureType::AddGravity1, FeatureType::AddGravity2) => {
+                Some(cmp::Ordering::Less)
+            }
+            (FeatureType::AddGravity2, FeatureType::AddGravity1) => {
+                Some(cmp::Ordering::Greater)
+            }
+            (FeatureType::SetSong(n1), FeatureType::SetSong(n2)) => {
+                n1.partial_cmp(n2)
+            }
+            (FeatureType::AddSingleSprite, FeatureType::AddAnimatedSprite) => {
+                Some(cmp::Ordering::Less)
+            }
+            (FeatureType::AddAnimatedSprite, FeatureType::AddSingleSprite) => {
+                Some(cmp::Ordering::Greater)
+            }
+            _ => Some(cmp::Ordering::Equal),
+        }
+    }
+}
+
+#[derive(Debug)]
 pub struct Feature {
     pub applied:      bool,
     pub feature_type: FeatureType,
