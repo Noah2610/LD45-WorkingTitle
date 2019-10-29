@@ -6,28 +6,33 @@ unset _dir
 
 shopt -s expand_aliases
 
-# https://stackoverflow.com/a/17841619/10927893
-function join_by { local IFS="$1"; shift; echo "$*"; }
-
 function cargo_cmd {
-  local cargo_subcmd="$1"
-  [ -z "$cargo_subcmd" ] && err "No cargo subcommand passed to function \`cargo_cmd\`"
+      local cargo_subcmd="$1"
+      [ -z "$cargo_subcmd" ] && err "No cargo subcommand passed to function \`cargo_cmd\`"
 
-  check "cargo"
-  local args=("$@")
-  unset 'args[0]'
-  local features_str
-  local features=("$RUN_FEATURES")
-  features_str="$( join_by ',' "${features[@]}" )"
-  local cmd="cargo +$RUST_VERSION $cargo_subcmd --features $features_str ${args[*]}"
-  local run_msg
-  run_msg="$( colored "$COLOR_MSG_STRONG" "RUNNING:" ) $( colored "$COLOR_CODE" "$cmd" )"
-  echo -e "$run_msg"
-  if should_run_in_terminal; then
-    run_terminal "$cmd"
-  else
-    $cmd
-  fi
+    check "cargo"
+    local args=("$@")
+    unset 'args[0]'
+    local features=("$RUN_FEATURES")
+    local features_str
+    features_str="${features[*]}"
+    [ -n "$features_str" ] && features_str="--features $features_str"
+    local cmd=(
+        "cargo"
+        "+$RUST_VERSION"
+        "--color always"
+        "$cargo_subcmd"
+        "$features_str"
+        "${args[@]}"
+    )
+    local run_msg
+    run_msg="$( colored "$COLOR_MSG_STRONG" "RUNNING:" ) $( colored "$COLOR_CODE" "${cmd[*]}" )"
+    echo -e "$run_msg"
+    if should_run_in_terminal; then
+        run_terminal "${cmd[*]}"
+    else
+        eval "${cmd[*]}"
+    fi
 }
 
 RUST_VERSION="nightly-2019-08-13"

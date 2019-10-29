@@ -17,7 +17,9 @@ source "${_dir}/share.sh"
 unset _dir
 
 function run {
-  cargo_cmd "run" "$*"
+    check "tee"
+
+    cargo_cmd "run" "$* 2> >(tee -a $LOGFILE >&1)"
 }
 
 [ -z "$RUN_FEATURES" ] && export RUN_FEATURES="nightly"
