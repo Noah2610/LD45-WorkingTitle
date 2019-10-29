@@ -52,8 +52,6 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
 
                 match serde_json::to_string(&savefile_data) {
                     Ok(serialized) => {
-                        dbg!("Writing to savefile");
-                        dbg!(&serialized);
                         write_file(savefile_path, serialized).unwrap();
                     }
                     Err(err) => eprintln!(
