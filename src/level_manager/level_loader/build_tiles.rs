@@ -2,6 +2,13 @@ use super::*;
 
 impl LevelLoader {
     pub(super) fn build_tiles(&self, world: &mut World) {
+        // Delete existing entities
+        world.exec(|(entities, tiles): (Entities, ReadStorage<Tile>)| {
+            for (entity, _) in (&entities, &tiles).join() {
+                entities.delete(entity).unwrap();
+            }
+        });
+
         for EntityData {
             pos,
             size,
@@ -37,6 +44,7 @@ impl LevelLoader {
 
             let mut entity = world
                 .create_entity()
+                .with(Tile::default())
                 .with(transform)
                 .with(Size::from(*size))
                 .with(ScaleOnce::default())

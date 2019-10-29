@@ -9,7 +9,7 @@ mod build_player;
 mod build_tiles;
 mod helpers;
 
-use amethyst::ecs::{World, WorldExt};
+use amethyst::ecs::{Entities, Join, ReadStorage, World, WorldExt};
 use amethyst::prelude::Builder;
 use deathframe::handles::SpriteSheetHandles;
 use json::JsonValue;
@@ -33,6 +33,76 @@ const PLAYER_SPRITESHEET_FILENAME: &str = "player.png";
 const BACKGROUNDS_DIR: &str = "spritesheets/bg";
 const INDICATORS_DIR: &str = "spritesheets/indicators";
 
+#[derive(PartialEq)]
+pub enum BuildType {
+    Backgrounds,
+    Camera,
+    Checkpoints,
+    Enemies,
+    Features,
+    Goal,
+    Indicators,
+    Player,
+    Tiles,
+}
+
+pub struct ToBuild {
+    to_build: Vec<BuildType>,
+}
+
+impl ToBuild {
+    pub fn none() -> Self {
+        Self {
+            to_build: Vec::new(),
+        }
+    }
+
+    pub fn all() -> Self {
+        Self {
+            to_build: vec![
+                BuildType::Backgrounds,
+                BuildType::Camera,
+                BuildType::Checkpoints,
+                BuildType::Enemies,
+                BuildType::Features,
+                BuildType::Goal,
+                BuildType::Indicators,
+                BuildType::Player,
+                BuildType::Tiles,
+            ],
+        }
+    }
+
+    pub fn with(mut self, build_type: BuildType) -> Self {
+        if !self.to_build.contains(&build_type) {
+            self.to_build.push(build_type);
+        }
+        self
+    }
+
+    pub fn without(mut self, build_type: BuildType) -> Self {
+        if let Some((i, _)) = self
+            .to_build
+            .iter()
+            .enumerate()
+            .find(|(_, b)| *b == &build_type)
+        {
+            self.to_build.remove(i);
+        }
+        self
+    }
+
+    pub fn should_build(&self, build_type: BuildType) -> bool {
+        self.to_build.contains(&build_type)
+    }
+}
+
+impl Default for ToBuild {
+    fn default() -> Self {
+        Self::all()
+    }
+}
+
 struct EntityData {
     pub pos:        Vector,
     pub size:       Vector,
@@ -47,6 +117,7 @@ struct SpriteData {
 
 #[derive(Default)]
 pub struct LevelLoader {
+    pub to_build:     ToBuild,
     finished_loading: bool,
     level_size:       Option<Vector>,
     player_data:      Option<EntityData>,
@@ -83,15 +154,35 @@ impl LevelLoader {
     }
 
     pub fn build(&mut self, world: &mut World) {
-        self.build_player(world);
-        self.build_camera(world);
-        self.build_tiles(world);
-        self.build_enemies(world);
-        self.build_features(world);
-        self.build_indicators(world);
-        self.build_backgrounds(world);
-        self.build_checkpoints(world);
-        self.build_goal(world);
+        self.finished_loading = false;
+
+        if self.to_build.should_build(BuildType::Player) {
+            self.build_player(world);
+        }
+        if self.to_build.should_build(BuildType::Camera) {
+            self.build_camera(world);
+        }
+        if self.to_build.should_build(BuildType::Tiles) {
+            self.build_tiles(world);
+        }
+        if self.to_build.should_build(BuildType::Enemies) {
+            self.build_enemies(world);
+        }
+        if self.to_build.should_build(BuildType::Features) {
+            self.build_features(world);
+        }
+        if self.to_build.should_build(BuildType::Indicators) {
+            self.build_indicators(world);
+        }
+        if self.to_build.should_build(BuildType::Backgrounds) {
+            self.build_backgrounds(world);
+        }
+        if self.to_build.should_build(BuildType::Checkpoints) {
+            self.build_checkpoints(world);
+        }
+        if self.to_build.should_build(BuildType::Goal) {
+            self.build_goal(world);
+        }
 
         self.finished_loading = true;
     }

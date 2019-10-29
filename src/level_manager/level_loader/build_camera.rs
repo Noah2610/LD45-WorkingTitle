@@ -2,6 +2,15 @@ use super::*;
 
 impl LevelLoader {
     pub(super) fn build_camera(&self, world: &mut World) {
+        // Delete existing entities
+        world.exec(
+            |(entities, cameras): (Entities, ReadStorage<AmethystCamera>)| {
+                for (entity, _) in (&entities, &cameras).join() {
+                    entities.delete(entity).unwrap();
+                }
+            },
+        );
+
         if let Some(player_data) = self.player_data.as_ref() {
             let player_pos = player_data.pos;
 

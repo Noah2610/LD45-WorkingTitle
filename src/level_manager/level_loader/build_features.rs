@@ -2,6 +2,13 @@ use super::*;
 
 impl LevelLoader {
     pub(super) fn build_features(&self, world: &mut World) {
+        // Delete existing entities
+        world.exec(|(entities, features): (Entities, ReadStorage<Feature>)| {
+            for (entity, _) in (&entities, &features).join() {
+                entities.delete(entity).unwrap();
+            }
+        });
+
         for EntityData {
             pos,
             size,

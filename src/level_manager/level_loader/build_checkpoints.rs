@@ -2,6 +2,15 @@ use super::*;
 
 impl LevelLoader {
     pub(super) fn build_checkpoints(&self, world: &mut World) {
+        // Delete existing entities
+        world.exec(
+            |(entities, checkpoints): (Entities, ReadStorage<Checkpoint>)| {
+                for (entity, _) in (&entities, &checkpoints).join() {
+                    entities.delete(entity).unwrap();
+                }
+            },
+        );
+
         for EntityData {
             pos,
             size,

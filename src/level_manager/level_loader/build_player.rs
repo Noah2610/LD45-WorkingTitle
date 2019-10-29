@@ -2,6 +2,13 @@ use super::*;
 
 impl LevelLoader {
     pub(super) fn build_player(&self, world: &mut World) {
+        // Delete existing entities
+        world.exec(|(entities, players): (Entities, ReadStorage<Player>)| {
+            for (entity, _) in (&entities, &players).join() {
+                entities.delete(entity).unwrap();
+            }
+        });
+
         if let Some(EntityData {
             pos,
             size: _,

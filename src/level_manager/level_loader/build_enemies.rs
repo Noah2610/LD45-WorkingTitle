@@ -2,6 +2,13 @@ use super::*;
 
 impl LevelLoader {
     pub(super) fn build_enemies(&self, world: &mut World) {
+        // Delete existing entities
+        world.exec(|(entities, enemies): (Entities, ReadStorage<Enemy>)| {
+            for (entity, _) in (&entities, &enemies).join() {
+                entities.delete(entity).unwrap();
+            }
+        });
+
         let enemies_settings =
             world.read_resource::<Settings>().enemies.clone();
 

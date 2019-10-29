@@ -22,6 +22,7 @@ pub mod prelude {
     pub use super::loader::Loader;
     pub use super::player::Player;
     pub use super::spike::Spike;
+    pub use super::tile::Tile;
 }
 
 pub mod component_prelude {
@@ -50,3 +51,4 @@ mod indicator;
 mod loader;
 mod player;
 mod spike;
+mod tile;

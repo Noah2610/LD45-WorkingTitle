@@ -9,7 +9,7 @@ mod audio;
 mod components;
 mod helpers;
 mod input;
-mod level_loader;
+mod level_manager;
 mod resources;
 mod settings;
 mod solid_tag;

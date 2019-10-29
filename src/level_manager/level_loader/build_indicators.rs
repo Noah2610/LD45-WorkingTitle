@@ -1,27 +1,41 @@
 use super::*;
 
 impl LevelLoader {
-    pub(super) fn build_backgrounds(&self, world: &mut World) {
+    pub(super) fn build_indicators(&self, world: &mut World) {
+        // Delete existing entities
+        world.exec(
+            |(entities, indicators): (Entities, ReadStorage<Indicator>)| {
+                for (entity, _) in (&entities, &indicators).join() {
+                    entities.delete(entity).unwrap();
+                }
+            },
+        );
+
         for EntityData {
             pos,
             size,
             sprite: _,
             properties,
-        } in &self.backgrounds_data
+        } in &self.indicators_data
         {
             let mut transform = Transform::default();
             transform.set_translation_xyz(
                 pos.0,
                 pos.1,
-                properties[PROPERTY_Z_KEY].as_f32().unwrap_or(BACKGROUND_Z),
+                properties[PROPERTY_Z_KEY].as_f32().unwrap_or(INDICATOR_Z),
             );
 
             let image_name = properties["image"]
                 .as_str()
-                .expect("Background object has to have an 'image' property");
+                .expect("Indicator object has to have an 'image' property");
+            let feature_trigger = FeatureType::from(
+                properties["feature_trigger"].as_str().expect(
+                    "Indicator object has to have a 'feature_trigger' property",
+                ),
+            );
 
             let spritesheet_path =
-                resource(format!("{}/{}", BACKGROUNDS_DIR, image_name));
+                resource(format!("{}/{}", INDICATORS_DIR, image_name));
             let sprite_render = {
                 let spritesheet_handle = world
                     .write_resource::<SpriteSheetHandles>()
@@ -36,18 +50,10 @@ impl LevelLoader {
                 .create_entity()
                 .with(transform)
                 .with(Size::from(*size))
-                .with(Background::default())
+                .with(Indicator::new(feature_trigger))
                 .with(sprite_render)
-                .with(ScaleOnce::default());
-
-            if let Some(level_size) = self.level_size.as_ref() {
-                entity = entity.with(Confined::new(
-                    Rect::builder()
-                        .top(level_size.1)
-                        .right(level_size.0)
-                        .build(),
-                ));
-            }
+                .with(ScaleOnce::default())
+                .with(Hidden);
 
             if !is_always_loaded(&properties) {
                 entity = entity.with(Loadable::default());
