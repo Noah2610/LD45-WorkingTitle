@@ -92,11 +92,13 @@ impl LevelLoader {
                 entity = entity.with(Gravity::new(gravity.0, gravity.1));
             }
 
-            if !is_always_loaded(&properties) {
-                entity = entity.with(Loadable::default()).with(Loader::new(
+            if is_always_loaded(&properties) {
+                entity = entity.with(Loader::new(
                     (enemy_settings.size.0 * 2.0, enemy_settings.size.1 * 2.0)
                         .into(),
                 ));
+            } else {
+                entity = entity.with(Loadable::default());
             }
 
             entity.build();
