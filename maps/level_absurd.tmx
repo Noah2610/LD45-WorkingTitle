@@ -168,7 +168,7 @@
   <properties>
    <property name="z" type="float" value="0.8"/>
   </properties>
-  <object id="2" type="Feature" x="464" y="0" width="32" height="416">
+  <object id="2" type="Feature" x="432" y="0" width="32" height="416">
    <properties>
     <property name="feature_type" value="AddCollisions"/>
    </properties>
