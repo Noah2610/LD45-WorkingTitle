@@ -30,6 +30,6 @@ opt-level        = 3
 debug            = false
 lto              = false
 debug-assertions = false
-codegen-units    = 1
+codegen-units    = 16
 incremental      = true
 overflow-checks  = false
