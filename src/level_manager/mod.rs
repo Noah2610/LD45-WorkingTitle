@@ -13,28 +13,25 @@ use amethyst::ecs::{
 use crate::components::prelude::*;
 use crate::helpers::*;
 use crate::resources::prelude::*;
-use crate::savefile_data::SavefileData;
+use crate::savefile_data::prelude::*;
 use crate::settings::prelude::*;
 use level_loader::{BuildType, LevelLoader, ToBuild};
-
-const LEVEL_NAME: &str = "level.json";
 
 #[derive(Default)]
 pub struct LevelManager {
     pub level_loader: LevelLoader,
+    pub level_names:  Vec<String>,
+    pub level_index:  usize,
 }
 
 impl LevelManager {
     pub fn setup(&mut self, world: &mut World) {
         self.init_start(world);
 
-        world.delete_all();
-
+        let settings = world.read_resource::<Settings>().level_manager.clone();
+        self.level_names = settings.level_names;
         self.level_loader = LevelLoader::default();
-        self.level_loader.load(LEVEL_NAME);
-        self.level_loader.build(world);
 
-        // Load from savefile
         self.load_from_savefile(world);
 
         self.init_end(world);
@@ -57,6 +54,42 @@ impl LevelManager {
         self.init_end(world);
     }
 
+    pub fn next_level(&mut self, world: &mut World) {
+        let next_index = self.level_index + 1;
+        if next_index < self.level_names.len() {
+            self.level_index = next_index;
+            self.load_current_level(world);
+            self.save_to_savefile(world);
+        } else {
+            world.write_resource::<WinGame>().0 = true;
+        }
+    }
+
+    pub fn save_to_savefile(&self, world: &mut World) {
+        let checkpoint_data = world.read_resource::<CheckpointRes>().0.clone();
+        let music_data = MusicData::from(&*world.read_resource::<Music>());
+        let savefile_settings = &world.read_resource::<Settings>().savefile;
+        let savefile_path = file(&savefile_settings.filename);
+        let savefile_data = SavefileData {
+            level_manager: LevelManagerData {
+                level_name: self.level_name().to_string(),
+            },
+            checkpoint:    checkpoint_data.clone(),
+            music:         music_data,
+        };
+
+        match serde_json::to_string(&savefile_data) {
+            Ok(serialized) => {
+                write_file(savefile_path, serialized).unwrap();
+            }
+            Err(err) => eprintln!(
+                "Couldn't save savefile data to file, an error occured while \
+                 serializing save data:\n{:#?}",
+                err
+            ),
+        }
+    }
+
     fn init_start(&self, world: &mut World) {
         world.write_resource::<ResetLevel>().0 = false;
         world.write_resource::<WinGame>().0 = false;
@@ -68,7 +101,7 @@ impl LevelManager {
         }
     }
 
-    fn load_from_savefile(&self, world: &mut World) {
+    fn load_from_savefile(&mut self, world: &mut World) {
         use std::fs::File;
         use std::path::PathBuf;
 
@@ -90,8 +123,17 @@ impl LevelManager {
                     }
                 };
             if let Some(savefile_data) = savefile_data {
+                self.level_index = self
+                    .level_names
+                    .iter()
+                    .position(|n| n == &savefile_data.level_manager.level_name)
+                    .expect(&format!(
+                        "Level name '{}' from savefile doesn't exist",
+                        &savefile_data.level_manager.level_name,
+                    ));
+                self.load_current_level(world);
                 world.write_resource::<CheckpointRes>().0 =
-                    Some(savefile_data.checkpoint.clone());
+                    savefile_data.checkpoint.clone();
                 {
                     let mut music = world.write_resource::<Music>();
                     music.queue = savefile_data.music.queue;
@@ -100,8 +142,29 @@ impl LevelManager {
                         music.should_audio_stop();
                 }
                 self.apply_checkpoint(world);
+            } else {
+                self.load_current_level(world);
             }
+        } else {
+            self.load_current_level(world);
         }
+    }
+
+    fn level_name(&self) -> &str {
+        self.level_names
+            .get(self.level_index)
+            .expect(&format!(
+                "Level at index {} doesn't exist",
+                self.level_index
+            ))
+            .as_ref()
+    }
+
+    fn load_current_level(&mut self, world: &mut World) {
+        world.delete_all();
+        world.write_resource::<CheckpointRes>().0 = None;
+        self.level_loader.load(self.level_name().to_string());
+        self.level_loader.build(world);
     }
 
     fn apply_checkpoint(&self, world: &mut World) {

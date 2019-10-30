@@ -30,6 +30,22 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
             Trans::None
         }
     }
+
+    fn shadow_update(
+        &mut self,
+        mut data: StateData<CustomGameData<CustomData>>,
+    ) {
+        if data.world.read_resource::<WinLevel>().0 {
+            self.level_manager.next_level(&mut data.world);
+            data.world.write_resource::<WinLevel>().0 = false;
+        }
+
+        // Should save to savefile
+        if data.world.read_resource::<ShouldSave>().0 {
+            self.level_manager.save_to_savefile(&mut data.world);
+            data.world.write_resource::<ShouldSave>().0 = false;
+        }
+    }
 }
 
 fn insert_resources(world: &mut World) {
@@ -39,6 +55,7 @@ fn insert_resources(world: &mut World) {
     world.insert(SpriteSheetHandles::default());
     world.insert(ResetLevel::default());
     world.insert(CheckpointRes::default());
+    world.insert(WinLevel::default());
     world.insert(WinGame::default());
     world.insert(StopAudio::default());
     world.insert(ShouldSave::default());

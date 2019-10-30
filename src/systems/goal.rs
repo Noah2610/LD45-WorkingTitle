@@ -6,7 +6,7 @@ pub struct GoalSystem;
 impl<'a> System<'a> for GoalSystem {
     type SystemData = (
         Entities<'a>,
-        Write<'a, WinGame>,
+        Write<'a, WinLevel>,
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Goal>,
         ReadStorage<'a, Player>,
@@ -14,14 +14,14 @@ impl<'a> System<'a> for GoalSystem {
 
     fn run(
         &mut self,
-        (entities, mut win_game, collisions, goals, players): Self::SystemData,
+        (entities, mut win_level, collisions, goals, players): Self::SystemData,
     ) {
         if let Some((_, player_collision)) =
             (&players, &collisions).join().next()
         {
             for (goal_entity, _) in (&entities, &goals).join() {
                 if player_collision.in_collision_with(goal_entity.id()) {
-                    win_game.0 = true;
+                    win_level.0 = true;
                 }
             }
         }

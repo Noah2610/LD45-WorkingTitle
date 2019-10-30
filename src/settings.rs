@@ -4,6 +4,7 @@ pub mod prelude {
     pub use super::CameraSettings;
     pub use super::EnemiesSettings;
     pub use super::EnemySettings;
+    pub use super::LevelManagerSettings;
     pub use super::PlayerAnimationSizes;
     pub use super::PlayerJumpSettings;
     pub use super::PlayerSettings;
@@ -13,10 +14,11 @@ pub mod prelude {
 
 #[derive(Clone, Deserialize)]
 pub struct Settings {
-    pub camera:   CameraSettings,
-    pub player:   PlayerSettings,
-    pub enemies:  EnemiesSettings,
-    pub savefile: SavefileSettings,
+    pub camera:        CameraSettings,
+    pub player:        PlayerSettings,
+    pub enemies:       EnemiesSettings,
+    pub savefile:      SavefileSettings,
+    pub level_manager: LevelManagerSettings,
 }
 
 #[derive(Clone, Deserialize)]
@@ -79,4 +81,9 @@ pub struct EnemySettings {
 #[derive(Clone, Deserialize)]
 pub struct SavefileSettings {
     pub filename: String,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct LevelManagerSettings {
+    pub level_names: Vec<String>,
 }

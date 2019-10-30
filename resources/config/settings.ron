@@ -65,4 +65,13 @@
     savefile: (
         filename: "savefile.json",
     ),
+
+    level_manager: (
+        level_names: [
+            "level_easy.json",
+            "level_normal.json",
+            "level_hard.json",
+            "level_absurd.json",
+        ],
+    ),
 )
