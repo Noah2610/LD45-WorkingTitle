@@ -165,6 +165,7 @@ impl LevelManager {
     fn load_current_level(&mut self, world: &mut World) {
         world.delete_all();
         world.write_resource::<CheckpointRes>().0 = None;
+        self.level_loader.to_build = ToBuild::all();
         self.level_loader.load(self.level_name().to_string());
         self.level_loader.build(world);
     }
