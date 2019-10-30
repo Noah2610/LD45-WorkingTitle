@@ -5,8 +5,8 @@
 
     player: (
         normal_speed: (
-            acceleration: (500.0, 500.0),
-            max_velocity: (Some(240.0), Some(240.0)),
+            acceleration: (900.0, 900.0),
+            max_velocity: (Some(230.0), Some(230.0)),
         ),
         run_speed: (
             acceleration: (660.0, 660.0),
