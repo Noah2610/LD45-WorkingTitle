@@ -1,6 +1,6 @@
 [package]
 name = "ld45-working-title"
-version = "1.1.0"
+version = "1.1.1"
 authors = ["Noah Rosenzweig <rosenzweig.noah@gmail.com>"]
 edition = "2018"
 
@@ -30,6 +30,6 @@ opt-level        = 3
 debug            = false
 lto              = false
 debug-assertions = false
-codegen-units    = 1
+codegen-units    = 16
 incremental      = true
 overflow-checks  = false

@@ -7,6 +7,7 @@ impl<'a> System<'a> for SpikeSystem {
     type SystemData = (
         Entities<'a>,
         Write<'a, ResetLevel>,
+        Write<'a, PlayerDeaths>,
         ReadStorage<'a, Spike>,
         ReadStorage<'a, Player>,
         ReadStorage<'a, Collision>,
@@ -19,6 +20,7 @@ impl<'a> System<'a> for SpikeSystem {
         (
             entities,
             mut reset_level,
+            mut player_deaths,
             spikes,
             players,
             collisions,
@@ -42,6 +44,7 @@ impl<'a> System<'a> for SpikeSystem {
                             player_collision.collision_with(spike_entity.id())
                         {
                             reset_level.0 = true;
+                            player_deaths.0 += 1;
                             break;
                         }
                     }

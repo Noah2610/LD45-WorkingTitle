@@ -140,6 +140,16 @@ impl LevelLoader {
 
         self.finished_loading = false;
 
+        self.level_size = Default::default();
+        self.player_data = Default::default();
+        self.tiles_data = Default::default();
+        self.enemies_data = Default::default();
+        self.features_data = Default::default();
+        self.backgrounds_data = Default::default();
+        self.checkpoints_data = Default::default();
+        self.goal_data = Default::default();
+        self.indicators_data = Default::default();
+
         let path = resource(format!("{}/{}", LEVELS_DIR, filename.to_string()));
         let mut file = File::open(&path)
             .expect(&format!("Couldn't open level file {}", &path));
@@ -318,6 +328,18 @@ impl LevelLoader {
     }
 }
 
+fn is_solid(properties: &JsonValue) -> bool {
+    properties["solid"].as_bool().unwrap_or(false)
+}
+
 fn is_always_loaded(properties: &JsonValue) -> bool {
     properties["always_loaded"].as_bool().unwrap_or(false)
+}
+
+fn is_loader(properties: &JsonValue) -> bool {
+    properties["loader"].as_bool().unwrap_or(false)
+}
+
+fn is_spike(properties: &JsonValue) -> bool {
+    properties["spike"].as_bool().unwrap_or(false)
 }

@@ -5,6 +5,7 @@ pub mod prelude {
     pub use super::LevelManagerData;
     pub use super::MusicData;
     pub use super::SavefileData;
+    pub use super::StatsData;
 }
 
 #[derive(Deserialize, Serialize)]
@@ -12,6 +13,7 @@ pub struct SavefileData {
     pub level_manager: LevelManagerData,
     pub checkpoint:    Option<CheckpointData>,
     pub music:         MusicData,
+    pub stats:         StatsData,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -32,4 +34,9 @@ impl From<&Music> for MusicData {
             last_played: music.last_played.clone(),
         }
     }
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct StatsData {
+    pub player_deaths: u32,
 }

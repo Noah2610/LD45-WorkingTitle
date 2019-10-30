@@ -326,4 +326,9 @@
    <property name="spike" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="255">
+  <properties>
+   <property name="spike" type="bool" value="true"/>
+  </properties>
+ </tile>
 </tileset>

@@ -1,5 +1,6 @@
 pub mod prelude {
     pub use super::checkpoint::{CheckpointData, CheckpointRes};
+    pub use super::player_deaths::PlayerDeaths;
     pub use super::reset_level::ResetLevel;
     pub use super::should_save::ShouldSave;
     pub use super::stop_audio::StopAudio;
@@ -10,6 +11,7 @@ pub mod prelude {
 }
 
 mod checkpoint;
+mod player_deaths;
 mod reset_level;
 mod should_save;
 mod stop_audio;

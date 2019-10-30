@@ -59,6 +59,7 @@ fn insert_resources(world: &mut World) {
     world.insert(WinGame::default());
     world.insert(StopAudio::default());
     world.insert(ShouldSave::default());
+    world.insert(PlayerDeaths::default());
 }
 
 fn load_settings() -> Settings {

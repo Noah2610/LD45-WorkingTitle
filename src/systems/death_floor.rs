@@ -1,6 +1,6 @@
 use super::system_prelude::*;
 
-const DEATH_FLOOR: f32 = -200.0;
+const DEATH_FLOOR: f32 = -50.0;
 
 #[derive(Default)]
 pub struct DeathFloorSystem;
@@ -9,6 +9,7 @@ impl<'a> System<'a> for DeathFloorSystem {
     type SystemData = (
         Entities<'a>,
         Write<'a, ResetLevel>,
+        Write<'a, PlayerDeaths>,
         ReadStorage<'a, Transform>,
         ReadStorage<'a, Gravity>,
         ReadStorage<'a, Player>,
@@ -16,7 +17,14 @@ impl<'a> System<'a> for DeathFloorSystem {
 
     fn run(
         &mut self,
-        (entities, mut reset_level, transforms, gravities, players): Self::SystemData,
+        (
+            entities,
+            mut reset_level,
+            mut player_deaths,
+            transforms,
+            gravities,
+            players,
+        ): Self::SystemData,
     ) {
         for (entity, transform, _) in
             (&entities, &transforms, &gravities).join()
@@ -29,6 +37,7 @@ impl<'a> System<'a> for DeathFloorSystem {
                 );
                 if players.contains(entity) {
                     reset_level.0 = true;
+                    player_deaths.0 += 1;
                 }
             }
         }
