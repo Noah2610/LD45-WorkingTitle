@@ -328,6 +328,18 @@ impl LevelLoader {
     }
 }
 
+fn is_solid(properties: &JsonValue) -> bool {
+    properties["solid"].as_bool().unwrap_or(false)
+}
+
 fn is_always_loaded(properties: &JsonValue) -> bool {
     properties["always_loaded"].as_bool().unwrap_or(false)
+}
+
+fn is_loader(properties: &JsonValue) -> bool {
+    properties["loader"].as_bool().unwrap_or(false)
+}
+
+fn is_spike(properties: &JsonValue) -> bool {
+    properties["spike"].as_bool().unwrap_or(false)
 }

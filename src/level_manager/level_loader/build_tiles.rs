@@ -59,20 +59,15 @@ impl LevelLoader {
                 entity = entity.with(animation);
             }
 
-            if let Some(is_solid) = properties["solid"].as_bool() {
-                if is_solid {
-                    entity = entity
-                        .with(Solid::new(SolidTag::Tile))
-                        .with(Collision::default());
-                }
+            if is_solid(&properties) {
+                entity = entity
+                    .with(Solid::new(SolidTag::Tile))
+                    .with(Collision::default());
             }
 
-            if let Some(is_spike) = properties["spike"].as_bool() {
-                if is_spike {
-                    entity = entity
-                        .with(Collision::default())
-                        .with(Spike::default());
-                }
+            if is_spike(&properties) {
+                entity =
+                    entity.with(Collision::default()).with(Spike::default());
             }
 
             if !is_always_loaded(&properties) {

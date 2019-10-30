@@ -78,7 +78,6 @@ impl LevelLoader {
                 .with(Size::from(enemy_settings.size))
                 .with(Enemy::new(enemy_type, &enemy_settings))
                 .with(enemy_ai)
-                .with(Solid::new(SolidTag::Enemy))
                 .with(Collision::default())
                 .with(sprite_render)
                 .with(ScaleOnce)
@@ -88,17 +87,23 @@ impl LevelLoader {
                 ))
                 .with(Spike::default());
 
+            if is_solid(&properties) {
+                entity = entity.with(Solid::new(SolidTag::Enemy));
+            }
+
             if let Some(gravity) = enemy_settings.gravity {
                 entity = entity.with(Gravity::new(gravity.0, gravity.1));
             }
 
-            if is_always_loaded(&properties) {
+            if !is_always_loaded(&properties) {
+                entity = entity.with(Loadable::default());
+            }
+
+            if is_loader(&properties) {
                 entity = entity.with(Loader::new(
                     (enemy_settings.size.0 * 2.0, enemy_settings.size.1 * 2.0)
                         .into(),
                 ));
-            } else {
-                entity = entity.with(Loadable::default());
             }
 
             entity.build();

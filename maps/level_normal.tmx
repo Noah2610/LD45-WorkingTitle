@@ -265,254 +265,380 @@
   <object id="1" type="Player" x="208" y="208" width="16" height="16"/>
   <object id="6" type="Enemy" x="1568" y="16" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="120"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="7" type="Enemy" x="1696" y="240" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="90"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="8" type="Enemy" x="1792" y="272" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="-90"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="9" type="Enemy" x="1872" y="160" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="90"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="11" type="Enemy" x="3008" y="240" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="60"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="18" type="Enemy" x="3072" y="320" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="19" type="Enemy" x="3344" y="272" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="110"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="21" type="Enemy" x="3120" y="144" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="70"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="22" type="Enemy" x="3232" y="352" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="75"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="24" type="Enemy" x="2528" y="208" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="55"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="25" type="Enemy" x="2720" y="304" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="40"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="26" type="Enemy" x="2644" y="356" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="100"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="28" type="Enemy" x="4032" y="288" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="-50"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="35" type="Enemy" x="4544" y="272" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="40"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="36" type="Enemy" x="4800" y="240" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="40"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="38" type="Enemy" x="5168" y="288" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="80"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="39" type="Enemy" x="5040" y="128" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="48"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="43" type="Enemy" x="5408" y="256" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="60"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="44" type="Enemy" x="5504" y="192" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="40"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="46" type="Enemy" x="5712" y="240" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="-60"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="51" type="Enemy" x="6880" y="288" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="40"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="54" type="Enemy" x="9888" y="240" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="60"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="57" type="Enemy" x="8160" y="208" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="40"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="59" type="Enemy" x="8672" y="304" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="56"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="61" type="Enemy" x="9056" y="256" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="44"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="64" name="goal" type="Goal" x="11216" y="0" width="83.3333" height="272"/>
   <object id="84" type="Enemy" x="5200" y="288" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="80"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="85" type="Enemy" x="5784" y="304" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="40"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="86" type="Enemy" x="5952" y="224" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="-70"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="89" type="Enemy" x="9024" y="256" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="44"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="90" type="Enemy" x="9200" y="144" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="30"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="91" type="Enemy" x="6240" y="144" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="50"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="93" type="Enemy" x="10208" y="176" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="-60"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="94" type="Enemy" x="6144" y="224" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="40"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="95" type="Enemy" x="10352" y="96" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="70"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="96" type="Enemy" x="8544" y="352" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="40"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
   <object id="97" type="Enemy" x="8288" y="96" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="50"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="98" type="Enemy" x="8400" y="96" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="-50"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="99" type="Enemy" x="1552" y="112" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="100"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="100" type="Enemy" x="1304" y="144" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="80"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="101" type="Enemy" x="1190" y="192" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="130"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="102" type="Enemy" x="1232" y="352" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_x" type="float" value="130"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
   <object id="103" type="Enemy" x="1440" y="208" width="16" height="16">
    <properties>
+    <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
+    <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="-140"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>
