@@ -70,6 +70,8 @@ impl LevelManager {
     pub fn save_to_savefile(&self, world: &mut World) {
         let checkpoint_data = world.read_resource::<CheckpointRes>().0.clone();
         let music_data = MusicData::from(&*world.read_resource::<Music>());
+        let player_deaths = world.read_resource::<PlayerDeaths>().0;
+
         let savefile_settings = &world.read_resource::<Settings>().savefile;
         let savefile_path = file(&savefile_settings.filename);
         let savefile_data = SavefileData {
@@ -78,6 +80,7 @@ impl LevelManager {
             },
             checkpoint:    checkpoint_data.clone(),
             music:         music_data,
+            stats:         StatsData { player_deaths },
         };
 
         match serde_json::to_string(&savefile_data) {
@@ -143,6 +146,8 @@ impl LevelManager {
                     world.write_resource::<StopAudio>().0 =
                         music.should_audio_stop();
                 }
+                world.write_resource::<PlayerDeaths>().0 =
+                    savefile_data.stats.player_deaths;
                 self.apply_checkpoint(world);
             } else {
                 self.load_current_level(world);
