@@ -1,6 +1,6 @@
 use super::system_prelude::*;
 
-const DEATH_FLOOR: f32 = -200.0;
+const DEATH_FLOOR: f32 = -50.0;
 
 #[derive(Default)]
 pub struct DeathFloorSystem;
