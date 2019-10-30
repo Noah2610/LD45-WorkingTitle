@@ -39,6 +39,11 @@ impl Music {
         }
     }
 
+    pub fn reset(&mut self) {
+        self.queue = Vec::new();
+        self.last_played = None;
+    }
+
     pub fn set(&mut self, index: usize) {
         self.print_warning_if_invalid_index(index);
         self.queue.insert(0, index);

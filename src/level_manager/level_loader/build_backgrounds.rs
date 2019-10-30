@@ -58,6 +58,7 @@ impl LevelLoader {
                 ));
             }
 
+            // TODO
             // if !is_always_loaded(&properties) {
             //     entity = entity.with(Loadable::default());
             // }

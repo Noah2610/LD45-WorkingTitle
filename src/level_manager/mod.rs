@@ -57,6 +57,8 @@ impl LevelManager {
     pub fn next_level(&mut self, world: &mut World) {
         let next_index = self.level_index + 1;
         if next_index < self.level_names.len() {
+            world.write_resource::<Music>().reset();
+            world.write_resource::<StopAudio>().0 = true;
             self.level_index = next_index;
             self.load_current_level(world);
             self.save_to_savefile(world);
