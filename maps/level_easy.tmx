@@ -164,7 +164,7 @@
   <object id="104" type="Checkpoint" x="9376" y="288" width="96" height="96"/>
   <object id="107" type="Checkpoint" x="8528" y="304" width="80" height="80"/>
  </objectgroup>
- <objectgroup id="4" name="Triggers (mechanics)" visible="0">
+ <objectgroup id="4" name="Triggers (mechanics)">
   <properties>
    <property name="z" type="float" value="0.8"/>
   </properties>
@@ -196,11 +196,6 @@
   <object id="71" type="Feature" x="3808" y="0" width="48" height="416">
    <properties>
     <property name="feature_type" value="AddEnemySprite"/>
-   </properties>
-  </object>
-  <object id="77" type="Feature" x="7072" y="0" width="46.6667" height="416">
-   <properties>
-    <property name="feature_type" value="SetSong5"/>
    </properties>
   </object>
   <object id="78" type="Feature" x="8336" y="16" width="46.6667" height="416">
@@ -286,6 +281,11 @@
   <object id="113" type="Feature" x="10192" y="0" width="46.6667" height="416">
    <properties>
     <property name="feature_type" value="SetSong10"/>
+   </properties>
+  </object>
+  <object id="77" type="Feature" x="7072" y="0" width="46.6667" height="416">
+   <properties>
+    <property name="feature_type" value="SetSong5"/>
    </properties>
   </object>
  </objectgroup>
