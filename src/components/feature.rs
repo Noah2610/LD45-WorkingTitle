@@ -2,6 +2,18 @@ use std::cmp;
 
 use super::component_prelude::*;
 
+const FEATURE_TYPE_ORDER: [FeatureType; 9] = [
+    FeatureType::AddCollisions,
+    FeatureType::AddJump,
+    FeatureType::AddSingleSprite,
+    FeatureType::AddAnimatedSprite,
+    FeatureType::AddEnemySprite,
+    FeatureType::AddRun,
+    FeatureType::AddDash,
+    FeatureType::AddGravity1,
+    FeatureType::AddGravity2,
+];
+
 #[derive(Clone, PartialEq, Debug, Deserialize, Serialize)]
 pub enum FeatureType {
     AddCollisions,
@@ -42,23 +54,20 @@ impl From<&str> for FeatureType {
 
 impl cmp::PartialOrd for FeatureType {
     fn partial_cmp(&self, other: &Self) -> Option<cmp::Ordering> {
-        match (self, other) {
-            (FeatureType::AddGravity1, FeatureType::AddGravity2) => {
-                Some(cmp::Ordering::Less)
+        let self_pos = FEATURE_TYPE_ORDER.iter().position(|f| f == self);
+        let other_pos = FEATURE_TYPE_ORDER.iter().position(|f| f == other);
+        if let (Some(self_pos), Some(other_pos)) = (self_pos, other_pos) {
+            self_pos.partial_cmp(&other_pos)
+        } else {
+            match (self, other) {
+                (
+                    FeatureType::SetSong(n_self),
+                    FeatureType::SetSong(n_other),
+                ) => n_self.partial_cmp(n_other),
+                (FeatureType::SetSong(_), _) => Some(cmp::Ordering::Greater),
+                (_, FeatureType::SetSong(_)) => Some(cmp::Ordering::Less),
+                _ => Some(cmp::Ordering::Equal),
             }
-            (FeatureType::AddGravity2, FeatureType::AddGravity1) => {
-                Some(cmp::Ordering::Greater)
-            }
-            (FeatureType::SetSong(n1), FeatureType::SetSong(n2)) => {
-                n1.partial_cmp(n2)
-            }
-            (FeatureType::AddSingleSprite, FeatureType::AddAnimatedSprite) => {
-                Some(cmp::Ordering::Less)
-            }
-            (FeatureType::AddAnimatedSprite, FeatureType::AddSingleSprite) => {
-                Some(cmp::Ordering::Greater)
-            }
-            _ => Some(cmp::Ordering::Equal),
         }
     }
 }
