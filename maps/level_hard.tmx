@@ -481,7 +481,7 @@
     <property name="pace_distance_x" type="float" value="85"/>
    </properties>
   </object>
-  <object id="89" type="Enemy" x="6704" y="304" width="16" height="16">
+  <object id="89" type="Enemy" x="6704" y="298" width="16" height="16">
    <properties>
     <property name="enemy_type" value="Flying"/>
     <property name="pace_distance_x" type="float" value="60"/>

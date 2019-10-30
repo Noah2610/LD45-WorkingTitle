@@ -8,5 +8,5 @@
   decorations:    true,
   maximized:      false,
   resizable:      true,
-  transparent:    true,
+  transparent:    false,
 )
