@@ -182,11 +182,12 @@ sleep 0.02
 input_jump
 
 # fall and bounce on enemy
-sleep 0.345
-input_go_right_stop
-sleep 0.0001
-input_go_right_start
-sleep 1
+# sleep 0.34
+# input_go_right_stop
+# sleep 0.0001
+# input_go_right_start
+# sleep 1
+sleep 1.4
 
 # zig-zag downwards
 input_go_right_stop
