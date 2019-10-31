@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="800" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="119">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="800" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="120">
  <tileset firstgid="1" source="megasheet.tsx"/>
  <tileset firstgid="257" source="plants.tsx"/>
  <objectgroup id="7" name="Background">
@@ -9,6 +9,16 @@
   <object id="92" name="Background" type="Background" x="7104" y="0" width="416" height="416">
    <properties>
     <property name="image" value="bg.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="12" name="BG2">
+  <properties>
+   <property name="z" type="float" value="-1"/>
+  </properties>
+  <object id="119" name="Background" type="Background" x="5760" y="0" width="416" height="416">
+   <properties>
+    <property name="image" value="bg2.png"/>
    </properties>
   </object>
  </objectgroup>
