@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="800" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="115">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="800" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="116">
  <tileset firstgid="1" source="megasheet.tsx"/>
  <objectgroup id="7" name="Background">
   <properties>
@@ -178,7 +178,7 @@
     <property name="feature_type" value="AddGravity1"/>
    </properties>
   </object>
-  <object id="4" type="Feature" x="2240" y="240" width="80" height="176">
+  <object id="4" type="Feature" x="2176" y="240" width="80" height="176">
    <properties>
     <property name="feature_type" value="AddJump"/>
    </properties>
@@ -226,6 +226,12 @@
   <object id="82" type="Feature" x="10464" y="0" width="46.6667" height="416">
    <properties>
     <property name="feature_type" value="SetSong10"/>
+   </properties>
+  </object>
+  <object id="115" type="Indicator" x="2272" y="288" width="64" height="32">
+   <properties>
+    <property name="feature_trigger" value="AddJump"/>
+    <property name="image" value="space.png"/>
    </properties>
   </object>
  </objectgroup>
