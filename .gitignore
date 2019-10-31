@@ -6,6 +6,7 @@
 /releases
 _ignore
 /bin/util.sh
+/bin/tas/util.sh
 *.log
 /logs
 /resources/levels/*.ron

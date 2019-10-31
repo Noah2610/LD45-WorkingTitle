@@ -1,0 +1,237 @@
+#!/bin/bash
+# LD44 TAS
+
+# shellcheck source=./util.sh
+_dir="$( dirname "$0" )"
+[ -f "${_dir}/util.sh" ] || bash "${_dir}/download-util.sh" || exit 1
+source "${_dir}/util.sh"
+unset _dir
+
+check "xdotool"
+
+RUST_PROFILE="debug"
+GAME_ROOT="${ROOT}/../../target/${RUST_PROFILE}"
+check_dir "$GAME_ROOT"
+GAME_EXE="${GAME_ROOT}/ld45-working-title"
+START_GAME_DELAY_S=1
+
+KEY_TRIES=10
+KEYDOWN_TRIES=8
+KEYUP_TRIES=8
+
+WINDOW_NAME="Working Title!"
+WINDOW_ID=
+
+ATTACK_DELAY=0.4
+
+# movement
+KB_UP="w"
+KB_DOWN="s"
+KB_LEFT="a"
+KB_RIGHT="d"
+# jump
+KB_JUMP="k"
+
+function xkey {
+  for (( i = 0; i < KEY_TRIES; i++ )); do
+    xdotool key --window "$WINDOW_ID" "$@" || err "xdotool error"
+  done
+}
+
+function xdown {
+  for (( i = 0; i < KEYDOWN_TRIES; i++ )); do
+    xdotool keydown --window "$WINDOW_ID" "$@" || err "xdotool error"
+  done
+}
+
+function xup {
+  for (( i = 0; i < KEYUP_TRIES; i++ )); do
+    xdotool keyup --window "$WINDOW_ID" "$@" || err "xdotool error"
+  done
+}
+
+function delete_savefile {
+  local savefile="${GAME_ROOT}/savefile.json"
+  [ -f "$savefile" ] && rm "$savefile"
+}
+
+function start_game {
+  check_file "$GAME_EXE"
+  $GAME_EXE &
+  sleep "${START_GAME_DELAY_S}s"
+  WINDOW_ID="$( xdotool search --name "^${WINDOW_NAME}$" )"
+  [ -z "$WINDOW_ID" ] && err "Window with name '$WINDOW_NAME' not found"
+}
+
+# xdotool key input functions
+
+# input movements
+function input_go_up_start    { msg "UP" &    xdown "$KB_UP";    }
+function input_go_up_stop     { msg "up" &    xup   "$KB_UP";    }
+function input_go_down_start  { msg "DOWN" &  xdown "$KB_DOWN";  }
+function input_go_down_stop   { msg "down" &  xup   "$KB_DOWN";  }
+function input_go_left_start  { msg "LEFT" &  xdown "$KB_LEFT";  }
+function input_go_left_stop   { msg "left" &  xup   "$KB_LEFT";  }
+function input_go_right_start { msg "RIGHT" & xdown "$KB_RIGHT"; }
+function input_go_right_stop  { msg "right" & xup   "$KB_RIGHT"; }
+# input jump
+function input_jump       { input_jump_start; input_jump_stop; }
+function input_jump_start { msg "JUMP" &       xdown "$KB_JUMP"; }
+function input_jump_stop  { msg "jump" &       xup   "$KB_JUMP"; }
+
+delete_savefile
+start_game
+
+# TAS START
+input_go_right_start
+
+sleep 3.5
+
+input_go_down_start
+sleep 0.6
+input_go_down_stop
+
+sleep 0.3
+
+input_go_up_start
+sleep 0.75
+input_go_up_stop
+
+sleep 0.3
+
+input_go_down_start
+sleep 0.65
+input_go_down_stop
+
+sleep 0.3
+
+input_go_up_start
+sleep 0.5
+input_go_up_stop
+
+sleep 1
+
+input_go_down_start
+sleep 0.6
+input_go_down_stop
+
+sleep 0.2
+
+input_go_up_start
+sleep 0.5
+input_go_up_stop
+
+sleep 0.05
+
+# wait for enemy to pass
+input_go_right_stop
+sleep 0.3
+input_go_right_start
+
+sleep 0.1
+
+input_go_up_start
+sleep 0.5
+input_go_up_stop
+
+sleep 1
+
+# gravity
+
+input_go_right_stop
+input_go_left_start
+sleep 0.5
+input_go_left_stop
+input_go_right_start
+
+sleep 1.3
+
+input_jump
+sleep 0.5
+input_jump
+sleep 0.5
+input_jump
+# wall jump
+sleep 0.02
+input_jump
+
+sleep 0.75
+
+input_jump
+
+# first ground enemy below
+sleep 0.3
+input_go_right_stop
+input_go_left_start
+
+sleep 0.3
+
+# next ground enemy, tunnel area
+input_go_left_stop
+input_go_right_start
+
+# jump on enemy in tunnel
+sleep 0.18
+input_jump
+
+sleep 0.7
+
+# wall jump
+input_jump
+sleep 0.02
+input_jump
+
+# fall and bounce on enemy
+sleep 0.345
+input_go_right_stop
+sleep 0.0001
+input_go_right_start
+sleep 1
+
+# zig-zag downwards
+input_go_right_stop
+input_go_left_start
+sleep 0.15
+input_go_left_stop
+
+# fall straight down just a bit to time next jump on enemy properly
+sleep 0.2
+input_go_right_start
+
+# jump over enemy
+sleep 0.1
+input_jump
+
+sleep 0.5
+
+input_jump
+
+sleep 1.4
+
+input_jump
+
+# jump over gap with spikes
+sleep 0.35
+input_jump
+
+# jump over enemy
+sleep 0.4
+input_jump
+
+sleep 0.3
+input_jump
+
+# jump over gap with spikes
+sleep 0.35
+input_jump
+
+sleep 0.4
+input_jump
+
+# jump on flying enemy to gain height
+sleep 0.3
+input_jump
+
+sleep 1
+
+input_go_right_stop
