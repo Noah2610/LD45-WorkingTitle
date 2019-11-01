@@ -133,28 +133,88 @@
    <property name="animation_sprite_ids" value="41, 43, 93, 95, 93, 43, 41"/>
   </properties>
  </tile>
+ <tile id="56">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="58, 60, 108, 110, 108, 60, 58"/>
+  </properties>
+ </tile>
+ <tile id="57">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="67, 69, 61, 109, 110, 109, 61, 59, 57"/>
+  </properties>
+ </tile>
+ <tile id="58">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="56, 60, 108, 110, 108, 60, 56"/>
+  </properties>
+ </tile>
+ <tile id="59">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="67, 69, 61, 109, 110, 109, 61, 59, 57"/>
+  </properties>
+ </tile>
+ <tile id="60">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="56, 58, 108, 110, 108, 58, 56"/>
+  </properties>
+ </tile>
+ <tile id="61">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="67, 69, 61, 109, 110, 109, 61, 59, 57"/>
+  </properties>
+ </tile>
  <tile id="92">
   <properties>
-   <property name="animation_delays_ms" value="150"/>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
    <property name="animation_sprite_ids" value="40, 42, 44, 92, 94"/>
   </properties>
  </tile>
  <tile id="93">
   <properties>
-   <property name="animation_delays_ms" value="150"/>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
    <property name="animation_sprite_ids" value="41, 43, 45, 95, 45, 43, 41"/>
   </properties>
  </tile>
  <tile id="94">
   <properties>
-   <property name="animation_delays_ms" value="150"/>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
    <property name="animation_sprite_ids" value="40, 42, 44, 92, 94"/>
   </properties>
  </tile>
  <tile id="95">
   <properties>
-   <property name="animation_delays_ms" value="150"/>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
    <property name="animation_sprite_ids" value="41, 43, 45, 93, 45, 43, 41"/>
+  </properties>
+ </tile>
+ <tile id="108">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="56, 58, 60, 110, 60, 58, 56"/>
+  </properties>
+ </tile>
+ <tile id="109">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="67, 69, 61, 109, 110, 109, 61, 59, 57"/>
+  </properties>
+ </tile>
+ <tile id="110">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="56, 58, 60, 108, 60, 58, 56"/>
+  </properties>
+ </tile>
+ <tile id="111">
+  <properties>
+   <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150, 150, 150"/>
+   <property name="animation_sprite_ids" value="67, 69, 61, 109, 110, 109, 61, 59, 57"/>
   </properties>
  </tile>
 </tileset>
