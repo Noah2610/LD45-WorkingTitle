@@ -16,7 +16,7 @@
             /// Specify the WIDTH and HEIGHT of the image here as well:
             width:  256,
             height: 256,
-        )
+        ),
     ],
 )
 /// I would also appreciate it if you would remove the comments
