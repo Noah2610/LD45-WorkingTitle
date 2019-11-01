@@ -8,6 +8,14 @@ Tiled maps must have a tile size of __16x16px__.
   Makes the tile a spike, which will reset the level when touched by the player.
 - `always_loaded` (`boolean`) __optional__  
   Makes this tile always be loaded. Use with caution.
+- `animation_sprite_ids` (`string`) __optional__  
+  Comma-separated list of sprite IDs to use for an animation.  
+  Must be used with `animation_delays_ms` for the animation to work.  
+  Example: `1, 2, 3`
+- `animation_delays_ms` (`string`) __optional__  
+  Comma-separated list of delays for each sprite in the animation in milliseconds.  
+  Must be used with `animation_sprite_ids` for the animation to work.  
+  Example: `500, 1000, 500`
 
 ## Object Properties
 ### Type: "Player"
