@@ -157,14 +157,4 @@
    <property name="animation_sprite_ids" value="41, 43, 45, 93, 45, 43, 41"/>
   </properties>
  </tile>
- <tile id="108">
-  <properties>
-   <property name="animation_delays_ms" value="150"/>
-  </properties>
- </tile>
- <tile id="124">
-  <properties>
-   <property name="animation_delays_ms" value="150"/>
-  </properties>
- </tile>
 </tileset>
