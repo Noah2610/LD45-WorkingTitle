@@ -176,6 +176,26 @@
    <property name="solid" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="73">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="74">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="75">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="76">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
  <tile id="80">
   <properties>
    <property name="solid" type="bool" value="true"/>
@@ -282,6 +302,56 @@
   </properties>
  </tile>
  <tile id="142">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="150">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="151">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="152">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="153">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="154">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="166">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="167">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="168">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="169">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="170">
   <properties>
    <property name="solid" type="bool" value="true"/>
   </properties>
