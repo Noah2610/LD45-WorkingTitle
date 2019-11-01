@@ -105,6 +105,15 @@ Indicators are images, which only become visible after the associated feature wa
 - `always_loaded` (`boolean`) __optional__  
   Makes this tile always be loaded. Use with caution.  
   (shouldn't be necessary for indicators)
+- `animation_sprite_ids` (`string`) __optional__  
+  Comma-separated list of sprite IDs to use for an animation.  
+  The sprite IDs are the IDs for the indicator image, as defined in this inicator's `.ron` file.  
+  Must be used with `animation_delays_ms` for the animation to work.  
+  Example: `1, 2, 3`
+- `animation_delays_ms` (`string`) __optional__  
+  Comma-separated list of delays for each sprite in the animation in milliseconds.  
+  Must be used with `animation_sprite_ids` for the animation to work.  
+  Example: `500, 1000, 500`
 
 # Sequential Features
 1.  4 directional movement, no gravity __DONE__

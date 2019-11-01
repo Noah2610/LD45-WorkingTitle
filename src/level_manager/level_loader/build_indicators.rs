@@ -36,14 +36,18 @@ impl LevelLoader {
 
             let spritesheet_path =
                 resource(format!("{}/{}", INDICATORS_DIR, image_name));
-            let sprite_render = {
+            let (sprite_render, animation_opt) = {
                 let spritesheet_handle = world
                     .write_resource::<SpriteSheetHandles>()
                     .get_or_load(spritesheet_path, &world);
-                SpriteRender {
-                    sprite_sheet:  spritesheet_handle,
+                let sprite_render = SpriteRender {
+                    sprite_sheet:  spritesheet_handle.clone(),
                     sprite_number: 0,
-                }
+                };
+                (
+                    sprite_render,
+                    animation_from(spritesheet_handle, &properties),
+                )
             };
 
             let mut entity = world
@@ -57,6 +61,10 @@ impl LevelLoader {
 
             if !is_always_loaded(&properties) {
                 entity = entity.with(Loadable::default());
+            }
+
+            if let Some(animation) = animation_opt {
+                entity = entity.with(animation);
             }
 
             entity.build();
