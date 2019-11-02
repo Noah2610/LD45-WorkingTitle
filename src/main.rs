@@ -92,6 +92,7 @@ fn build_game_data<'a, 'b>(
             .custom(CustomData::default())
             .dispatcher("startup")?
             .dispatcher("ingame")?
+            .dispatcher("paused")?
             .dispatcher("win")?
             .with_core_bundle(rendering_bundle)?
             .with_core_bundle(transform_bundle)?

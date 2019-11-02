@@ -27,6 +27,7 @@ const SONG_FILES: &[&str] = &[
 pub struct Music {
     songs:           Vec<SourceHandle>,
     progress:        ProgressCounter,
+    paused:          bool,
     pub queue:       Vec<usize>,
     pub last_played: Option<usize>,
 }
@@ -36,8 +37,7 @@ impl Music {
         Self {
             songs,
             progress,
-            queue: Vec::new(),
-            last_played: None,
+            ..Default::default()
         }
     }
 
@@ -66,14 +66,14 @@ impl Music {
 
     pub fn current(&mut self) -> Option<SourceHandle> {
         if self.progress.is_complete() {
-            if let Some(in_queue) = self.queue.pop() {
-                self.last_played = Some(in_queue);
-                self.songs.get(in_queue).map(Clone::clone)
+            if self.paused {
+                self.get_last_played()
             } else {
-                if let Some(last) = self.last_played {
-                    self.songs.get(last).map(Clone::clone)
+                if let Some(in_queue) = self.queue.pop() {
+                    self.last_played = Some(in_queue);
+                    self.songs.get(in_queue).map(Clone::clone)
                 } else {
-                    None
+                    self.get_last_played()
                 }
             }
         } else {
@@ -88,6 +88,22 @@ impl Music {
     pub fn clear(&mut self) {
         self.last_played = None;
         self.queue.clear();
+    }
+
+    pub fn pause(&mut self) {
+        self.paused = true;
+    }
+
+    pub fn resume(&mut self) {
+        self.paused = false;
+    }
+
+    fn get_last_played(&self) -> Option<SourceHandle> {
+        if let Some(last) = self.last_played {
+            self.songs.get(last).map(Clone::clone)
+        } else {
+            None
+        }
     }
 
     fn print_warning_if_invalid_index(&self, index: usize) {

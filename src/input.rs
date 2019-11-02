@@ -27,6 +27,8 @@ pub enum ActionBinding {
     None,
     PlayerJump,
     PlayerRun,
+    TogglePause,
+    Quit,
 }
 
 impl Default for ActionBinding {
