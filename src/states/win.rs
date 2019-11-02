@@ -12,6 +12,10 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
         let _progress = self.create_ui(&mut data, resource(RON_PATH));
     }
 
+    fn on_stop(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
+        self.delete_ui(&mut data);
+    }
+
     fn update(
         &mut self,
         data: StateData<CustomGameData<CustomData>>,

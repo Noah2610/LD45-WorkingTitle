@@ -1,0 +1,80 @@
+#![enable(implicit_some)]
+Container(
+    transform: (
+        id:             "pause_menu",
+        x:              0.0,
+        y:              0.0,
+        width:          1.0,
+        height:         1.0,
+        anchor:         Middle,
+        mouse_reactive: true,
+        percent:        true,
+        opaque:         false,
+    ),
+    children: [
+        Label(
+            transform: (
+                id:             "label_paused",
+                x:              0.0,
+                y:              0.0,
+                width:          128.0,
+                height:         32.0,
+                anchor:         Middle,
+                mouse_reactive: false,
+                percent:        false,
+                opaque:         false,
+            ),
+            text: (
+                text:      "Paused",
+                font_size: 32.0,
+                color:     (1.0, 1.0, 1.0, 1.0),
+                font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                align:     Middle,
+            ),
+        ),
+
+        Button(
+            transform: (
+                id:             "button_unpause",
+                x:              16.0,
+                y:              -16.0,
+                width:          128.0,
+                height:         32.0,
+                anchor:         TopLeft,
+                pivot:          TopLeft,
+                mouse_reactive: true,
+                percent:        false,
+                opaque:         true,
+            ),
+            button: (
+                id:                0,
+                text:              "Unpause",
+                font_size:         24.0,
+                font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                normal_text_color: (1.0, 0.0, 0.0, 1.0),
+            ),
+        ),
+
+        Button(
+            transform: (
+                id:             "button_quit",
+                x:              16.0,
+                y:              -64.0,
+                width:          128.0,
+                height:         32.0,
+                anchor:         TopLeft,
+                pivot:          TopLeft,
+                mouse_reactive: true,
+                percent:        false,
+                opaque:         true,
+            ),
+            button: (
+                id:                1,
+                text:              "Quit",
+                font_size:         24.0,
+                font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                normal_text_color: (1.0, 0.0, 0.0, 1.0),
+            ),
+        ),
+    ],
+)
