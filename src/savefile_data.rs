@@ -23,16 +23,18 @@ pub struct LevelManagerData {
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct MusicData {
-    pub queue:       Vec<usize>,
-    pub last_played: Option<usize>,
+    pub queue: Vec<usize>,
 }
 
 impl From<&Music> for MusicData {
     fn from(music: &Music) -> Self {
-        Self {
-            queue:       music.queue.clone(),
-            last_played: music.last_played.clone(),
+        let mut queue = music.queue.clone();
+        // If there is a last played song, save that song to queue as well.
+        // Next time the savefile is loaded, the last_played song will be the first to play.
+        if let Some(last_played) = music.last_played.as_ref() {
+            queue.push(*last_played);
         }
+        Self { queue }
     }
 }
 

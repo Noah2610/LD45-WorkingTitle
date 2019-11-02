@@ -1,4 +1,4 @@
-use amethyst::assets::Loader;
+use amethyst::assets::{Loader, ProgressCounter};
 use amethyst::audio::{AudioSink, OggFormat, SourceHandle};
 use amethyst::ecs::{World, WorldExt};
 
@@ -23,17 +23,19 @@ const SONG_FILES: &[&str] = &[
     "audio/song11.ogg",
 ];
 
-#[derive(Default, Debug)]
+#[derive(Default)]
 pub struct Music {
     songs:           Vec<SourceHandle>,
+    progress:        ProgressCounter,
     pub queue:       Vec<usize>,
     pub last_played: Option<usize>,
 }
 
 impl Music {
-    pub fn new(songs: Vec<SourceHandle>) -> Self {
+    pub fn new(songs: Vec<SourceHandle>, progress: ProgressCounter) -> Self {
         Self {
             songs,
+            progress,
             queue: Vec::new(),
             last_played: None,
         }
@@ -63,20 +65,24 @@ impl Music {
     }
 
     pub fn current(&mut self) -> Option<SourceHandle> {
-        if let Some(in_queue) = self.queue.pop() {
-            self.last_played = Some(in_queue);
-            self.songs.get(in_queue).map(Clone::clone)
-        } else {
-            if let Some(last) = self.last_played {
-                self.songs.get(last).map(Clone::clone)
+        if self.progress.is_complete() {
+            if let Some(in_queue) = self.queue.pop() {
+                self.last_played = Some(in_queue);
+                self.songs.get(in_queue).map(Clone::clone)
             } else {
-                None
+                if let Some(last) = self.last_played {
+                    self.songs.get(last).map(Clone::clone)
+                } else {
+                    None
+                }
             }
+        } else {
+            None
         }
     }
 
     pub fn should_audio_stop(&self) -> bool {
-        self.last_played.is_none()
+        self.last_played.is_none() && self.queue.is_empty()
     }
 
     pub fn clear(&mut self) {
@@ -97,11 +103,13 @@ pub fn initialize_music(world: &mut World) {
         let mut sink = world.write_resource::<AudioSink>();
         sink.set_volume(MUSIC_VOLUME);
 
+        let mut progress = ProgressCounter::new();
+
         let songs = SONG_FILES
             .iter()
-            .map(|file| load_audio_track(&loader, &world, file))
+            .map(|file| load_audio_track(&loader, &world, file, &mut progress))
             .collect::<Vec<_>>();
-        Music::new(songs)
+        Music::new(songs, progress)
     };
 
     world.insert(music);
@@ -113,7 +121,8 @@ fn load_audio_track(
     loader: &Loader,
     world: &World,
     file: &str,
+    progress: &mut ProgressCounter,
 ) -> SourceHandle {
     use crate::helpers::resource;
-    loader.load(resource(file), OggFormat, (), &world.read_resource())
+    loader.load(resource(file), OggFormat, progress, &world.read_resource())
 }

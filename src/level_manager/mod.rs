@@ -142,9 +142,6 @@ impl LevelManager {
                 {
                     let mut music = world.write_resource::<Music>();
                     music.queue = savefile_data.music.queue;
-                    music.last_played = savefile_data.music.last_played;
-                    world.write_resource::<StopAudio>().0 =
-                        music.should_audio_stop();
                 }
                 world.write_resource::<PlayerDeaths>().0 =
                     savefile_data.stats.player_deaths;
