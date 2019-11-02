@@ -12,12 +12,26 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
         let _progress = self.create_ui(&mut data, resource(UI_RON_PATH));
         data.world.write_resource::<Music>().pause();
         set_decreased_volume(&mut data.world);
+        // Pause timer
+        {
+            let timer = &mut data.world.write_resource::<TimerRes>().0;
+            if timer.state.is_running() {
+                timer.pause().unwrap();
+            }
+        }
     }
 
     fn on_stop(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
         self.delete_ui(&mut data);
         data.world.write_resource::<Music>().resume();
         set_normal_volume(&mut data.world);
+        // Resume timer
+        {
+            let timer = &mut data.world.write_resource::<TimerRes>().0;
+            if timer.state.is_paused() {
+                timer.resume().unwrap();
+            }
+        }
     }
 
     fn update(
