@@ -516,7 +516,7 @@
     <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Flying"/>
     <property name="loader" type="bool" value="false"/>
-    <property name="pace_distance_y" type="float" value="-60"/>
+    <property name="pace_distance_y" type="float" value="60"/>
     <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
