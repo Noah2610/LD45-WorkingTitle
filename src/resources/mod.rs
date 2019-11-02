@@ -1,9 +1,12 @@
 pub mod prelude {
+    pub use climer::Timer;
+
     pub use super::checkpoint::{CheckpointData, CheckpointRes};
     pub use super::player_deaths::PlayerDeaths;
     pub use super::reset_level::ResetLevel;
     pub use super::should_save::ShouldSave;
     pub use super::stop_audio::StopAudio;
+    pub use super::timer::TimerRes;
     pub use super::win_game::WinGame;
     pub use super::win_level::WinLevel;
     pub use crate::audio::Music;
@@ -15,5 +18,6 @@ mod player_deaths;
 mod reset_level;
 mod should_save;
 mod stop_audio;
+mod timer;
 mod win_game;
 mod win_level;

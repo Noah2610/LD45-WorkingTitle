@@ -15,6 +15,7 @@ pub mod prelude {
     pub use super::loading::LoadingSystem;
     pub use super::player_run::PlayerRunSystem;
     pub use super::spike::SpikeSystem;
+    pub use super::timer::TimerSystem;
 }
 
 mod system_prelude {
@@ -44,5 +45,6 @@ mod kill_enemy;
 mod loading;
 mod player_run;
 mod spike;
+mod timer;
 
 mod helpers;

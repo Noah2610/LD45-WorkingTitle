@@ -35,8 +35,6 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
         &mut self,
         mut data: StateData<CustomGameData<CustomData>>,
     ) {
-        self.level_manager.update(&mut data.world);
-
         // Stop audio
         if data.world.read_resource::<StopAudio>().0 {
             stop_audio(&mut data.world);
@@ -69,6 +67,7 @@ fn insert_resources(world: &mut World) {
     world.insert(StopAudio::default());
     world.insert(ShouldSave::default());
     world.insert(PlayerDeaths::default());
+    world.insert(TimerRes::default());
 }
 
 fn load_settings() -> Settings {

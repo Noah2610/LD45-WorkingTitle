@@ -112,6 +112,7 @@ fn build_game_data<'a, 'b>(
                 "input_manager_system",
                 &[],
             )?
+            .with_core(TimerSystem::default(), "timer_system", &[])?
             .with(
                 "ingame",
                 PlayerRunSystem::default(),
