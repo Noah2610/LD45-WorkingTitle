@@ -74,4 +74,9 @@
             "level_absurd.json",
         ],
     ),
+
+    music: (
+        volume:           1.0,
+        decreased_volume: 0.5,
+    ),
 )

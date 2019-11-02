@@ -35,6 +35,13 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
         &mut self,
         mut data: StateData<CustomGameData<CustomData>>,
     ) {
+        // Stop audio
+        if data.world.read_resource::<StopAudio>().0 {
+            stop_audio(&mut data.world);
+            data.world.write_resource::<StopAudio>().0 = false;
+        }
+
+        // Next level
         if data.world.read_resource::<WinLevel>().0 {
             self.level_manager.next_level(&mut data.world);
             data.world.write_resource::<WinLevel>().0 = false;

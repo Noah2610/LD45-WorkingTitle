@@ -5,6 +5,7 @@ pub mod prelude {
     pub use super::EnemiesSettings;
     pub use super::EnemySettings;
     pub use super::LevelManagerSettings;
+    pub use super::MusicSettings;
     pub use super::PlayerAnimationSizes;
     pub use super::PlayerJumpSettings;
     pub use super::PlayerSettings;
@@ -19,6 +20,7 @@ pub struct Settings {
     pub enemies:       EnemiesSettings,
     pub savefile:      SavefileSettings,
     pub level_manager: LevelManagerSettings,
+    pub music:         MusicSettings,
 }
 
 #[derive(Clone, Deserialize)]
@@ -86,4 +88,10 @@ pub struct SavefileSettings {
 #[derive(Clone, Deserialize)]
 pub struct LevelManagerSettings {
     pub level_names: Vec<String>,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct MusicSettings {
+    pub volume:           f32,
+    pub decreased_volume: f32,
 }

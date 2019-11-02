@@ -1,14 +1,18 @@
 use amethyst::assets::{Loader, ProgressCounter};
+use amethyst::audio::output::Output;
 use amethyst::audio::{AudioSink, OggFormat, SourceHandle};
 use amethyst::ecs::{World, WorldExt};
 
+use crate::settings::prelude::*;
+
 pub mod prelude {
     pub use super::initialize_music;
+    pub use super::set_decreased_volume;
+    pub use super::set_normal_volume;
+    pub use super::stop_audio;
     pub use super::Music;
-    pub use super::MUSIC_VOLUME;
 }
 
-pub const MUSIC_VOLUME: f32 = 1.0;
 const SONG_FILES: &[&str] = &[
     "audio/song01.ogg",
     "audio/song02.ogg",
@@ -113,11 +117,36 @@ impl Music {
     }
 }
 
+pub fn stop_audio(world: &mut World) {
+    world.write_resource::<Music>().clear();
+
+    let output = world.read_resource::<Output>();
+    let mut sink = world.write_resource::<AudioSink>();
+    sink.stop();
+    *sink = AudioSink::new(&output);
+}
+
+pub fn set_normal_volume(world: &mut World) {
+    let volume = world.read_resource::<Settings>().music.volume;
+    set_volume(world, volume);
+}
+
+pub fn set_decreased_volume(world: &mut World) {
+    let volume = world.read_resource::<Settings>().music.decreased_volume;
+    set_volume(world, volume);
+}
+
+fn set_volume(world: &mut World, volume: f32) {
+    world.write_resource::<AudioSink>().set_volume(volume);
+}
+
 pub fn initialize_music(world: &mut World) {
+    let music_settings = world.read_resource::<Settings>().music.clone();
+
     let music = {
         let loader = world.read_resource::<Loader>();
         let mut sink = world.write_resource::<AudioSink>();
-        sink.set_volume(MUSIC_VOLUME);
+        sink.set_volume(music_settings.volume);
 
         let mut progress = ProgressCounter::new();
 
