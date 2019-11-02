@@ -288,7 +288,7 @@
     <property name="feature_type" value="SetSong6"/>
    </properties>
   </object>
-  <object id="110" type="Feature" x="7840" y="0" width="46.6667" height="416">
+  <object id="110" type="Feature" x="7839" y="0" width="46.6667" height="416">
    <properties>
     <property name="feature_type" value="SetSong7"/>
    </properties>
