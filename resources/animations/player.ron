@@ -22,14 +22,17 @@
         ),
         (
             name: "jump",
-            default_delay_ms: Some(200),
-            sprite_ids: [15, 16, 17, 18, 19, 20, 21, 22],
+            // default_delay_ms: Some(200),
+            // sprite_ids: [22, 15,  16,  17,  18,  19,  20,  21,  22],
+            sprite_ids: [19,  20,  21,  22,  ],
+            delays_ms:  Some(
+                        [100, 100, 100, 100, ]
+            ),
         ),
         (
-            // Same as "idle"
             name: "fall",
             default_delay_ms: Some(500),
-            sprite_ids: [13, 14],
+            sprite_ids: [18],
         ),
         (
             // Same as "walk"
