@@ -52,7 +52,7 @@
             size:         (16.0, 16.0),
             gravity:      Some((0.0, -660.0)),
             acceleration: (200.0, 0.0),
-            max_velocity: (Some(70.0), Some(160.0)),
+            max_velocity: (Some(60.0), Some(160.0)),
         ),
         flying: (
             size:         (38.0, 20.0),
