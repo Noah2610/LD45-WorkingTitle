@@ -106,7 +106,7 @@
  <tile id="89">
   <properties>
    <property name="animation_delays_ms" value="150, 150, 150, 150"/>
-   <property name="animation_string_ids" value="89, 91, 90, 91"/>
+   <property name="animation_sprite_ids" value="89, 91, 90, 91"/>
   </properties>
  </tile>
 </tileset>
