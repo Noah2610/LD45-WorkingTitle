@@ -9,6 +9,8 @@ use amethyst::ecs::{
     WorldExt,
     WriteStorage,
 };
+use climer::{Output, Timer};
+use std::time::{Duration, Instant};
 
 use crate::components::prelude::*;
 use crate::helpers::*;
@@ -17,14 +19,47 @@ use crate::savefile_data::prelude::*;
 use crate::settings::prelude::*;
 use level_loader::{BuildType, LevelLoader, ToBuild};
 
-#[derive(Default)]
+const TIMER_UPDATE_DELAY_MS: u64 = 250;
+
 pub struct LevelManager {
-    pub level_loader: LevelLoader,
-    pub level_names:  Vec<String>,
-    pub level_index:  usize,
+    pub level_loader:  LevelLoader,
+    pub level_names:   Vec<String>,
+    pub level_index:   usize,
+    pub timer:         Option<Timer>,
+    last_timer_update: Instant,
+}
+
+impl Default for LevelManager {
+    fn default() -> Self {
+        Self {
+            level_loader:      Default::default(),
+            level_names:       Default::default(),
+            level_index:       Default::default(),
+            timer:             None,
+            last_timer_update: Instant::now(),
+        }
+    }
 }
 
 impl LevelManager {
+    pub fn update(&mut self, world: &mut World) {
+        let now = Instant::now();
+
+        if now.duration_since(self.last_timer_update)
+            >= Duration::from_millis(TIMER_UPDATE_DELAY_MS)
+        {
+            if let Some(timer) = self.timer.as_mut() {
+                if timer.state.is_running() {
+                    timer.update().unwrap();
+                    timer.print_output().unwrap();
+                    // println!("{}", timer.time_output());
+                }
+            }
+
+            self.last_timer_update = now;
+        }
+    }
+
     pub fn setup(&mut self, world: &mut World) {
         self.init_start(world);
 
@@ -55,6 +90,13 @@ impl LevelManager {
     }
 
     pub fn next_level(&mut self, world: &mut World) {
+        if let Some(timer) = self.timer.as_mut() {
+            if timer.state.is_running() {
+                timer.finish().unwrap();
+                println!("---\nLEVEL TIME: {}\n---", timer.time_output());
+            }
+        }
+
         let next_index = self.level_index + 1;
         if next_index < self.level_names.len() {
             world.write_resource::<Music>().reset();
@@ -62,6 +104,13 @@ impl LevelManager {
             self.level_index = next_index;
             self.load_current_level(world);
             self.save_to_savefile(world);
+
+            // Start timer again
+            if let Some(timer) = self.timer.as_mut() {
+                if timer.state.is_finished() || timer.state.is_stopped() {
+                    timer.start().unwrap();
+                }
+            }
         } else {
             world.write_resource::<WinGame>().0 = true;
         }
@@ -100,9 +149,15 @@ impl LevelManager {
         world.write_resource::<WinGame>().0 = false;
     }
 
-    fn init_end(&self, world: &mut World) {
+    fn init_end(&mut self, world: &mut World) {
         if world.read_resource::<Music>().should_audio_stop() {
             world.write_resource::<StopAudio>().0 = true;
+        }
+
+        if let Some(timer) = self.timer.as_mut() {
+            if timer.state.is_stopped() {
+                timer.start().unwrap();
+            }
         }
     }
 
@@ -150,7 +205,13 @@ impl LevelManager {
                 self.load_current_level(world);
             }
         } else {
+            // No savefile
             self.load_current_level(world);
+            // Start timer
+            self.timer = Some(Timer::new(
+                None,
+                Some(Output::new::<char, char>(None, None, None)),
+            ));
         }
     }
 
