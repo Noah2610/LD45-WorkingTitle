@@ -36,13 +36,28 @@ impl<'a> System<'a> for CheckpointSystem {
             for (checkpoint_entity, checkpoint) in
                 (&entities, &mut checkpoints).join()
             {
-                if !checkpoint.applied {
+                let prev_checkpoint_ids =
+                    checkpoint_res.0.as_ref().map(|c| c.checkpoints.clone());
+
+                if !checkpoint.applied
+                    && prev_checkpoint_ids
+                        .as_ref()
+                        .map(|ids| !ids.contains(&checkpoint.id))
+                        .unwrap_or(true)
+                {
                     if player_collision
                         .in_collision_with(checkpoint_entity.id())
                     {
+                        let mut checkpoints_ids = Vec::new();
+                        if let Some(mut prev_ids) = prev_checkpoint_ids.clone()
+                        {
+                            checkpoints_ids.append(&mut prev_ids);
+                        }
+                        checkpoints_ids.push(checkpoint.id);
+
                         let checkpoint_data = CheckpointData {
-                            position: player_pos.clone(),
-                            features: features
+                            position:    player_pos.clone(),
+                            features:    features
                                 .join()
                                 .filter_map(|feature| {
                                     if feature.applied {
@@ -52,6 +67,7 @@ impl<'a> System<'a> for CheckpointSystem {
                                     }
                                 })
                                 .collect(),
+                            checkpoints: checkpoints_ids,
                         };
                         checkpoint_res.0 = Some(checkpoint_data);
                         checkpoint.applied = true;
