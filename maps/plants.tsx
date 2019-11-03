@@ -59,7 +59,7 @@
  <tile id="48">
   <properties>
    <property name="always_loaded" type="bool" value="true"/>
-   <property name="animation_delays_ms" value="200, 200, 200, 20"/>
+   <property name="animation_delays_ms" value="200, 200, 200, 200"/>
    <property name="animation_sprite_ids" value="48, 51, 24, 80"/>
   </properties>
  </tile>
@@ -88,7 +88,7 @@
   <properties>
    <property name="always_loaded" type="bool" value="true"/>
    <property name="animation_delays_ms" value="150, 150, 150, 150, 150, 150, 150, 150"/>
-   <property name="animation_sprite_ids" value="57, 59, 51, 109, 111, 109, 61, 59"/>
+   <property name="animation_sprite_ids" value="57, 59, 61, 109, 111, 109, 61, 59"/>
   </properties>
  </tile>
  <tile id="68">
