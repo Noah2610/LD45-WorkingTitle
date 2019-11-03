@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="800" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="115">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="800" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="116">
  <tileset firstgid="1" source="megasheet.tsx"/>
  <tileset firstgid="257" source="plants.tsx"/>
  <objectgroup id="7" name="Background">
@@ -36,15 +36,6 @@
   <object id="96" name="Background" type="Background" x="7088" y="0" width="416" height="416">
    <properties>
     <property name="image" value="bg.png"/>
-   </properties>
-  </object>
-  <object id="103" type="Enemy" x="7104" y="304" width="16" height="16">
-   <properties>
-    <property name="always_loaded" type="bool" value="false"/>
-    <property name="enemy_type" value="Ground"/>
-    <property name="loader" type="bool" value="false"/>
-    <property name="pace_distance_x" type="float" value="45"/>
-    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
@@ -762,6 +753,15 @@
     <property name="loader" type="bool" value="false"/>
     <property name="pace_distance_y" type="float" value="40"/>
     <property name="solid" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="115" type="Enemy" x="7104" y="304" width="16" height="16">
+   <properties>
+    <property name="always_loaded" type="bool" value="false"/>
+    <property name="enemy_type" value="Ground"/>
+    <property name="loader" type="bool" value="false"/>
+    <property name="pace_distance_x" type="float" value="45"/>
+    <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
