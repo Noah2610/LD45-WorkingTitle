@@ -470,7 +470,7 @@
     <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="107" type="Enemy" x="1424" y="304" width="16" height="16">
+  <object id="107" type="Enemy" x="1424" y="336" width="16" height="16">
    <properties>
     <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>
