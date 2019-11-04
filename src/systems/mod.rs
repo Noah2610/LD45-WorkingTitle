@@ -13,6 +13,7 @@ pub mod prelude {
     pub use super::handle_solid_collisions::HandleSolidCollisionsSystem;
     pub use super::kill_enemy::KillEnemySystem;
     pub use super::loading::LoadingSystem;
+    pub use super::menu_selection::MenuSelectionSystem;
     pub use super::player_run::PlayerRunSystem;
     pub use super::spike::SpikeSystem;
     pub use super::timer::TimerSystem;
@@ -31,6 +32,8 @@ mod system_prelude {
     pub use crate::solid_tag::SolidTag;
 }
 
+mod helpers;
+
 mod background;
 mod checkpoint;
 mod control_player;
@@ -43,8 +46,7 @@ mod goal;
 mod handle_solid_collisions;
 mod kill_enemy;
 mod loading;
+mod menu_selection;
 mod player_run;
 mod spike;
 mod timer;
-
-mod helpers;

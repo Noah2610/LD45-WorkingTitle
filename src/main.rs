@@ -115,6 +115,14 @@ fn build_game_data<'a, 'b>(
                 &[],
             )?
             .with_core(TimerSystem::default(), "timer_system", &[])?
+            .with_core(AnimationSystem::default(), "animation_system", &[
+                // "feature_system",
+            ])?
+            .with_core(
+                ScaleSpritesSystem::default(),
+                "scale_sprites_system",
+                &["animation_system"],
+            )?
             .with(
                 "ingame",
                 PlayerRunSystem::default(),
@@ -170,14 +178,6 @@ fn build_game_data<'a, 'b>(
                 "checkpoint_system",
                 &["collision_system"],
             )?
-            .with_core(AnimationSystem::default(), "animation_system", &[
-                // "feature_system",
-            ])?
-            .with_core(
-                ScaleSpritesSystem::default(),
-                "scale_sprites_system",
-                &["animation_system"],
-            )?
             .with(
                 "ingame",
                 KillEnemySystem::default(),
@@ -210,7 +210,13 @@ fn build_game_data<'a, 'b>(
             ])?
             .with("ingame", GoalSystem::default(), "goal_system", &[
                 "collision_system",
-            ])?;
+            ])?
+            .with(
+                "difficulty_select",
+                MenuSelectionSystem::default(),
+                "menu_selection_system",
+                &[],
+            )?;
 
     Ok(custom_game_data)
 }

@@ -20,6 +20,7 @@ pub mod prelude {
     pub use super::has_single_sprite::HasSingleSprite;
     pub use super::indicator::Indicator;
     pub use super::loader::Loader;
+    pub use super::menu_selector::{MenuSelection, MenuSelector};
     pub use super::player::Player;
     pub use super::spike::Spike;
     pub use super::tile::Tile;
@@ -49,6 +50,7 @@ mod has_animated_sprite;
 mod has_single_sprite;
 mod indicator;
 mod loader;
+mod menu_selector;
 mod player;
 mod spike;
 mod tile;
