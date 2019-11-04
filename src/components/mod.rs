@@ -24,7 +24,6 @@ pub mod prelude {
     pub use super::player::Player;
     pub use super::spike::Spike;
     pub use super::tile::Tile;
-    pub use super::timer_display::TimerDisplay;
 }
 
 pub mod component_prelude {
@@ -55,4 +54,3 @@ mod menu_selector;
 mod player;
 mod spike;
 mod tile;
-mod timer_display;

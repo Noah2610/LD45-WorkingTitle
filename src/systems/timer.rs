@@ -13,7 +13,7 @@ impl<'a> System<'a> for TimerSystem {
     type SystemData = (
         Read<'a, ShouldDisplayTimer>,
         Write<'a, TimerRes>,
-        ReadStorage<'a, TimerDisplay>,
+        ReadStorage<'a, UiTransform>,
         WriteStorage<'a, UiText>,
     );
 
@@ -22,7 +22,7 @@ impl<'a> System<'a> for TimerSystem {
         (
             should_display_timer,
             mut timer_res,
-            timer_displays,
+            ui_transforms,
             mut ui_texts,
         ): Self::SystemData,
     ) {
@@ -38,7 +38,16 @@ impl<'a> System<'a> for TimerSystem {
 
                 // Display timer
                 if should_display_timer.0 {
-                    for (_, text) in (&timer_displays, &mut ui_texts).join() {
+                    if let Some(text) = (&ui_transforms, &mut ui_texts)
+                        .join()
+                        .find_map(|(transform, text)| {
+                            if &transform.id == "timer_display" {
+                                Some(text)
+                            } else {
+                                None
+                            }
+                        })
+                    {
                         text.text = timer.time_output().to_string();
                     }
                 }

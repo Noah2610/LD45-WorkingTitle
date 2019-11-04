@@ -1,14 +1,14 @@
-use amethyst::ecs::Entity;
-
 use super::state_prelude::*;
+
+const UI_TIMER_DISPLAY_RON_PATH: &str = "ui/timer_display.ron";
 
 #[derive(Default)]
 pub struct Ingame {
-    timer_display_entities: Vec<Entity>,
+    ui_data: UiData,
 }
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
-    fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
+    fn on_start(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
         // Start timer
         if let Some(timer) = data.world.write_resource::<TimerRes>().0.as_mut()
         {
@@ -18,7 +18,9 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
         }
         // Display timer
         if data.world.read_resource::<ShouldDisplayTimer>().0 {
-            self.create_timer_display(data.world);
+            // self.create_timer_display(data.world);
+            let _progress =
+                self.create_ui(&mut data, resource(UI_TIMER_DISPLAY_RON_PATH));
         }
     }
 
@@ -37,10 +39,11 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
                 }
             }
         }
+        // NOTE: Don't delete on stop, so the time is still displayed in `Win` state.
         // Delete timer display
-        data.world
-            .delete_entities(&self.timer_display_entities)
-            .unwrap();
+        // if data.world.read_resource::<ShouldDisplayTimer>().0 {
+        //     self.delete_ui(&mut data);
+        // }
     }
 
     fn on_resume(&mut self, data: StateData<CustomGameData<CustomData>>) {
@@ -87,6 +90,17 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
 
         Trans::None
     }
+
+    fn fixed_update(
+        &mut self,
+        mut data: StateData<CustomGameData<'a, 'b, CustomData>>,
+    ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
+        if let Some(trans) = self.update_ui_events(&mut data) {
+            trans
+        } else {
+            Trans::None
+        }
+    }
 }
 
 impl Ingame {
@@ -104,83 +118,23 @@ impl Ingame {
             None
         }
     }
+}
 
-    fn create_timer_display(&mut self, world: &mut World) {
-        use amethyst::assets::Loader;
-        use amethyst::core::Parent;
-        use amethyst::prelude::Builder;
-        use amethyst::ui::{
-            Anchor,
-            FontHandle,
-            TtfFormat,
-            UiImage,
-            UiText,
-            UiTransform,
-        };
+impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
+    fn event_triggered(
+        &mut self,
+        _data: &mut StateData<CustomGameData<'a, 'b, CustomData>>,
+        _event_name: String,
+        _event: UiEvent,
+    ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
+        None
+    }
 
-        let (font_size, color, bg_color) = {
-            let settings = &world.read_resource::<Settings>().timer_display;
-            (settings.font_size, settings.color, settings.bg_color)
-        };
+    fn ui_data(&self) -> &UiData {
+        &self.ui_data
+    }
 
-        let font_handle: FontHandle = {
-            let loader = world.read_resource::<Loader>();
-            loader.load(
-                resource("fonts/undefined-medium.ttf"),
-                TtfFormat,
-                (),
-                &world.read_resource(),
-            )
-        };
-
-        let parent_transform = UiTransform::new(
-            "timer_display_container".to_string(), // id
-            Anchor::TopLeft,                       // anchor
-            Anchor::TopLeft,                       // pivot
-            0.0,                                   // x
-            0.0,                                   // y
-            1.0,                                   // z
-            256.0,                                 // width
-            64.0,                                  // height
-        )
-        .into_transparent();
-        let bg_color = UiImage::SolidColor(bg_color);
-
-        let transform = UiTransform::new(
-            "timer_display".to_string(), // id
-            Anchor::MiddleLeft,          // anchor
-            Anchor::MiddleLeft,          // pivot
-            0.0,                         // x
-            0.0,                         // y
-            1.1,                         // z
-            1.0,                         // width
-            1.0,                         // height
-        )
-        .into_transparent()
-        .into_percent();
-        let text = UiText::new(
-            font_handle,   // font: FontHandle,
-            String::new(), // text: String,
-            color,         // color
-            font_size,     // font_size
-        );
-
-        let parent_entity = world
-            .create_entity()
-            .with(parent_transform)
-            .with(bg_color)
-            .build();
-        let entity = world
-            .create_entity()
-            .with(TimerDisplay::default())
-            .with(Parent {
-                entity: parent_entity,
-            })
-            .with(transform)
-            .with(text)
-            .build();
-
-        self.timer_display_entities.push(parent_entity);
-        self.timer_display_entities.push(entity);
+    fn ui_data_mut(&mut self) -> &mut UiData {
+        &mut self.ui_data
     }
 }
