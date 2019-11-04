@@ -1,15 +1,32 @@
+use std::collections::HashMap;
+
 use crate::audio::Music;
 use crate::resources::prelude::CheckpointData;
 
 pub mod prelude {
     pub use super::LevelManagerData;
+    pub use super::LevelSaveData;
     pub use super::MusicData;
     pub use super::SavefileData;
     pub use super::StatsData;
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Default)]
 pub struct SavefileData {
+    pub levels: HashMap<String, LevelSaveData>,
+}
+
+impl SavefileData {
+    pub fn level<S>(&self, name: S) -> Option<&LevelSaveData>
+    where
+        S: ToString,
+    {
+        self.levels.get(&name.to_string())
+    }
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct LevelSaveData {
     pub level_manager: LevelManagerData,
     pub checkpoint:    Option<CheckpointData>,
     pub music:         MusicData,

@@ -1,9 +1,17 @@
 use super::state_prelude::*;
 use crate::level_manager::LevelManager;
 
-#[derive(Default)]
 pub struct Startup {
     level_manager: LevelManager,
+}
+
+// TODO
+impl Default for Startup {
+    fn default() -> Self {
+        Self {
+            level_manager: LevelManager::new("level_easy.json"),
+        }
+    }
 }
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {

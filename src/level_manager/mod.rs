@@ -17,19 +17,28 @@ use crate::savefile_data::prelude::*;
 use crate::settings::prelude::*;
 use level_loader::{BuildType, LevelLoader, ToBuild};
 
-#[derive(Default)]
 pub struct LevelManager {
+    level_name:       String,
     pub level_loader: LevelLoader,
-    pub level_names:  Vec<String>,
-    pub level_index:  usize,
+    savefile_data:    Option<SavefileData>,
 }
 
 impl LevelManager {
+    pub fn new<S>(level_name: S) -> Self
+    where
+        S: ToString,
+    {
+        Self {
+            level_name:    level_name.to_string(),
+            level_loader:  Default::default(),
+            savefile_data: None,
+        }
+    }
+
     pub fn setup(&mut self, world: &mut World) {
         self.init_start(world);
 
         let settings = world.read_resource::<Settings>().level_manager.clone();
-        self.level_names = settings.level_names;
         self.level_loader = LevelLoader::default();
 
         self.load_from_savefile(world);
@@ -63,42 +72,48 @@ impl LevelManager {
             }
         }
 
-        let next_index = self.level_index + 1;
-        if next_index < self.level_names.len() {
-            world.write_resource::<Music>().reset();
-            world.write_resource::<StopAudio>().0 = true;
-            self.level_index = next_index;
-            self.load_current_level(world);
-            self.save_to_savefile(world);
+        // TODO
+        // let next_index = self.level_index + 1;
+        // if next_index < self.level_names.len() {
+        //     world.write_resource::<Music>().reset();
+        //     world.write_resource::<StopAudio>().0 = true;
+        //     self.level_index = next_index;
+        //     self.load_current_level(world);
+        //     self.save_to_savefile(world);
 
-            // Start timer again
-            let timer = &mut world.write_resource::<TimerRes>().0;
-            if timer.state.is_finished() || timer.state.is_stopped() {
-                timer.start().unwrap();
-            }
-        } else {
-            world.write_resource::<WinGame>().0 = true;
-        }
+        //     // Start timer again
+        //     let timer = &mut world.write_resource::<TimerRes>().0;
+        //     if timer.state.is_finished() || timer.state.is_stopped() {
+        //         timer.start().unwrap();
+        //     }
+        // } else {
+        world.write_resource::<WinGame>().0 = true;
+        // }
     }
 
-    pub fn save_to_savefile(&self, world: &mut World) {
+    pub fn save_to_savefile(&mut self, world: &mut World) {
         let checkpoint_data = world.read_resource::<CheckpointRes>().0.clone();
         let music_data = MusicData::from(&*world.read_resource::<Music>());
         let player_deaths = world.read_resource::<PlayerDeaths>().0;
 
-        let savefile_settings = &world.read_resource::<Settings>().savefile;
-        let savefile_path = file(&savefile_settings.filename);
-        let savefile_data = SavefileData {
+        let level_data = LevelSaveData {
             level_manager: LevelManagerData {
-                level_name: self.level_name().to_string(),
+                level_name: self.level_name.to_string(),
             },
             checkpoint:    checkpoint_data.clone(),
             music:         music_data,
             stats:         StatsData { player_deaths },
         };
+        self.savefile_data
+            .get_or_insert_with(Default::default)
+            .levels
+            .insert(self.level_name.to_string(), level_data);
 
-        match serde_json::to_string(&savefile_data) {
+        match serde_json::to_string(&self.savefile_data) {
             Ok(serialized) => {
+                let savefile_settings =
+                    &world.read_resource::<Settings>().savefile;
+                let savefile_path = file(&savefile_settings.filename);
                 write_file(savefile_path, serialized).unwrap();
             }
             Err(err) => eprintln!(
@@ -129,69 +144,38 @@ impl LevelManager {
     }
 
     fn load_from_savefile(&mut self, world: &mut World) {
-        use std::fs::File;
-        use std::path::PathBuf;
-
         let savefile_settings =
             world.read_resource::<Settings>().savefile.clone();
-        let savefile_path = PathBuf::from(file(&savefile_settings.filename));
-        if savefile_path.is_file() {
-            let savefile_file = File::open(savefile_path)
-                .expect("Savefile should exist at this point");
-            let savefile_data: Option<SavefileData> =
-                match serde_json::de::from_reader(savefile_file) {
-                    Ok(data) => Some(data),
-                    Err(e) => {
-                        eprintln!(
-                            "Couldn't deserialize savefile data: {:#?}",
-                            e
-                        );
-                        None
-                    }
-                };
-            if let Some(savefile_data) = savefile_data {
-                self.level_index = self
-                    .level_names
-                    .iter()
-                    .position(|n| n == &savefile_data.level_manager.level_name)
-                    .expect(&format!(
-                        "Level name '{}' from savefile doesn't exist",
-                        &savefile_data.level_manager.level_name,
-                    ));
-                self.load_current_level(world);
+        let savefile_path = file(&savefile_settings.filename);
+        if let Some(savefile_data) = get_savefile_data(savefile_path) {
+            if let Some(level_data) = savefile_data.level(&self.level_name) {
+                self.load_level(world);
                 world.write_resource::<CheckpointRes>().0 =
-                    savefile_data.checkpoint.clone();
+                    level_data.checkpoint.clone();
                 {
                     let mut music = world.write_resource::<Music>();
-                    music.queue = savefile_data.music.queue;
+                    music.queue = level_data.music.queue.clone();
                 }
                 world.write_resource::<PlayerDeaths>().0 =
-                    savefile_data.stats.player_deaths;
+                    level_data.stats.player_deaths;
                 self.apply_checkpoint(world);
             } else {
-                self.load_current_level(world);
+                // No save for this level
+                self.load_level(world);
             }
+
+            self.savefile_data = Some(savefile_data);
         } else {
             // No savefile
-            self.load_current_level(world);
+            self.load_level(world);
         }
     }
 
-    fn level_name(&self) -> &str {
-        self.level_names
-            .get(self.level_index)
-            .expect(&format!(
-                "Level at index {} doesn't exist",
-                self.level_index
-            ))
-            .as_ref()
-    }
-
-    fn load_current_level(&mut self, world: &mut World) {
+    fn load_level(&mut self, world: &mut World) {
         world.delete_all();
         world.write_resource::<CheckpointRes>().0 = None;
         self.level_loader.to_build = ToBuild::all();
-        self.level_loader.load(self.level_name().to_string());
+        self.level_loader.load(&self.level_name);
         self.level_loader.build(world);
     }
 
@@ -283,5 +267,30 @@ impl LevelManager {
             // If no checkpoint was set, then stop audio
             world.write_resource::<StopAudio>().0 = true;
         }
+    }
+}
+
+fn get_savefile_data<S>(filepath: S) -> Option<SavefileData>
+where
+    S: ToString,
+{
+    use std::fs::File;
+    use std::path::PathBuf;
+
+    let savefile_path = PathBuf::from(filepath.to_string());
+    if savefile_path.is_file() {
+        let savefile_file = File::open(savefile_path)
+            .expect("Savefile should exist at this point");
+        let savefile_data: Option<SavefileData> =
+            match serde_json::de::from_reader(savefile_file) {
+                Ok(data) => Some(data),
+                Err(e) => {
+                    eprintln!("Couldn't deserialize savefile data: {:#?}", e);
+                    None
+                }
+            };
+        savefile_data
+    } else {
+        None
     }
 }
