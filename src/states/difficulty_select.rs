@@ -63,7 +63,7 @@ impl DifficultySelect {
     fn create_uis(&mut self, data: &mut StateData<CustomGameData<CustomData>>) {
         let _progress = self.create_ui(data, resource(QUIT_UI_RON_PATH));
         let _progress = self.create_ui(data, resource(UI_RON_PATH));
-        create_selector(data.world);
+        self.create_selector(data.world);
     }
 
     fn handle_keys<'a, 'b>(
@@ -102,6 +102,52 @@ impl DifficultySelect {
             None
         }
     }
+
+    fn create_selector(&mut self, world: &mut World) {
+        use amethyst::core::Parent;
+        use amethyst::prelude::Builder;
+        use amethyst::ui::{Anchor, UiImage, UiTransform};
+
+        // world.register::<MenuSelector>();
+
+        let parent_transform = UiTransform::new(
+            "container_menu_selector".to_string(), // id
+            Anchor::Middle,                        // anchor
+            Anchor::Middle,                        // pivot
+            0.0,                                   // x
+            0.0,                                   // y
+            0.0,                                   // z
+            1.0,                                   // width
+            1.0,                                   // height
+        )
+        .into_percent();
+
+        let selector_transform = UiTransform::new(
+            "menu_selector".to_string(), // id
+            Anchor::MiddleLeft,          // anchor
+            Anchor::MiddleLeft,          // pivot
+            0.0,                         // x
+            0.1,                         // y
+            1.0,                         // z
+            0.3,                         // width
+            0.1,                         // height
+        )
+        .into_percent();
+        let color = UiImage::SolidColor([1.0, 1.0, 1.0, 1.0]);
+
+        let parent = world.create_entity().with(parent_transform).build();
+
+        let selector = world
+            .create_entity()
+            .with(Parent { entity: parent })
+            .with(selector_transform)
+            .with(color)
+            .with(MenuSelector::default())
+            .build();
+
+        self.push_ui_entity(parent);
+        self.push_ui_entity(selector);
+    }
 }
 
 impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
@@ -137,31 +183,4 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
     fn ui_data_mut(&mut self) -> &mut UiData {
         &mut self.ui_data
     }
-}
-
-fn create_selector(world: &mut World) {
-    use amethyst::prelude::Builder;
-    use amethyst::ui::{Anchor, UiImage, UiTransform};
-
-    world.register::<MenuSelector>();
-
-    let transform = UiTransform::new(
-        "menu_selector".to_string(), // id
-        Anchor::MiddleLeft,          // anchor
-        Anchor::BottomLeft,          // pivot
-        0.0,                         // x
-        0.1,                         // y
-        1.0,                         // z
-        0.3,                         // width
-        0.25,                        // height
-    )
-    .into_percent();
-    let color = UiImage::SolidColor([1.0, 1.0, 1.0, 1.0]);
-
-    world
-        .create_entity()
-        .with(transform)
-        .with(color)
-        .with(MenuSelector::default())
-        .build();
 }

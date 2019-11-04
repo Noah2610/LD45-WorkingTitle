@@ -7,6 +7,7 @@ Container(
         width:          1.0,
         height:         1.0,
         anchor:         Middle,
+        pivot:          Middle,
         mouse_reactive: false,
         percent:        true,
         opaque:         false,

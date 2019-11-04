@@ -101,7 +101,7 @@ fn build_game_data<'a, 'b>(
             .with_core_bundle(ui_bundle)?
             .with_core_bundle(audio_bundle)?
             .with_core_bundle(fps_bundle)?
-            .with_bundle("ingame", ingame_input_bundle)?
+            .with_core_bundle(ingame_input_bundle)?
             .with_bundle("menu", menu_input_bundle)?
             .with_core_desc(
                 DjSystemDesc::new(|music: &mut Music| music.current()),

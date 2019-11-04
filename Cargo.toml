@@ -18,7 +18,8 @@ version = "0.13.2"
 features = ["vulkan"]
 
 [dependencies.deathframe]
-version = "0.4.2"
+path = "../deathframe"
+# version = "0.4.2"
 # git      = "https://github.com/Noah2610/deathframe"
 # branch   = "amethyst_fork"
 
