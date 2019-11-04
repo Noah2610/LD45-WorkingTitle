@@ -9,8 +9,8 @@
         TogglePause: [ [Key(Escape)], [Key(P)], ],
         Quit:        [ [Key(LShift), Key(Escape)], [Key(LShift), Key(Q)], ],
         ToMainMenu:  [ [Key(Q)], [Key(Back)], ],
-        MenuNext:    [ [Key(Down)], ],
-        MenuPrev:    [ [Key(Up)], ],
-        MenuSelect:  [ [Key(Return)], ],
+        MenuNext:    [ [Key(S)], [Key(Down)], [Key(J)] ],
+        MenuPrev:    [ [Key(W)], [Key(Up)], [Key(K)] ],
+        MenuSelect:  [ [Key(Return)], [Key(Space)] ],
     },
 )
