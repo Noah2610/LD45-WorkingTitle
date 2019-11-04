@@ -16,8 +16,7 @@ version = "0.13.2"
 features = ["vulkan"]
 
 [dependencies.deathframe]
-path = "../deathframe"
-# version = "0.4.3"
+version = "0.4.3"
 
 [dependencies.climer]
 version  = "0.4.0"
