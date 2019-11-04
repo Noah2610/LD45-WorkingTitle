@@ -24,7 +24,7 @@ pub mod state_prelude {
     pub use crate::components::prelude::*;
     pub use crate::helpers::*;
     pub use crate::input::prelude::*;
-    pub use crate::resources::{self, prelude::*};
+    pub use crate::resources::prelude::*;
     pub use crate::settings::prelude::*;
     pub use crate::CustomData;
 }

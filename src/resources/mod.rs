@@ -3,6 +3,7 @@ pub mod prelude {
     pub use deathframe::handles::SpriteSheetHandles;
 
     pub use super::checkpoint::{CheckpointData, CheckpointRes};
+    pub use super::insert_resources;
     pub use super::player_deaths::PlayerDeaths;
     pub use super::reset_level::ResetLevel;
     pub use super::should_print_time::ShouldPrintTime;
@@ -27,10 +28,13 @@ mod to_main_menu;
 mod win_game;
 mod win_level;
 
-use amethyst::ecs::{World, WorldExt};
+use amethyst::ecs::World;
+
+use crate::helpers::resource;
+use crate::settings::Settings;
 
 pub fn insert_resources(world: &mut World) {
-    use super::prelude::*;
+    use prelude::*;
 
     world.insert(load_settings());
     world.insert(SpriteSheetHandles::default());
@@ -44,4 +48,12 @@ pub fn insert_resources(world: &mut World) {
     world.insert(TimerRes::default());
     world.insert(ToMainMenu::default());
     world.insert(ShouldPrintTime::default());
+}
+
+fn load_settings() -> Settings {
+    use std::fs::File;
+
+    let file = File::open(resource("config/settings.ron"))
+        .expect("Couldn't open settings.ron file");
+    ron::de::from_reader(file).expect("Failed parsing settings.ron file")
 }
