@@ -108,8 +108,6 @@ impl DifficultySelect {
         use amethyst::prelude::Builder;
         use amethyst::ui::{Anchor, UiImage, UiTransform};
 
-        // world.register::<MenuSelector>();
-
         let parent_transform = UiTransform::new(
             "container_menu_selector".to_string(), // id
             Anchor::Middle,                        // anchor
@@ -120,7 +118,8 @@ impl DifficultySelect {
             1.0,                                   // width
             1.0,                                   // height
         )
-        .into_percent();
+        .into_percent()
+        .into_transparent();
 
         let selector_transform = UiTransform::new(
             "menu_selector".to_string(), // id
@@ -132,7 +131,8 @@ impl DifficultySelect {
             0.3,                         // width
             0.1,                         // height
         )
-        .into_percent();
+        .into_percent()
+        .into_transparent();
         let color = UiImage::SolidColor([1.0, 1.0, 1.0, 1.0]);
 
         let parent = world.create_entity().with(parent_transform).build();
