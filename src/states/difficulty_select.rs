@@ -20,6 +20,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
     }
 
     fn on_resume(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
+        let _progress = self.create_ui(&mut data, resource(QUIT_UI_RON_PATH));
         let _progress = self.create_ui(&mut data, resource(UI_RON_PATH));
     }
 

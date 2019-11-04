@@ -1,22 +1,41 @@
 #![enable(implicit_some)]
-Button(
+Container(
     transform: (
-        id:             "button_quit",
+        id:             "container_button_quit",
         x:              0.0,
-        y:              -4.0,
-        width:          32,
-        height:         32,
+        y:              0.0,
+        width:          32.0,
+        height:         32.0,
         anchor:         TopRight,
         pivot:          TopRight,
-        mouse_reactive: true,
+        mouse_reactive: false,
         percent:        false,
-        opaque:         true,
+        opaque:         false,
     ),
-    button: (
-        text:              "X",
-        font_size:         24.0,
-        font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
-        normal_text_color: (1.0, 1.0, 1.0, 1.0),
-        hover_text_color:  (0.5, 0.5, 0.5, 1.0),
-    ),
+
+    background: SolidColor(0.0, 0.0, 0.0, 1.0),
+
+    children: [
+        Button(
+            transform: (
+                id:             "button_quit",
+                x:              0.0,
+                y:              -4.0,
+                width:          32.0,
+                height:         32.0,
+                anchor:         Middle,
+                pivot:          Middle,
+                mouse_reactive: true,
+                percent:        false,
+                opaque:         true,
+            ),
+            button: (
+                text:              "X",
+                font_size:         24.0,
+                font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                normal_text_color: (1.0, 1.0, 1.0, 1.0),
+                hover_text_color:  (0.5, 0.5, 0.5, 1.0),
+            ),
+        ),
+    ]
 )
