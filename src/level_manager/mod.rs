@@ -68,7 +68,21 @@ impl LevelManager {
     }
 
     pub fn win_level(&mut self, world: &mut World) {
+        // Finish timer here, so the time is saved to the savefile.
+        if let Some(timer) = world.write_resource::<TimerRes>().0.as_mut() {
+            if timer.state.is_running() {
+                timer.finish().unwrap();
+                println!("---\nLEVEL TIME: {}\n---", timer.time_output());
+            }
+        }
         world.write_resource::<WinGame>().0 = true;
+        // Clear these resources, so when the game saves,
+        // it resets the relevant data for this level.
+        // This way, after the level was beaten and the player
+        // starts the same level again, they will start at the beginning.
+        world.write_resource::<CheckpointRes>().0 = None;
+        world.write_resource::<Music>().reset();
+        self.save_to_savefile(world);
     }
 
     pub fn save_to_savefile(&mut self, world: &mut World) {
@@ -76,6 +90,17 @@ impl LevelManager {
         let music_data = MusicData::from(&*world.read_resource::<Music>());
         let player_deaths = world.read_resource::<PlayerDeaths>().0;
 
+        let time = world
+            .read_resource::<TimerRes>()
+            .0
+            .as_ref()
+            .filter(|timer| timer.state.is_finished())
+            .map(|timer| timer.time_output());
+        let existing_level_data = self
+            .savefile_data
+            .get_or_insert_with(Default::default)
+            .levels
+            .get(&self.level_name);
         let level_data = LevelSaveData {
             level_manager: LevelManagerData {
                 level_name: self.level_name.to_string(),
@@ -83,6 +108,20 @@ impl LevelManager {
             checkpoint:    checkpoint_data.clone(),
             music:         music_data,
             stats:         StatsData { player_deaths },
+            best_time:     existing_level_data
+                .and_then(|p| p.best_time)
+                .map(|prev_time| {
+                    if let Some(time) = time {
+                        if time < prev_time {
+                            time
+                        } else {
+                            prev_time
+                        }
+                    } else {
+                        prev_time
+                    }
+                })
+                .or(time),
         };
         self.savefile_data
             .get_or_insert_with(Default::default)

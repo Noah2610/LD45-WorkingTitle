@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use climer::Time;
+
 use crate::audio::Music;
 use crate::resources::prelude::CheckpointData;
 
@@ -31,6 +33,7 @@ pub struct LevelSaveData {
     pub checkpoint:    Option<CheckpointData>,
     pub music:         MusicData,
     pub stats:         StatsData,
+    pub best_time:     Option<Time>,
 }
 
 #[derive(Deserialize, Serialize)]
