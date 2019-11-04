@@ -21,6 +21,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
 {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
         data.world.delete_all();
+        stop_audio(data.world);
         self.level_manager.setup(data.world);
     }
 
@@ -30,6 +31,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
         data.world.write_resource::<Music>().reset();
         data.world.write_resource::<CheckpointRes>().0 = None;
         data.world.write_resource::<PlayerDeaths>().0 = 0;
+        // data.world.write_resource::<StopAudio>().0 = true;
     }
 
     fn update(
@@ -55,12 +57,6 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
         if data.world.read_resource::<ResetLevel>().0 {
             self.level_manager.reset(data.world);
             data.world.write_resource::<ResetLevel>().0 = false;
-        }
-
-        // Stop audio
-        if data.world.read_resource::<StopAudio>().0 {
-            stop_audio(data.world);
-            data.world.write_resource::<StopAudio>().0 = false;
         }
 
         // Next level

@@ -44,6 +44,14 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
             Trans::None
         }
     }
+
+    fn shadow_update(&mut self, data: StateData<CustomGameData<CustomData>>) {
+        // Stop audio
+        if data.world.read_resource::<StopAudio>().0 {
+            stop_audio(data.world);
+            data.world.write_resource::<StopAudio>().0 = false;
+        }
+    }
 }
 
 impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
