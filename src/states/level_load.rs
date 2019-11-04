@@ -59,9 +59,9 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
             data.world.write_resource::<ResetLevel>().0 = false;
         }
 
-        // Next level
+        // Win level
         if data.world.read_resource::<WinLevel>().0 {
-            self.level_manager.next_level(data.world);
+            self.level_manager.win_level(data.world);
             data.world.write_resource::<WinLevel>().0 = false;
         }
 

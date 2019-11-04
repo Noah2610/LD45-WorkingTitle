@@ -67,24 +67,8 @@ impl LevelManager {
         }
     }
 
-    pub fn next_level(&mut self, world: &mut World) {
-        // TODO
-        // let next_index = self.level_index + 1;
-        // if next_index < self.level_names.len() {
-        //     world.write_resource::<Music>().reset();
-        //     world.write_resource::<StopAudio>().0 = true;
-        //     self.level_index = next_index;
-        //     self.load_current_level(world);
-        //     self.save_to_savefile(world);
-
-        //     // Start timer again
-        //     let timer = &mut world.write_resource::<TimerRes>().0;
-        //     if timer.state.is_finished() || timer.state.is_stopped() {
-        //         timer.start().unwrap();
-        //     }
-        // } else {
+    pub fn win_level(&mut self, world: &mut World) {
         world.write_resource::<WinGame>().0 = true;
-        // }
     }
 
     pub fn save_to_savefile(&mut self, world: &mut World) {
