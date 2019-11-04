@@ -12,26 +12,12 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
         let _progress = self.create_ui(&mut data, resource(UI_RON_PATH));
         data.world.write_resource::<Music>().pause();
         set_decreased_volume(&mut data.world);
-        // Pause timer
-        {
-            let timer = &mut data.world.write_resource::<TimerRes>().0;
-            if timer.state.is_running() {
-                timer.pause().unwrap();
-            }
-        }
     }
 
     fn on_stop(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
         self.delete_ui(&mut data);
         data.world.write_resource::<Music>().resume();
         set_normal_volume(&mut data.world);
-        // Resume timer
-        {
-            let timer = &mut data.world.write_resource::<TimerRes>().0;
-            if timer.state.is_paused() {
-                timer.resume().unwrap();
-            }
-        }
     }
 
     fn update(
@@ -70,6 +56,9 @@ impl Paused {
             Some(Trans::Quit)
         } else if input.is_down(ActionBinding::TogglePause) {
             Some(Trans::Pop)
+        } else if input.is_down(ActionBinding::ToMainMenu) {
+            world.write_resource::<ToMainMenu>().0 = true;
+            Some(Trans::Pop)
         } else {
             None
         }
@@ -79,11 +68,15 @@ impl Paused {
 impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
     fn event_triggered(
         &mut self,
-        _data: &mut StateData<CustomGameData<CustomData>>,
+        data: &mut StateData<CustomGameData<CustomData>>,
         event_name: String,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
         match event_name.as_ref() {
             "button_unpause" => Some(Trans::Pop),
+            "button_to_main_menu" => {
+                data.world.write_resource::<ToMainMenu>().0 = true;
+                Some(Trans::Pop)
+            }
             "button_quit" => Some(Trans::Quit),
             _ => None,
         }

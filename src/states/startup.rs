@@ -1,5 +1,4 @@
 use super::state_prelude::*;
-use crate::level_manager::LevelManager;
 
 #[derive(Default)]
 pub struct Startup;
@@ -32,6 +31,7 @@ fn insert_resources(world: &mut World) {
     world.insert(ShouldSave::default());
     world.insert(PlayerDeaths::default());
     world.insert(TimerRes::default());
+    world.insert(ToMainMenu::default());
 }
 
 fn load_settings() -> Settings {

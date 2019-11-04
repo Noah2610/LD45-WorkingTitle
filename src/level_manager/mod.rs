@@ -36,19 +36,21 @@ impl LevelManager {
     }
 
     pub fn setup(&mut self, world: &mut World) {
-        self.init_start(world);
-
-        let settings = world.read_resource::<Settings>().level_manager.clone();
         self.level_loader = LevelLoader::default();
 
         self.load_from_savefile(world);
 
-        self.init_end(world);
+        if world.read_resource::<Music>().should_audio_stop() {
+            world.write_resource::<StopAudio>().0 = true;
+        }
+
+        // Create timer if a timer should run
+        if world.read_resource::<CheckpointRes>().0.is_none() {
+            world.write_resource::<TimerRes>().add_timer();
+        }
     }
 
     pub fn reset(&mut self, world: &mut World) {
-        self.init_start(world);
-
         self.level_loader.to_build = ToBuild::none()
             .with(BuildType::Backgrounds)
             .with(BuildType::Camera)
@@ -60,18 +62,12 @@ impl LevelManager {
         self.level_loader.build(world);
         self.apply_checkpoint(world);
 
-        self.init_end(world);
+        if world.read_resource::<Music>().should_audio_stop() {
+            world.write_resource::<StopAudio>().0 = true;
+        }
     }
 
     pub fn next_level(&mut self, world: &mut World) {
-        {
-            let timer = &mut world.write_resource::<TimerRes>().0;
-            if timer.state.is_running() {
-                timer.finish().unwrap();
-                println!("---\nLEVEL TIME: {}\n---", timer.time_output());
-            }
-        }
-
         // TODO
         // let next_index = self.level_index + 1;
         // if next_index < self.level_names.len() {
@@ -121,25 +117,6 @@ impl LevelManager {
                  serializing save data:\n{:#?}",
                 err
             ),
-        }
-    }
-
-    fn init_start(&self, world: &mut World) {
-        world.write_resource::<ResetLevel>().0 = false;
-        world.write_resource::<WinGame>().0 = false;
-    }
-
-    fn init_end(&mut self, world: &mut World) {
-        if world.read_resource::<Music>().should_audio_stop() {
-            world.write_resource::<StopAudio>().0 = true;
-        }
-
-        // Start timer
-        if world.read_resource::<CheckpointRes>().0.is_none() {
-            let timer = &mut world.write_resource::<TimerRes>().0;
-            if timer.state.is_stopped() {
-                timer.start().unwrap();
-            }
         }
     }
 

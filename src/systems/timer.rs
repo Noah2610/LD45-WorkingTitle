@@ -13,13 +13,15 @@ impl<'a> System<'a> for TimerSystem {
     type SystemData = Write<'a, TimerRes>;
 
     fn run(&mut self, mut timer_res: Self::SystemData) {
-        let now = Instant::now();
+        if let Some(timer) = timer_res.0.as_mut() {
+            let now = Instant::now();
 
-        if timer_res.0.state.is_running()
-            && now.duration_since(self.last_update)
-                >= self.update_timer_duration
-        {
-            timer_res.0.update().unwrap();
+            if timer.state.is_running()
+                && now.duration_since(self.last_update)
+                    >= self.update_timer_duration
+            {
+                timer.update().unwrap();
+            }
         }
     }
 }

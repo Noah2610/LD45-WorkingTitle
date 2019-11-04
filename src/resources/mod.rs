@@ -7,6 +7,7 @@ pub mod prelude {
     pub use super::should_save::ShouldSave;
     pub use super::stop_audio::StopAudio;
     pub use super::timer::TimerRes;
+    pub use super::to_main_menu::ToMainMenu;
     pub use super::win_game::WinGame;
     pub use super::win_level::WinLevel;
     pub use crate::audio::Music;
@@ -19,5 +20,6 @@ mod reset_level;
 mod should_save;
 mod stop_audio;
 mod timer;
+mod to_main_menu;
 mod win_game;
 mod win_level;

@@ -29,6 +29,7 @@ pub enum ActionBinding {
     PlayerRun,
     TogglePause,
     Quit,
+    ToMainMenu,
 }
 
 impl Default for ActionBinding {

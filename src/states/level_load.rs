@@ -20,13 +20,16 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
     for LevelLoad
 {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
+        data.world.delete_all();
         self.level_manager.setup(data.world);
     }
 
-    fn on_resume(&mut self, data: StateData<CustomGameData<CustomData>>) {
-        // TODO: This happens when the Ingame state pops-off,
-        // so we should probably return to the DifficultySelect state now.
-        self.level_manager.reset(data.world);
+    fn on_stop(&mut self, data: StateData<CustomGameData<CustomData>>) {
+        data.world.delete_all();
+        data.world.write_resource::<TimerRes>().remove_timer();
+        data.world.write_resource::<Music>().reset();
+        data.world.write_resource::<CheckpointRes>().0 = None;
+        data.world.write_resource::<PlayerDeaths>().0 = 0;
     }
 
     fn update(
@@ -35,32 +38,40 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
     ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
         data.data.update(data.world, "level_load").unwrap();
 
-        if self.level_manager.level_loader.is_finished() {
-            Trans::Push(Box::new(Ingame::default()))
-        } else {
-            Trans::None
+        if data.world.read_resource::<ToMainMenu>().0 {
+            data.world.write_resource::<ToMainMenu>().0 = false;
+            return Trans::Pop;
         }
+
+        if self.level_manager.level_loader.is_finished() {
+            return Trans::Push(Box::new(Ingame::default()));
+        }
+
+        Trans::None
     }
 
-    fn shadow_update(
-        &mut self,
-        mut data: StateData<CustomGameData<CustomData>>,
-    ) {
+    fn shadow_update(&mut self, data: StateData<CustomGameData<CustomData>>) {
+        // Reset level
+        if data.world.read_resource::<ResetLevel>().0 {
+            self.level_manager.reset(data.world);
+            data.world.write_resource::<ResetLevel>().0 = false;
+        }
+
         // Stop audio
         if data.world.read_resource::<StopAudio>().0 {
-            stop_audio(&mut data.world);
+            stop_audio(data.world);
             data.world.write_resource::<StopAudio>().0 = false;
         }
 
         // Next level
         if data.world.read_resource::<WinLevel>().0 {
-            self.level_manager.next_level(&mut data.world);
+            self.level_manager.next_level(data.world);
             data.world.write_resource::<WinLevel>().0 = false;
         }
 
         // Should save to savefile
         if data.world.read_resource::<ShouldSave>().0 {
-            self.level_manager.save_to_savefile(&mut data.world);
+            self.level_manager.save_to_savefile(data.world);
             data.world.write_resource::<ShouldSave>().0 = false;
         }
     }
