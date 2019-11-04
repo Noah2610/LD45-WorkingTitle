@@ -83,7 +83,7 @@ fn build_game_data<'a, 'b>(
     let transform_bundle = TransformBundle::new();
     let ingame_input_bundle = input::ingame_input_bundle();
     let menu_input_bundle = input::menu_input_bundle();
-    let ui_bundle = UiBundle::<input::MenuBindings>::new();
+    let ui_bundle = UiBundle::<input::IngameBindings>::new();
     let audio_bundle = AudioBundle::default();
     let fps_bundle = FpsCounterBundle;
 
