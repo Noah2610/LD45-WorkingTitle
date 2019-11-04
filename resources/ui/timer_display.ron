@@ -32,7 +32,7 @@ Container(
                 opaque:         true,
             ),
             text: (
-                text:      "",
+                text:      "00:00:00.000",
                 font_size: 24.0,
                 color:     (1.0, 1.0, 1.0, 1.0),
                 font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
