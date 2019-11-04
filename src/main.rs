@@ -45,7 +45,7 @@ fn init_game() -> amethyst::Result<()> {
     let mut game: amethyst::CoreApplication<CustomGameData<CustomData>> =
         ApplicationBuilder::new(
             application_root_dir().unwrap(),
-            states::Startup::default(),
+            states::prelude::Startup::default(),
         )?
         .with_frame_limit_config(FrameRateLimitConfig::load(resource(
             "config/frame_limiter.ron",
@@ -92,6 +92,8 @@ fn build_game_data<'a, 'b>(
         CustomGameDataBuilder::<'a, 'b, CustomData>::default()
             .custom(CustomData::default())
             .dispatcher("startup")?
+            .dispatcher("difficulty_select")?
+            .dispatcher("level_load")?
             .dispatcher("ingame")?
             .dispatcher("paused")?
             .dispatcher("win")?

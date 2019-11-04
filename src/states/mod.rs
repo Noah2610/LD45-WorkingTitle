@@ -1,8 +1,10 @@
 pub mod prelude {
-    pub use super::Ingame;
-    pub use super::Paused;
-    pub use super::Startup;
-    pub use super::Win;
+    pub use super::difficulty_select::DifficultySelect;
+    pub use super::ingame::Ingame;
+    pub use super::level_load::LevelLoad;
+    pub use super::paused::Paused;
+    pub use super::startup::Startup;
+    pub use super::win::Win;
 }
 
 pub mod state_prelude {
@@ -23,12 +25,9 @@ pub mod state_prelude {
     pub use crate::CustomData;
 }
 
+mod difficulty_select;
 mod ingame;
+mod level_load;
 mod paused;
 mod startup;
 mod win;
-
-pub use ingame::Ingame;
-pub use paused::Paused;
-pub use startup::Startup;
-pub use win::Win;
