@@ -8,6 +8,9 @@
         PlayerRun:   [ [Key(LShift)], ],
         TogglePause: [ [Key(Escape)], [Key(P)], ],
         Quit:        [ [Key(LShift), Key(Escape)], [Key(LShift), Key(Q)], ],
-        ToMainMenu:  [ [Key(Q)], [Key(Back)], ]
+        ToMainMenu:  [ [Key(Q)], [Key(Back)], ],
+        MenuNext:    [ [Key(Down)], ],
+        MenuPrev:    [ [Key(Up)], ],
+        MenuSelect:  [ [Key(Return)], ],
     },
 )

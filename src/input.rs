@@ -30,6 +30,9 @@ pub enum ActionBinding {
     TogglePause,
     Quit,
     ToMainMenu,
+    MenuNext,
+    MenuPrev,
+    MenuSelect,
 }
 
 impl Default for ActionBinding {
