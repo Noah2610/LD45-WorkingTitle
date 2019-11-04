@@ -69,7 +69,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
 
         // Should save to savefile
         if data.world.read_resource::<ShouldSave>().0 {
-            self.level_manager.save_to_savefile(data.world);
+            self.level_manager.save_to_savefile(data.world, false);
             data.world.write_resource::<ShouldSave>().0 = false;
         }
     }

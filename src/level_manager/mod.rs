@@ -82,10 +82,10 @@ impl LevelManager {
         // starts the same level again, they will start at the beginning.
         world.write_resource::<CheckpointRes>().0 = None;
         world.write_resource::<Music>().reset();
-        self.save_to_savefile(world);
+        self.save_to_savefile(world, true);
     }
 
-    pub fn save_to_savefile(&mut self, world: &mut World) {
+    pub fn save_to_savefile(&mut self, world: &mut World, won: bool) {
         let checkpoint_data = world.read_resource::<CheckpointRes>().0.clone();
         let music_data = MusicData::from(&*world.read_resource::<Music>());
         let player_deaths = world.read_resource::<PlayerDeaths>().0;
@@ -122,6 +122,8 @@ impl LevelManager {
                     }
                 })
                 .or(time),
+            won:           won
+                || existing_level_data.map(|d| d.won).unwrap_or(false),
         };
         self.savefile_data
             .get_or_insert_with(Default::default)
@@ -150,14 +152,18 @@ impl LevelManager {
         if let Some(savefile_data) = get_savefile_data(savefile_path) {
             if let Some(level_data) = savefile_data.level(&self.level_name) {
                 self.load_level(world);
+                // Set CHECKPOINT
                 world.write_resource::<CheckpointRes>().0 =
                     level_data.checkpoint.clone();
-                {
-                    let mut music = world.write_resource::<Music>();
-                    music.queue = level_data.music.queue.clone();
-                }
+                // Set MUSIC
+                world.write_resource::<Music>().queue =
+                    level_data.music.queue.clone();
+                // Set PLAYER_DEATHS
                 world.write_resource::<PlayerDeaths>().0 =
                     level_data.stats.player_deaths;
+                // Set SHOULD_DISPLAY_TIMER
+                world.write_resource::<ShouldDisplayTimer>().0 = level_data.won;
+                // Apply checkpoint
                 self.apply_checkpoint(world);
             } else {
                 // No save for this level

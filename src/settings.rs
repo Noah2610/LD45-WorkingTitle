@@ -11,6 +11,7 @@ pub mod prelude {
     pub use super::PlayerSettings;
     pub use super::SavefileSettings;
     pub use super::Settings;
+    pub use super::TimerDisplaySettings;
 }
 
 #[derive(Clone, Deserialize)]
@@ -21,6 +22,7 @@ pub struct Settings {
     pub savefile:      SavefileSettings,
     pub level_manager: LevelManagerSettings,
     pub music:         MusicSettings,
+    pub timer_display: TimerDisplaySettings,
 }
 
 #[derive(Clone, Deserialize)]
@@ -94,4 +96,11 @@ pub struct LevelManagerSettings {
 pub struct MusicSettings {
     pub volume:           f32,
     pub decreased_volume: f32,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct TimerDisplaySettings {
+    pub font_size: f32,
+    pub color:     [f32; 4],
+    pub bg_color:  [f32; 4],
 }

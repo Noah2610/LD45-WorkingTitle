@@ -21,6 +21,7 @@ pub mod prelude {
 
 mod system_prelude {
     pub use amethyst::ecs::{World, WorldExt};
+    pub use amethyst::ui::{UiText, UiTransform};
     pub use deathframe::systems::system_prelude::*;
 
     pub use super::helpers::*;

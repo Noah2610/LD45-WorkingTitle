@@ -79,4 +79,10 @@
         volume:           1.0,
         decreased_volume: 0.5,
     ),
+
+    timer_display: (
+        font_size: 24.0,
+        color:     (0.0, 0.0, 0.0, 1.0),
+        bg_color:  (0.5, 0.5, 0.5, 0.8),
+    ),
 )

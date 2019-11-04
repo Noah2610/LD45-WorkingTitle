@@ -10,17 +10,40 @@ pub struct TimerSystem {
 }
 
 impl<'a> System<'a> for TimerSystem {
-    type SystemData = Write<'a, TimerRes>;
+    type SystemData = (
+        Read<'a, ShouldDisplayTimer>,
+        Write<'a, TimerRes>,
+        ReadStorage<'a, TimerDisplay>,
+        WriteStorage<'a, UiText>,
+    );
 
-    fn run(&mut self, mut timer_res: Self::SystemData) {
+    fn run(
+        &mut self,
+        (
+            should_display_timer,
+            mut timer_res,
+            timer_displays,
+            mut ui_texts,
+        ): Self::SystemData,
+    ) {
         if let Some(timer) = timer_res.0.as_mut() {
             let now = Instant::now();
 
+            // Print to stdout
             if timer.state.is_running()
                 && now.duration_since(self.last_update)
                     >= self.update_timer_duration
             {
                 timer.update().unwrap();
+
+                // Display timer
+                if should_display_timer.0 {
+                    for (_, text) in (&timer_displays, &mut ui_texts).join() {
+                        text.text = timer.time_output().to_string();
+                    }
+                }
+
+                self.last_update = now;
             }
         }
     }

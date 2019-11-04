@@ -34,6 +34,7 @@ pub struct LevelSaveData {
     pub music:         MusicData,
     pub stats:         StatsData,
     pub best_time:     Option<Time>,
+    pub won:           bool,
 }
 
 #[derive(Deserialize, Serialize)]
