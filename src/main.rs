@@ -47,10 +47,9 @@ fn init_game() -> amethyst::Result<()> {
             application_root_dir().unwrap(),
             states::prelude::Startup::default(),
         )?
-        .with_frame_limit_config(
-            FrameRateLimitConfig::load(resource("config/frame_limiter.ron"))
-                .expect("Failed loading FrameRateLimitConfig from config file"),
-        )
+        .with_frame_limit_config(FrameRateLimitConfig::load(resource(
+            "config/frame_limiter.ron",
+        )))
         .build(game_data)?;
     game.run();
 
@@ -77,7 +76,6 @@ fn build_game_data<'a, 'b>(
     let rendering_bundle = RenderingBundle::<DefaultBackend>::new()
         .with_plugin(
             RenderToWindow::from_config_path(display_config_file)
-                .expect("Failed loading DisplayConfig from config file")
                 .with_clear([0.8, 0.8, 0.8, 1.0]),
         )
         .with_plugin(RenderFlat2D::default())
