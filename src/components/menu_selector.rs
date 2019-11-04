@@ -75,6 +75,10 @@ impl MenuSelector {
     pub fn prev(&mut self) {
         self.selection = self.selection.prev();
     }
+
+    pub fn set(&mut self, selection: MenuSelection) {
+        self.selection = selection;
+    }
 }
 
 impl Component for MenuSelector {

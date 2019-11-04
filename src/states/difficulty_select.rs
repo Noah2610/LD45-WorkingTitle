@@ -1,3 +1,5 @@
+use std::convert::TryFrom;
+
 use super::state_prelude::*;
 
 const UI_RON_PATH: &str = "ui/difficulty_select.ron";
@@ -84,20 +86,18 @@ impl DifficultySelect {
                 .join()
                 .next()
                 .map(MenuSelector::prev);
+        } else if input.is_down(MenuActionBinding::MenuSelect) {
+            if let Some(selector) =
+                (&mut world.write_storage::<MenuSelector>()).join().next()
+            {
+                return Some(Trans::Push(Box::new(LevelLoad::new(
+                    selector.selection.level_name(),
+                ))));
+            }
         }
 
         if input.is_down(MenuActionBinding::Quit) {
             Some(Trans::Quit)
-        } else if input.is_down(MenuActionBinding::MenuSelect) {
-            if let Some(selector) =
-                (&world.read_storage::<MenuSelector>()).join().next()
-            {
-                Some(Trans::Push(Box::new(LevelLoad::new(
-                    selector.selection.level_name(),
-                ))))
-            } else {
-                None
-            }
         } else {
             None
         }
@@ -133,7 +133,7 @@ impl DifficultySelect {
         )
         .into_percent()
         .into_transparent();
-        let color = UiImage::SolidColor([1.0, 1.0, 1.0, 1.0]);
+        let color = UiImage::SolidColor([0.5, 0.5, 0.5, 0.8]);
 
         let parent = world.create_entity().with(parent_transform).build();
 
@@ -155,23 +155,36 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
 {
     fn event_triggered(
         &mut self,
-        _data: &mut StateData<CustomGameData<CustomData>>,
+        data: &mut StateData<CustomGameData<CustomData>>,
         event_name: String,
+        event: UiEvent,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
-        match event_name.as_ref() {
-            "button_start_easy" => {
+        use amethyst::ecs::Join;
+
+        match (event_name.as_ref(), event.event_type) {
+            ("button_start_easy", UiEventType::ClickStop) => {
                 Some(Trans::Push(Box::new(LevelLoad::new("level_easy.json"))))
             }
-            "button_start_normal" => {
+            ("button_start_normal", UiEventType::ClickStop) => {
                 Some(Trans::Push(Box::new(LevelLoad::new("level_normal.json"))))
             }
-            "button_start_hard" => {
+            ("button_start_hard", UiEventType::ClickStop) => {
                 Some(Trans::Push(Box::new(LevelLoad::new("level_hard.json"))))
             }
-            "button_start_absurd" => {
+            ("button_start_absurd", UiEventType::ClickStop) => {
                 Some(Trans::Push(Box::new(LevelLoad::new("level_absurd.json"))))
             }
-            "button_quit" => Some(Trans::Quit),
+            ("button_quit", UiEventType::ClickStop) => Some(Trans::Quit),
+
+            (name, UiEventType::HoverStart) => {
+                if let Ok(selection) = MenuSelection::try_from(name) {
+                    (&mut data.world.write_storage::<MenuSelector>())
+                        .join()
+                        .next()
+                        .map(|selector| selector.set(selection));
+                }
+                None
+            }
             _ => None,
         }
     }

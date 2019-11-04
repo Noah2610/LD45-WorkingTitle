@@ -72,14 +72,19 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
         &mut self,
         data: &mut StateData<CustomGameData<CustomData>>,
         event_name: String,
+        event: UiEvent,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
-        match event_name.as_ref() {
-            "button_back" => Some(Trans::Pop),
-            "button_quit" => {
-                data.world.write_resource::<ToMainMenu>().0 = true;
-                Some(Trans::Pop)
+        if let UiEventType::ClickStop = event.event_type {
+            match event_name.as_ref() {
+                "button_back" => Some(Trans::Pop),
+                "button_quit" => {
+                    data.world.write_resource::<ToMainMenu>().0 = true;
+                    Some(Trans::Pop)
+                }
+                _ => None,
             }
-            _ => None,
+        } else {
+            None
         }
     }
 

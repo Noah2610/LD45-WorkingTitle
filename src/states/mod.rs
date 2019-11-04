@@ -12,6 +12,7 @@ pub mod state_prelude {
     pub const BACK_UI_RON_PATH: &str = "ui/_back.ron";
 
     pub use amethyst::ecs::{World, WorldExt};
+    pub use amethyst::ui::{UiEvent, UiEventType};
     pub use amethyst::{State, StateData, StateEvent, Trans};
 
     pub use deathframe::custom_game_data::CustomGameData;
