@@ -1,0 +1,9 @@
+(
+    axes: {},
+    actions: {
+        Quit:       [ [Key(LShift), Key(Escape)], [Key(LShift), Key(Q)], ],
+        MenuNext:   [ [Key(S)], [Key(Down)], [Key(J)] ],
+        MenuPrev:   [ [Key(W)], [Key(Up)], [Key(K)] ],
+        MenuSelect: [ [Key(Return)], [Key(Space)] ],
+    },
+)

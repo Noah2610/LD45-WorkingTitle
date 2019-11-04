@@ -22,7 +22,7 @@ impl<'a> System<'a> for MenuSelectionSystem {
                     {
                         Some((
                             selection,
-                            (transform.pixel_x(), transform.pixel_y()),
+                            (transform.local_x, transform.local_y),
                         ))
                     } else {
                         None

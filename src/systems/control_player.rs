@@ -7,7 +7,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
     type SystemData = (
         Entities<'a>,
         Read<'a, Time>,
-        Read<'a, InputManager<Bindings>>,
+        Read<'a, InputManager<IngameBindings>>,
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Solid<SolidTag>>,
         ReadStorage<'a, CanJump>,
@@ -78,7 +78,9 @@ impl<'a> System<'a> for ControlPlayerSystem {
             );
 
             // MOVEMENT
-            if let Some(x) = input_manager.axis_value(AxisBinding::PlayerX) {
+            if let Some(x) =
+                input_manager.axis_value(IngameAxisBinding::PlayerX)
+            {
                 if x != 0.0 {
                     player_velocity.increase_x_with_max(
                         player.acceleration.0 * x * dt,
@@ -105,7 +107,8 @@ impl<'a> System<'a> for ControlPlayerSystem {
                 }
             }
             if player_gravity_opt.is_none() {
-                if let Some(y) = input_manager.axis_value(AxisBinding::PlayerY)
+                if let Some(y) =
+                    input_manager.axis_value(IngameAxisBinding::PlayerY)
                 {
                     if y != 0.0 {
                         player_velocity.increase_y_with_max(
@@ -145,7 +148,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
             let player_hover_velocity = player.settings.hover_velocity;
             if can_hovers.contains(player_entity) {
                 if player_velocity.y <= player_hover_velocity
-                    && input_manager.is_pressed(ActionBinding::PlayerJump)
+                    && input_manager.is_pressed(IngameActionBinding::PlayerJump)
                     && !sides_touching.is_touching_bottom
                 {
                     player_velocity.y = player_hover_velocity;
@@ -162,7 +165,7 @@ impl<'a> System<'a> for ControlPlayerSystem {
                 if let Some(jump_data) = player.jump_data.as_ref() {
                     let mut jumped = false;
                     let is_button_down =
-                        input_manager.is_down(ActionBinding::PlayerJump);
+                        input_manager.is_down(IngameActionBinding::PlayerJump);
                     let is_touching_bottom = sides_touching.is_touching_bottom;
                     let is_touching_horizontally =
                         sides_touching.is_touching_horizontally();
@@ -211,8 +214,10 @@ impl<'a> System<'a> for ControlPlayerSystem {
                         player_velocity.y += jump_data.jump_strength;
                     } else if can_dash {
                         let dashed = match (
-                            input_manager.axis_value(AxisBinding::PlayerX),
-                            input_manager.axis_value(AxisBinding::PlayerY),
+                            input_manager
+                                .axis_value(IngameAxisBinding::PlayerX),
+                            input_manager
+                                .axis_value(IngameAxisBinding::PlayerY),
                         ) {
                             // RIGHT-UP
                             (Some(x), Some(y)) if x > 0.0 && y > 0.0 => {
@@ -270,7 +275,8 @@ impl<'a> System<'a> for ControlPlayerSystem {
                             // Set different gravity when jumping
                             player_gravity.x = jump_data.jump_gravity.0;
                             player_gravity.y = jump_data.jump_gravity.1;
-                        } else if input_manager.is_up(ActionBinding::PlayerJump)
+                        } else if input_manager
+                            .is_up(IngameActionBinding::PlayerJump)
                         {
                             // Kill some of the upwards momentum, keeping at least a certain minimum velocity
                             if player_velocity.y > jump_data.decr_jump_strength

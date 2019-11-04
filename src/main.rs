@@ -83,10 +83,9 @@ fn build_game_data<'a, 'b>(
         .with_plugin(RenderFlat2D::default())
         .with_plugin(RenderUi::default());
     let transform_bundle = TransformBundle::new();
-    let input_bundle = input::input_bundle()
-        .with_bindings_from_file(resource("config/bindings.ron"))
-        .unwrap();
-    let ui_bundle = UiBundle::<input::Bindings>::new();
+    let ingame_input_bundle = input::ingame_input_bundle();
+    let menu_input_bundle = input::menu_input_bundle();
+    let ui_bundle = UiBundle::<input::MenuBindings>::new();
     let audio_bundle = AudioBundle::default();
     let fps_bundle = FpsCounterBundle;
 
@@ -94,17 +93,18 @@ fn build_game_data<'a, 'b>(
         CustomGameDataBuilder::<'a, 'b, CustomData>::default()
             .custom(CustomData::default())
             .dispatcher("startup")?
-            .dispatcher("difficulty_select")?
+            .dispatcher("menu")?
             .dispatcher("level_load")?
             .dispatcher("ingame")?
             .dispatcher("paused")?
             .dispatcher("win")?
             .with_core_bundle(rendering_bundle)?
             .with_core_bundle(transform_bundle)?
-            .with_core_bundle(input_bundle)?
             .with_core_bundle(ui_bundle)?
             .with_core_bundle(audio_bundle)?
             .with_core_bundle(fps_bundle)?
+            .with_bundle("ingame", ingame_input_bundle)?
+            .with_bundle("menu", menu_input_bundle)?
             .with_core_desc(
                 DjSystemDesc::new(|music: &mut Music| music.current()),
                 "dj_system",
@@ -112,8 +112,8 @@ fn build_game_data<'a, 'b>(
             )?
             .with_core(DebugSystem::default(), "debug_system", &[])?
             .with_core(
-                InputManagerSystem::<input::Bindings>::default(),
-                "input_manager_system",
+                InputManagerSystem::<input::IngameBindings>::default(),
+                "ingame_input_manager_system",
                 &[],
             )?
             .with_core(TimerSystem::default(), "timer_system", &[])?
@@ -124,6 +124,12 @@ fn build_game_data<'a, 'b>(
                 ScaleSpritesSystem::default(),
                 "scale_sprites_system",
                 &["animation_system"],
+            )?
+            .with(
+                "menu",
+                InputManagerSystem::<input::MenuBindings>::default(),
+                "menu_input_manager_system",
+                &[],
             )?
             .with(
                 "ingame",
@@ -214,7 +220,7 @@ fn build_game_data<'a, 'b>(
                 "collision_system",
             ])?
             .with(
-                "difficulty_select",
+                "menu",
                 MenuSelectionSystem::default(),
                 "menu_selection_system",
                 &[],

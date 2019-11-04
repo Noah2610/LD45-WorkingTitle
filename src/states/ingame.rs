@@ -82,11 +82,11 @@ impl Ingame {
         &self,
         world: &World,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
-        let input = world.read_resource::<InputManager<Bindings>>();
+        let input = world.read_resource::<InputManager<IngameBindings>>();
 
-        if input.is_down(ActionBinding::Quit) {
+        if input.is_down(IngameActionBinding::Quit) {
             Some(Trans::Quit)
-        } else if input.is_down(ActionBinding::TogglePause) {
+        } else if input.is_down(IngameActionBinding::TogglePause) {
             Some(Trans::Push(Box::new(Paused::default())))
         } else {
             None

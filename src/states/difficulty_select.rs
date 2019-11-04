@@ -30,7 +30,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
         &mut self,
         data: StateData<CustomGameData<CustomData>>,
     ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
-        data.data.update(data.world, "difficulty_select").unwrap();
+        data.data.update(data.world, "menu").unwrap();
 
         if let Some(trans) = self.handle_keys(data.world) {
             return trans;
@@ -72,23 +72,23 @@ impl DifficultySelect {
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
         use amethyst::ecs::Join;
 
-        let input = world.read_resource::<InputManager<Bindings>>();
+        let input = world.read_resource::<InputManager<MenuBindings>>();
 
-        if input.is_down(ActionBinding::MenuNext) {
+        if input.is_down(MenuActionBinding::MenuNext) {
             (&mut world.write_storage::<MenuSelector>())
                 .join()
                 .next()
                 .map(MenuSelector::next);
-        } else if input.is_down(ActionBinding::MenuPrev) {
+        } else if input.is_down(MenuActionBinding::MenuPrev) {
             (&mut world.write_storage::<MenuSelector>())
                 .join()
                 .next()
                 .map(MenuSelector::prev);
         }
 
-        if input.is_down(ActionBinding::Quit) {
+        if input.is_down(MenuActionBinding::Quit) {
             Some(Trans::Quit)
-        } else if input.is_down(ActionBinding::MenuSelect) {
+        } else if input.is_down(MenuActionBinding::MenuSelect) {
             if let Some(selector) =
                 (&world.read_storage::<MenuSelector>()).join().next()
             {
@@ -147,14 +147,15 @@ fn create_selector(world: &mut World) {
 
     let transform = UiTransform::new(
         "menu_selector".to_string(), // id
-        Anchor::BottomMiddle,        // anchor
-        Anchor::Middle,              // pivot
+        Anchor::MiddleLeft,          // anchor
+        Anchor::BottomLeft,          // pivot
         0.0,                         // x
-        0.0,                         // y
+        0.1,                         // y
         1.0,                         // z
-        128.0,                       // width
-        16.0,                        // height
-    );
+        0.3,                         // width
+        0.25,                        // height
+    )
+    .into_percent();
     let color = UiImage::SolidColor([1.0, 1.0, 1.0, 1.0]);
 
     world
