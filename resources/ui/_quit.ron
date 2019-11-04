@@ -20,7 +20,7 @@ Container(
             transform: (
                 id:             "button_quit",
                 x:              0.0,
-                y:              -4.0,
+                y:              -3.0,
                 width:          32.0,
                 height:         32.0,
                 anchor:         Middle,
@@ -30,7 +30,7 @@ Container(
                 opaque:         true,
             ),
             button: (
-                text:              "X",
+                text:              "x",
                 font_size:         24.0,
                 font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                 normal_text_color: (1.0, 1.0, 1.0, 1.0),

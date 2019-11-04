@@ -20,7 +20,7 @@ Container(
             transform: (
                 id:             "button_back",
                 x:              0.0,
-                y:              -4.0,
+                y:              -5.0,
                 width:          32.0,
                 height:         32.0,
                 anchor:         Middle,
