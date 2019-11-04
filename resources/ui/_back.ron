@@ -1,13 +1,13 @@
 #![enable(implicit_some)]
 Container(
     transform: (
-        id:             "container_button_quit",
+        id:             "container_button_back",
         x:              0.0,
         y:              0.0,
         width:          32.0,
         height:         32.0,
-        anchor:         TopRight,
-        pivot:          TopRight,
+        anchor:         TopLeft,
+        pivot:          TopLeft,
         mouse_reactive: false,
         percent:        false,
         opaque:         false,
@@ -18,7 +18,7 @@ Container(
     children: [
         Button(
             transform: (
-                id:             "button_quit",
+                id:             "button_back",
                 x:              0.0,
                 y:              -4.0,
                 width:          32.0,
@@ -30,11 +30,11 @@ Container(
                 opaque:         true,
             ),
             button: (
-                text:              "X",
+                text:              "<",
                 font_size:         24.0,
                 font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                 normal_text_color: (1.0, 1.0, 1.0, 1.0),
-                hover_text_color:  (1.0, 0.1, 0.1, 1.0),
+                hover_text_color:  (0.5, 0.5, 0.5, 1.0),
             ),
         ),
     ]
