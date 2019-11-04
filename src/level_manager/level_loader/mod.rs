@@ -238,56 +238,41 @@ impl LevelLoader {
                 let size = Vector::new(w, h);
                 let pos = Vector::new(x + size.0 * 0.5, y - size.1 * 0.5);
 
-                match obj_type {
+                if let Some(pushable_entity_data) = match obj_type {
                     "Player" => {
                         self.player_data = Some(EntityData {
                             pos,
                             size,
                             sprite: None,
                             properties: properties.clone(),
-                        })
+                        });
+                        None
                     }
-                    "Feature" => self.features_data.push(EntityData {
-                        pos,
-                        size,
-                        sprite: None,
-                        properties: properties.clone(),
-                    }),
-                    "Enemy" => self.enemies_data.push(EntityData {
-                        pos,
-                        size,
-                        sprite: None,
-                        properties: properties.clone(),
-                    }),
-                    "Background" => self.backgrounds_data.push(EntityData {
-                        pos,
-                        size,
-                        sprite: None,
-                        properties: properties.clone(),
-                    }),
-                    "Checkpoint" => self.checkpoints_data.push(EntityData {
-                        pos,
-                        size,
-                        sprite: None,
-                        properties: properties.clone(),
-                    }),
+                    "Feature" => Some(&mut self.features_data),
+                    "Enemy" => Some(&mut self.enemies_data),
+                    "Background" => Some(&mut self.backgrounds_data),
+                    "Checkpoint" => Some(&mut self.checkpoints_data),
                     "Goal" => {
                         self.goal_data = Some(EntityData {
                             pos,
                             size,
                             sprite: None,
                             properties: properties.clone(),
-                        })
+                        });
+                        None
                     }
-                    "Indicator" => self.indicators_data.push(EntityData {
+                    "Indicator" => Some(&mut self.indicators_data),
+                    _ => {
+                        eprintln!("WARNING: Unknown object type: {}", obj_type);
+                        None
+                    }
+                } {
+                    pushable_entity_data.push(EntityData {
                         pos,
                         size,
                         sprite: None,
                         properties: properties.clone(),
-                    }),
-                    _ => {
-                        eprintln!("WARNING: Unknown object type: {}", obj_type);
-                    }
+                    });
                 }
             }
         }
