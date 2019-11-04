@@ -113,7 +113,7 @@ impl DifficultySelect {
             Anchor::Middle,                        // anchor
             Anchor::Middle,                        // pivot
             0.0,                                   // x
-            0.0,                                   // y
+            -0.02,                                 // y
             0.0,                                   // z
             1.0,                                   // width
             1.0,                                   // height
@@ -124,12 +124,12 @@ impl DifficultySelect {
         let selector_transform = UiTransform::new(
             "menu_selector".to_string(), // id
             Anchor::MiddleLeft,          // anchor
-            Anchor::MiddleLeft,          // pivot
+            Anchor::BottomLeft,          // pivot
             0.0,                         // x
             0.1,                         // y
             1.0,                         // z
             0.3,                         // width
-            0.1,                         // height
+            0.005,                       // height
         )
         .into_percent()
         .into_transparent();
