@@ -8,6 +8,8 @@ pub mod prelude {
 }
 
 pub mod state_prelude {
+    pub const QUIT_UI_RON_PATH: &str = "ui/_quit.ron";
+
     pub use amethyst::ecs::{World, WorldExt};
     pub use amethyst::{State, StateData, StateEvent, Trans};
 

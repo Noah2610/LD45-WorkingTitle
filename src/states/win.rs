@@ -9,6 +9,7 @@ pub struct Win {
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
     fn on_start(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
+        let _progress = self.create_ui(&mut data, resource(QUIT_UI_RON_PATH));
         let _progress = self.create_ui(&mut data, resource(RON_PATH));
     }
 
@@ -21,6 +22,11 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
         data: StateData<CustomGameData<CustomData>>,
     ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
         data.data.update(data.world, "win").unwrap();
+
+        if let Some(trans) = self.handle_keys(data.world) {
+            return trans;
+        }
+
         Trans::None
     }
 
@@ -36,6 +42,24 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
     }
 }
 
+impl Win {
+    fn handle_keys<'a, 'b>(
+        &self,
+        world: &World,
+    ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
+        let input = world.read_resource::<InputManager<Bindings>>();
+
+        if input.is_down(ActionBinding::Quit) {
+            Some(Trans::Quit)
+        } else if input.is_down(ActionBinding::ToMainMenu) {
+            world.write_resource::<ToMainMenu>().0 = true;
+            Some(Trans::Pop)
+        } else {
+            None
+        }
+    }
+}
+
 impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
     fn ui_data(&self) -> &UiData {
         &self.ui_data
@@ -47,9 +71,15 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
 
     fn event_triggered(
         &mut self,
-        _data: &mut StateData<CustomGameData<CustomData>>,
-        _event_name: String,
+        data: &mut StateData<CustomGameData<CustomData>>,
+        event_name: String,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
-        None
+        match event_name.as_ref() {
+            "button_quit" => {
+                data.world.write_resource::<ToMainMenu>().0 = true;
+                Some(Trans::Pop)
+            }
+            _ => None,
+        }
     }
 }

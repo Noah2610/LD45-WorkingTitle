@@ -1,0 +1,22 @@
+#![enable(implicit_some)]
+Button(
+    transform: (
+        id:             "button_quit",
+        x:              0.0,
+        y:              -4.0,
+        width:          32,
+        height:         32,
+        anchor:         TopRight,
+        pivot:          TopRight,
+        mouse_reactive: true,
+        percent:        false,
+        opaque:         true,
+    ),
+    button: (
+        text:              "X",
+        font_size:         24.0,
+        font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+        normal_text_color: (1.0, 1.0, 1.0, 1.0),
+        hover_text_color:  (0.5, 0.5, 0.5, 1.0),
+    ),
+)

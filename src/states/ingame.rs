@@ -79,7 +79,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
 
 impl Ingame {
     fn handle_keys<'a, 'b>(
-        &mut self,
+        &self,
         world: &World,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
         let input = world.read_resource::<InputManager<Bindings>>();

@@ -31,6 +31,8 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
         data.world.write_resource::<Music>().reset();
         data.world.write_resource::<CheckpointRes>().0 = None;
         data.world.write_resource::<PlayerDeaths>().0 = 0;
+        data.world.write_resource::<WinLevel>().0 = false;
+        data.world.write_resource::<WinGame>().0 = false;
         // data.world.write_resource::<StopAudio>().0 = true;
     }
 

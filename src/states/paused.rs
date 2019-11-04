@@ -9,6 +9,7 @@ pub struct Paused {
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
     fn on_start(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
+        let _progress = self.create_ui(&mut data, resource(QUIT_UI_RON_PATH));
         let _progress = self.create_ui(&mut data, resource(UI_RON_PATH));
         data.world.write_resource::<Music>().pause();
         set_decreased_volume(&mut data.world);
@@ -47,7 +48,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
 
 impl Paused {
     fn handle_keys<'a, 'b>(
-        &mut self,
+        &self,
         world: &World,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
         let input = world.read_resource::<InputManager<Bindings>>();
@@ -73,11 +74,10 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
         match event_name.as_ref() {
             "button_unpause" => Some(Trans::Pop),
-            "button_to_main_menu" => {
+            "button_quit" => {
                 data.world.write_resource::<ToMainMenu>().0 = true;
                 Some(Trans::Pop)
             }
-            "button_quit" => Some(Trans::Quit),
             _ => None,
         }
     }

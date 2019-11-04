@@ -11,6 +11,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
     for DifficultySelect
 {
     fn on_start(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
+        let _progress = self.create_ui(&mut data, resource(QUIT_UI_RON_PATH));
         let _progress = self.create_ui(&mut data, resource(UI_RON_PATH));
     }
 
@@ -31,6 +32,11 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
         data: StateData<CustomGameData<CustomData>>,
     ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
         data.data.update(data.world, "difficulty_select").unwrap();
+
+        if let Some(trans) = self.handle_keys(data.world) {
+            return trans;
+        }
+
         Trans::None
     }
 
@@ -50,6 +56,21 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
         if data.world.read_resource::<StopAudio>().0 {
             stop_audio(data.world);
             data.world.write_resource::<StopAudio>().0 = false;
+        }
+    }
+}
+
+impl DifficultySelect {
+    fn handle_keys<'a, 'b>(
+        &self,
+        world: &World,
+    ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
+        let input = world.read_resource::<InputManager<Bindings>>();
+
+        if input.is_down(ActionBinding::Quit) {
+            Some(Trans::Quit)
+        } else {
+            None
         }
     }
 }
