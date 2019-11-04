@@ -13,15 +13,11 @@ bitflags   = "=1.0.4"  # https://github.com/rust-lang/rust/issues/59134#issuecom
 
 [dependencies.amethyst]
 version = "0.13.2"
-# git      = "https://github.com/Noah2610/amethyst"
-# branch   = "dont_check_bindings_invariants"
 features = ["vulkan"]
 
 [dependencies.deathframe]
 path = "../deathframe"
-# version = "0.4.2"
-# git      = "https://github.com/Noah2610/deathframe"
-# branch   = "amethyst_fork"
+# version = "0.4.3"
 
 [dependencies.climer]
 version  = "0.4.0"
