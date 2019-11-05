@@ -76,16 +76,16 @@ impl DifficultySelect {
 
         let input = world.read_resource::<InputManager<MenuBindings>>();
 
-        if input.is_down(MenuActionBinding::MenuNext) {
-            (&mut world.write_storage::<MenuSelector>())
-                .join()
-                .next()
-                .map(MenuSelector::next);
-        } else if input.is_down(MenuActionBinding::MenuPrev) {
+        if input.is_down(MenuActionBinding::MenuPrev) {
             (&mut world.write_storage::<MenuSelector>())
                 .join()
                 .next()
                 .map(MenuSelector::prev);
+        } else if input.is_down(MenuActionBinding::MenuNext) {
+            (&mut world.write_storage::<MenuSelector>())
+                .join()
+                .next()
+                .map(MenuSelector::next);
         } else if input.is_down(MenuActionBinding::MenuSelect) {
             if let Some(selector) =
                 (&mut world.write_storage::<MenuSelector>()).join().next()
