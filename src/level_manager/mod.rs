@@ -36,8 +36,6 @@ impl LevelManager {
     }
 
     pub fn setup(&mut self, world: &mut World) {
-        world.write_resource::<TimerRes>().remove_timer();
-
         self.level_loader = LevelLoader::default();
 
         self.load_from_savefile(world);
@@ -49,6 +47,8 @@ impl LevelManager {
         // Create timer if a timer should run
         if world.read_resource::<CheckpointRes>().0.is_none() {
             world.write_resource::<TimerRes>().add_timer();
+        } else {
+            world.write_resource::<TimerRes>().remove_timer();
         }
     }
 
@@ -149,6 +149,18 @@ impl LevelManager {
     }
 
     fn load_from_savefile(&mut self, world: &mut World) {
+        // Reset some resources
+        // Reset CHECKPOINT
+        world.write_resource::<CheckpointRes>().0 = None;
+        // Reset MUSIC
+        world.write_resource::<Music>().reset();
+        // Reset PLAYER_DEATHS
+        world.write_resource::<PlayerDeaths>().0 = 0;
+        // Reset SHOULD_DISPLAY_TIMER
+        world.write_resource::<ShouldDisplayTimer>().0 = false;
+        // Reset BEST_TIME
+        world.write_resource::<BestTime>().0 = None;
+
         let savefile_settings =
             world.read_resource::<Settings>().savefile.clone();
         let savefile_path = file(&savefile_settings.filename);
