@@ -15,6 +15,7 @@ pub struct TimerSystem {
 
 impl<'a> System<'a> for TimerSystem {
     type SystemData = (
+        ReadExpect<'a, Settings>,
         Read<'a, ShouldDisplayTimer>,
         Read<'a, BestTime>,
         Write<'a, TimerRes>,
@@ -25,6 +26,7 @@ impl<'a> System<'a> for TimerSystem {
     fn run(
         &mut self,
         (
+            settings,
             should_display_timer,
             best_time_res,
             mut timer_res,
@@ -33,6 +35,7 @@ impl<'a> System<'a> for TimerSystem {
         ): Self::SystemData,
     ) {
         if let Some(timer) = timer_res.0.as_mut() {
+            let timer_settings = &settings.timer;
             let now = Instant::now();
 
             // Print to stdout
@@ -44,7 +47,11 @@ impl<'a> System<'a> for TimerSystem {
 
                 // Display timer and best time
                 if should_display_timer.0 {
-                    let new_text = timer.time_output().to_string();
+                    let new_text = format!(
+                        "{}{}",
+                        &timer_settings.time_prefix,
+                        timer.time_output()
+                    );
                     if new_text.as_str() != self.last_time_string.as_str() {
                         // Display running timer
                         if let Some(text) = get_text_with_id(
@@ -65,7 +72,11 @@ impl<'a> System<'a> for TimerSystem {
                                 &ui_transforms,
                                 &mut ui_texts,
                             ) {
-                                text.text += best_time.to_string().as_str();
+                                text.text = format!(
+                                    "{}{}",
+                                    &timer_settings.best_time_prefix,
+                                    &best_time
+                                );
                                 self.has_set_best_time = true;
                             }
                         }

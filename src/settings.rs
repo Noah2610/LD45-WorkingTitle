@@ -11,6 +11,7 @@ pub mod prelude {
     pub use super::PlayerSettings;
     pub use super::SavefileSettings;
     pub use super::Settings;
+    pub use super::TimerSettings;
 }
 
 #[derive(Clone, Deserialize)]
@@ -21,6 +22,7 @@ pub struct Settings {
     pub savefile:      SavefileSettings,
     pub level_manager: LevelManagerSettings,
     pub music:         MusicSettings,
+    pub timer:         TimerSettings,
 }
 
 #[derive(Clone, Deserialize)]
@@ -94,4 +96,10 @@ pub struct LevelManagerSettings {
 pub struct MusicSettings {
     pub volume:           f32,
     pub decreased_volume: f32,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct TimerSettings {
+    pub time_prefix:      String,
+    pub best_time_prefix: String,
 }
