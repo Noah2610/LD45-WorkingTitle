@@ -14,10 +14,10 @@ Container(
         opaque:         false,
     ),
 
-    // background: SolidColor(0.0, 0.0, 0.0, 1.0),
-    background: Texture(
-        File("resources/spritesheets/bg/bg.png", ("IMAGE", ())),
-    ),
+    background: SolidColor(0.0, 0.0, 0.0, 1.0),
+    // background: Texture(
+    //     File("resources/spritesheets/bg/bg.png", ("IMAGE", ())),
+    // ),
 
     children: [
         Label(
