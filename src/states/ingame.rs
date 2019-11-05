@@ -18,7 +18,6 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
         }
         // Display timer
         if data.world.read_resource::<ShouldDisplayTimer>().0 {
-            // self.create_timer_display(data.world);
             let _progress =
                 self.create_ui(&mut data, resource(UI_TIMER_DISPLAY_RON_PATH));
         }

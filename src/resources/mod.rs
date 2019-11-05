@@ -2,6 +2,7 @@ pub mod prelude {
     pub use climer::Timer;
     pub use deathframe::handles::SpriteSheetHandles;
 
+    pub use super::best_time::BestTime;
     pub use super::checkpoint::{CheckpointData, CheckpointRes};
     pub use super::insert_resources;
     pub use super::player_deaths::PlayerDeaths;
@@ -17,6 +18,7 @@ pub mod prelude {
     pub use crate::level_manager::LevelManager;
 }
 
+mod best_time;
 mod checkpoint;
 mod player_deaths;
 mod reset_level;
@@ -48,6 +50,7 @@ pub fn insert_resources(world: &mut World) {
     world.insert(TimerRes::default());
     world.insert(ToMainMenu::default());
     world.insert(ShouldDisplayTimer::default());
+    world.insert(BestTime::default());
 }
 
 fn load_settings() -> Settings {

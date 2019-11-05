@@ -163,7 +163,13 @@ impl LevelManager {
                 world.write_resource::<PlayerDeaths>().0 =
                     level_data.stats.player_deaths;
                 // Set SHOULD_DISPLAY_TIMER
-                world.write_resource::<ShouldDisplayTimer>().0 = level_data.won;
+                world.write_resource::<ShouldDisplayTimer>().0 =
+                    level_data.won && level_data.checkpoint.is_none();
+                // Set BEST_TIME
+                if let Some(best_time) = level_data.best_time.as_ref() {
+                    world.write_resource::<BestTime>().0 =
+                        Some(best_time.clone());
+                }
                 // Apply checkpoint
                 self.apply_checkpoint(world);
             } else {

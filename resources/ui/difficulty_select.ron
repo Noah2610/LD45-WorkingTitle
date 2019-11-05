@@ -14,7 +14,10 @@ Container(
         opaque:         false,
     ),
 
-    background: SolidColor(0.0, 0.0, 0.0, 1.0),
+    // background: SolidColor(0.0, 0.0, 0.0, 1.0),
+    background: Texture(
+        File("resources/spritesheets/bg/bg.png", ("IMAGE", ())),
+    ),
 
     children: [
         Label(
@@ -107,8 +110,8 @@ Container(
                 text:              "Hard",
                 font_size:         24.0,
                 font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
-                normal_text_color: (1.0, 1.0, 1.0, 1.0),
-                hover_text_color:  (0.25, 0.25, 0.25, 1.0),
+                normal_text_color: (0.5, 0.5, 0.5, 1.0),
+                hover_text_color:  (1.0, 1.0, 1.0, 1.0),
             ),
         ),
 
@@ -131,7 +134,7 @@ Container(
                 text:              "ABSURD",
                 font_size:         24.0,
                 font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
-                normal_text_color: (1.0, 0.2, 0.2, 1.0),
+                normal_text_color: (1.0, 0.0, 0.0, 1.0),
                 hover_text_color:  (1.0, 0.025, 0.025, 1.0),
             ),
         ),
