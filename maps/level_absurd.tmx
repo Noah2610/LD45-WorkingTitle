@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="590" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="28" nextobjectid="210">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="590" height="26" tilewidth="16" tileheight="16" infinite="0" nextlayerid="28" nextobjectid="211">
  <tileset firstgid="1" source="megasheet.tsx"/>
  <objectgroup id="7" name="Background">
   <properties>
@@ -242,6 +242,12 @@
    <properties>
     <property name="feature_trigger" value="AddJump"/>
     <property name="image" value="space.png"/>
+   </properties>
+  </object>
+  <object id="210" name="Indicator Hold" type="Indicator" x="6688" y="48" width="64" height="32">
+   <properties>
+    <property name="feature_trigger" value="AddGravity2"/>
+    <property name="image" value="hold.png"/>
    </properties>
   </object>
  </objectgroup>
