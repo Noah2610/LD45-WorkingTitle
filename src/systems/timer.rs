@@ -9,8 +9,6 @@ const BEST_TIME_UI_TRANSFORM_ID: &str = "best_time";
 pub struct TimerSystem {
     last_update:           Instant,
     update_timer_duration: Duration,
-    last_time_string:      String,
-    last_best_time_string: String,
 }
 
 impl<'a> System<'a> for TimerSystem {
@@ -52,14 +50,13 @@ impl<'a> System<'a> for TimerSystem {
                         &timer_settings.time_prefix,
                         timer.time_output()
                     );
-                    if new_text.as_str() != self.last_time_string.as_str() {
-                        // Display running timer
-                        if let Some(text) = get_text_with_id(
-                            TIMER_UI_TRANSFORM_ID,
-                            &ui_transforms,
-                            &mut ui_texts,
-                        ) {
-                            self.last_time_string = new_text.clone();
+                    // Display running timer
+                    if let Some(text) = get_text_with_id(
+                        TIMER_UI_TRANSFORM_ID,
+                        &ui_transforms,
+                        &mut ui_texts,
+                    ) {
+                        if text.text.as_str() != new_text.as_str() {
                             text.text = new_text;
                         }
                     }
@@ -70,16 +67,12 @@ impl<'a> System<'a> for TimerSystem {
                             "{}{}",
                             &timer_settings.best_time_prefix, &best_time
                         );
-                        if new_best_text.as_str()
-                            != self.last_best_time_string.as_str()
-                        {
-                            if let Some(text) = get_text_with_id(
-                                BEST_TIME_UI_TRANSFORM_ID,
-                                &ui_transforms,
-                                &mut ui_texts,
-                            ) {
-                                self.last_best_time_string =
-                                    new_best_text.clone();
+                        if let Some(text) = get_text_with_id(
+                            BEST_TIME_UI_TRANSFORM_ID,
+                            &ui_transforms,
+                            &mut ui_texts,
+                        ) {
+                            if text.text.as_str() != new_best_text.as_str() {
                                 text.text = new_best_text;
                             }
                         }
@@ -113,8 +106,6 @@ impl Default for TimerSystem {
         Self {
             last_update:           Instant::now(),
             update_timer_duration: Duration::from_millis(UPDATE_TIMER_MS),
-            last_time_string:      String::new(),
-            last_best_time_string: String::new(),
         }
     }
 }
