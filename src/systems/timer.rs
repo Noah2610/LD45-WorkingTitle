@@ -10,7 +10,7 @@ pub struct TimerSystem {
     last_update:           Instant,
     update_timer_duration: Duration,
     last_time_string:      String,
-    has_set_best_time:     bool,
+    last_best_time_string: String,
 }
 
 impl<'a> System<'a> for TimerSystem {
@@ -66,18 +66,21 @@ impl<'a> System<'a> for TimerSystem {
 
                     // Display best time
                     if let Some(best_time) = best_time_res.0.as_ref() {
-                        if !self.has_set_best_time {
+                        let new_best_text = format!(
+                            "{}{}",
+                            &timer_settings.best_time_prefix, &best_time
+                        );
+                        if new_best_text.as_str()
+                            != self.last_best_time_string.as_str()
+                        {
                             if let Some(text) = get_text_with_id(
                                 BEST_TIME_UI_TRANSFORM_ID,
                                 &ui_transforms,
                                 &mut ui_texts,
                             ) {
-                                text.text = format!(
-                                    "{}{}",
-                                    &timer_settings.best_time_prefix,
-                                    &best_time
-                                );
-                                self.has_set_best_time = true;
+                                self.last_best_time_string =
+                                    new_best_text.clone();
+                                text.text = new_best_text;
                             }
                         }
                     }
@@ -111,7 +114,7 @@ impl Default for TimerSystem {
             last_update:           Instant::now(),
             update_timer_duration: Duration::from_millis(UPDATE_TIMER_MS),
             last_time_string:      String::new(),
-            has_set_best_time:     false,
+            last_best_time_string: String::new(),
         }
     }
 }
