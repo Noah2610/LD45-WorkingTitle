@@ -36,6 +36,8 @@ impl LevelManager {
     }
 
     pub fn setup(&mut self, world: &mut World) {
+        world.write_resource::<TimerRes>().remove_timer();
+
         self.level_loader = LevelLoader::default();
 
         self.load_from_savefile(world);

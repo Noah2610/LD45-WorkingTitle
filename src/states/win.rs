@@ -15,7 +15,6 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
 
     fn on_stop(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
         self.delete_ui(&mut data);
-        data.world.delete_all();
     }
 
     fn update(
