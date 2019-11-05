@@ -112,8 +112,8 @@ impl DifficultySelect {
             "container_menu_selector".to_string(), // id
             Anchor::Middle,                        // anchor
             Anchor::Middle,                        // pivot
-            0.0,                                   // x
-            -0.02,                                 // y
+            0.05,                                  // x
+            0.008,                                 // y
             0.0,                                   // z
             1.0,                                   // width
             1.0,                                   // height
@@ -124,16 +124,16 @@ impl DifficultySelect {
         let selector_transform = UiTransform::new(
             "menu_selector".to_string(), // id
             Anchor::MiddleLeft,          // anchor
-            Anchor::BottomLeft,          // pivot
+            Anchor::MiddleLeft,          // pivot
             0.0,                         // x
-            0.1,                         // y
-            1.0,                         // z
-            0.3,                         // width
-            0.005,                       // height
+            0.0,                         // y
+            1.1,                         // z
+            0.015,                       // width
+            0.015,                       // height
         )
         .into_percent()
         .into_transparent();
-        let color = UiImage::SolidColor([0.5, 0.5, 0.5, 0.8]);
+        let color = UiImage::SolidColor([1.0, 0.0, 0.0, 1.0]);
 
         let parent = world.create_entity().with(parent_transform).build();
 
