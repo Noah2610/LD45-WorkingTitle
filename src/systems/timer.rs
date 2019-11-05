@@ -37,7 +37,7 @@ impl<'a> System<'a> for TimerSystem {
             let now = Instant::now();
 
             // Print to stdout
-            if timer.state.is_running()
+            if (timer.state.is_running() || timer.state.is_finished())
                 && now.duration_since(self.last_update)
                     >= self.update_timer_duration
             {
