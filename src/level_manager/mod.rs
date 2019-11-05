@@ -82,6 +82,7 @@ impl LevelManager {
         // starts the same level again, they will start at the beginning.
         world.write_resource::<CheckpointRes>().0 = None;
         world.write_resource::<Music>().reset();
+        world.write_resource::<PlayerDeaths>().0 = 0;
         self.save_to_savefile(world, true);
     }
 
