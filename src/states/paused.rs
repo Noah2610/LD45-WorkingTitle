@@ -9,8 +9,8 @@ pub struct Paused {
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Paused {
     fn on_start(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
-        let _progress = self.create_ui(&mut data, resource(QUIT_UI_RON_PATH));
-        let _progress = self.create_ui(&mut data, resource(BACK_UI_RON_PATH));
+        // let _progress = self.create_ui(&mut data, resource(QUIT_UI_RON_PATH));
+        // let _progress = self.create_ui(&mut data, resource(BACK_UI_RON_PATH));
         let _progress = self.create_ui(&mut data, resource(UI_RON_PATH));
         data.world.write_resource::<Music>().pause();
         set_decreased_volume(&mut data.world);
