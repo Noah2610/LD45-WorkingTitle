@@ -48,13 +48,11 @@ impl MenuSelection {
         }
     }
 
-    #[rustfmt::skip]
     pub fn win_text(&self) -> &str {
         match self {
-            MenuSelection::Easy   => "EASY",
-            MenuSelection::Normal => "NORMAL",
-            MenuSelection::Hard   => "HARD",
-            MenuSelection::Absurd => "ABSURD",
+            MenuSelection::Easy | MenuSelection::Normal => "Level Clear!",
+            MenuSelection::Hard => "Congratulations!",
+            MenuSelection::Absurd => "Thank You For Playing <3",
         }
     }
 }
