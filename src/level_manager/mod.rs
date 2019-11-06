@@ -18,18 +18,15 @@ use crate::settings::prelude::*;
 use level_loader::{BuildType, LevelLoader, ToBuild};
 
 pub struct LevelManager {
-    level_name:       String,
+    pub level:        Level,
     pub level_loader: LevelLoader,
     savefile_data:    Option<SavefileData>,
 }
 
 impl LevelManager {
-    pub fn new<S>(level_name: S) -> Self
-    where
-        S: ToString,
-    {
+    pub fn new(level: Level) -> Self {
         Self {
-            level_name:    level_name.to_string(),
+            level:         level,
             level_loader:  Default::default(),
             savefile_data: None,
         }
@@ -99,14 +96,15 @@ impl LevelManager {
             .as_ref()
             .filter(|timer| timer.state.is_finished())
             .map(|timer| timer.time_output());
+        let level_name = self.level_name().to_string();
         let existing_level_data = self
             .savefile_data
             .get_or_insert_with(Default::default)
             .levels
-            .get(&self.level_name);
+            .get(&self.level.level_name().to_string());
         let level_data = LevelSaveData {
             level_manager: LevelManagerData {
-                level_name: self.level_name.to_string(),
+                level_name: level_name.clone(),
             },
             checkpoint:    checkpoint_data.clone(),
             music:         music_data,
@@ -131,7 +129,7 @@ impl LevelManager {
         self.savefile_data
             .get_or_insert_with(Default::default)
             .levels
-            .insert(self.level_name.to_string(), level_data);
+            .insert(level_name, level_data);
 
         match serde_json::to_string(&self.savefile_data) {
             Ok(serialized) => {
@@ -146,6 +144,10 @@ impl LevelManager {
                 err
             ),
         }
+    }
+
+    fn level_name(&self) -> &str {
+        self.level.level_name()
     }
 
     fn load_from_savefile(&mut self, world: &mut World) {
@@ -165,7 +167,7 @@ impl LevelManager {
             world.read_resource::<Settings>().savefile.clone();
         let savefile_path = file(&savefile_settings.filename);
         if let Some(savefile_data) = get_savefile_data(savefile_path) {
-            if let Some(level_data) = savefile_data.level(&self.level_name) {
+            if let Some(level_data) = savefile_data.level(self.level_name()) {
                 self.load_level(world);
                 // Set CHECKPOINT
                 world.write_resource::<CheckpointRes>().0 =
@@ -199,10 +201,11 @@ impl LevelManager {
     }
 
     fn load_level(&mut self, world: &mut World) {
+        let level_name = self.level_name().to_string();
         world.delete_all();
         world.write_resource::<CheckpointRes>().0 = None;
         self.level_loader.to_build = ToBuild::all();
-        self.level_loader.load(&self.level_name);
+        self.level_loader.load(level_name);
         self.level_loader.build(world);
     }
 

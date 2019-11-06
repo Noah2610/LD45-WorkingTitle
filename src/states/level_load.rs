@@ -6,12 +6,9 @@ pub struct LevelLoad {
 }
 
 impl LevelLoad {
-    pub fn new<S>(level_name: S) -> Self
-    where
-        S: ToString,
-    {
+    pub fn new(level: Level) -> Self {
         Self {
-            level_manager: LevelManager::new(level_name),
+            level_manager: LevelManager::new(level),
         }
     }
 }
@@ -48,7 +45,9 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
         }
 
         if self.level_manager.level_loader.is_finished() {
-            return Trans::Push(Box::new(Ingame::default()));
+            return Trans::Push(Box::new(Ingame::new(
+                self.level_manager.level.clone(),
+            )));
         }
 
         Trans::None

@@ -16,7 +16,7 @@ Container(
     children: [
         Label(
             transform: (
-                id:             "label_thank_you",
+                id:             "label_win",
                 x:              0.0,
                 y:              0.0,
                 z:              1.0,

@@ -91,7 +91,7 @@ impl DifficultySelect {
                 (&mut world.write_storage::<MenuSelector>()).join().next()
             {
                 return Some(Trans::Push(Box::new(LevelLoad::new(
-                    selector.selection.level_name(),
+                    selector.selection.level(),
                 ))));
             }
         }
@@ -163,16 +163,16 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
 
         match (event_name.as_ref(), event.event_type) {
             ("button_start_easy", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new("level_easy.json"))))
+                Some(Trans::Push(Box::new(LevelLoad::new(Level::Easy))))
             }
             ("button_start_normal", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new("level_normal.json"))))
+                Some(Trans::Push(Box::new(LevelLoad::new(Level::Normal))))
             }
             ("button_start_hard", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new("level_hard.json"))))
+                Some(Trans::Push(Box::new(LevelLoad::new(Level::Hard))))
             }
             ("button_start_absurd", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new("level_absurd.json"))))
+                Some(Trans::Push(Box::new(LevelLoad::new(Level::Absurd))))
             }
             ("button_quit", UiEventType::ClickStop) => Some(Trans::Quit),
 

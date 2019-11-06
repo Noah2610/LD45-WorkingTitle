@@ -1,16 +1,63 @@
 use super::state_prelude::*;
 
+use amethyst::assets::ProgressCounter;
+
 const RON_PATH: &str = "ui/win.ron";
 
 #[derive(Default)]
 pub struct Win {
-    ui_data: UiData,
+    level:               Level,
+    ui_data:             UiData,
+    ui_loading_progress: Option<ProgressCounter>,
+}
+
+impl Win {
+    pub fn new(level: Level) -> Self {
+        Self {
+            level,
+            ui_data: Default::default(),
+            ui_loading_progress: Default::default(),
+        }
+    }
+
+    fn set_label(&self, world: &mut World) {
+        use amethyst::ecs::{Join, ReadStorage, WriteStorage};
+        use amethyst::ui::{UiText, UiTransform};
+
+        const WIN_LABEL_UI_TRANSFORM_ID: &str = "label_win";
+
+        let new_text = self.level.win_text();
+
+        world.exec(
+            |(ui_transforms, mut ui_texts): (
+                ReadStorage<UiTransform>,
+                WriteStorage<UiText>,
+            )| {
+                if let Some(text) = (&ui_transforms, &mut ui_texts)
+                    .join()
+                    .filter_map(|(transform, text)| {
+                        if transform.id.as_str() == WIN_LABEL_UI_TRANSFORM_ID {
+                            Some(text)
+                        } else {
+                            None
+                        }
+                    })
+                    .next()
+                {
+                    if text.text.as_str() != new_text {
+                        text.text = new_text.to_string();
+                    }
+                }
+            },
+        );
+    }
 }
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
     fn on_start(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
         let _progress = self.create_ui(&mut data, resource(QUIT_UI_RON_PATH));
-        let _progress = self.create_ui(&mut data, resource(RON_PATH));
+        self.ui_loading_progress =
+            Some(self.create_ui(&mut data, resource(RON_PATH)));
     }
 
     fn on_stop(&mut self, mut data: StateData<CustomGameData<CustomData>>) {
@@ -25,6 +72,12 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
 
         if let Some(trans) = self.handle_keys(data.world) {
             return trans;
+        }
+
+        if let Some(progress) = self.ui_loading_progress.as_ref() {
+            if progress.is_complete() {
+                self.set_label(data.world);
+            }
         }
 
         Trans::None

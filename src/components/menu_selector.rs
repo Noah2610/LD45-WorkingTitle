@@ -2,7 +2,9 @@ use std::convert::TryFrom;
 
 use super::component_prelude::*;
 
-#[derive(PartialEq, Eq, Hash)]
+pub type Level = MenuSelection;
+
+#[derive(Clone, PartialEq, Eq, Hash)]
 pub enum MenuSelection {
     Easy,
     Normal,
@@ -32,12 +34,27 @@ impl MenuSelection {
     }
 
     #[rustfmt::skip]
+    pub fn level(&self) -> Level {
+        self.clone()
+    }
+
+    #[rustfmt::skip]
     pub fn level_name(&self) -> &str {
         match self {
             MenuSelection::Easy   => "level_easy.json",
             MenuSelection::Normal => "level_normal.json",
             MenuSelection::Hard   => "level_hard.json",
             MenuSelection::Absurd => "level_absurd.json",
+        }
+    }
+
+    #[rustfmt::skip]
+    pub fn win_text(&self) -> &str {
+        match self {
+            MenuSelection::Easy   => "EASY",
+            MenuSelection::Normal => "NORMAL",
+            MenuSelection::Hard   => "HARD",
+            MenuSelection::Absurd => "ABSURD",
         }
     }
 }

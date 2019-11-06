@@ -2,9 +2,18 @@ use super::state_prelude::*;
 
 const UI_TIMER_DISPLAY_RON_PATH: &str = "ui/timer_display.ron";
 
-#[derive(Default)]
 pub struct Ingame {
+    level:   Level,
     ui_data: UiData,
+}
+
+impl Ingame {
+    pub fn new(level: Level) -> Self {
+        Self {
+            level,
+            ui_data: Default::default(),
+        }
+    }
 }
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
@@ -79,7 +88,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Ingame {
         // Win game
         if data.world.read_resource::<WinGame>().0 {
             data.world.write_resource::<WinGame>().0 = false;
-            return Trans::Switch(Box::new(Win::default()));
+            return Trans::Switch(Box::new(Win::new(self.level.clone())));
         }
 
         // To main menu (DifficultySelect)
