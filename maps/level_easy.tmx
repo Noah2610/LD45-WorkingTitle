@@ -462,7 +462,7 @@
     <property name="solid" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="64" name="goal" type="Goal" x="11216" y="112" width="112" height="160"/>
+  <object id="64" name="goal" type="Goal" x="11232" y="112" width="80" height="160"/>
   <object id="84" type="Enemy" x="5120" y="288" width="16" height="16">
    <properties>
     <property name="always_loaded" type="bool" value="false"/>
