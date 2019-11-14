@@ -85,7 +85,8 @@ impl LevelLoader {
                     animations_path,
                     spritesheet_handle,
                 ))
-                .with(Spike::default());
+                .with(Spike::default())
+                .with(DynamicAnimationTrigger::default());
 
             if is_solid(&properties) {
                 entity = entity.with(Solid::new(SolidTag::Enemy));

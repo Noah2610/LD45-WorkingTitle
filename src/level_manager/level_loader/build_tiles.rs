@@ -75,6 +75,7 @@ impl LevelLoader {
                     entity = entity
                         .with(animations_container)
                         .with(DynamicAnimation::default())
+                        .with(CheckCollision::default())
                         .with(Collision::default());
                 } else if let Some(animation) = animation_opt {
                     entity = entity.with(animation);

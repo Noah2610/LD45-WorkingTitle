@@ -22,16 +22,19 @@ impl<'a> System<'a> for DynamicAnimationSystem {
             mut animations_containers,
         ): Self::SystemData,
     ) {
-        for (_, trigger_collision) in
-            (&dynamic_animation_triggers, &collisions).join()
+        for (target_animations, target_collision, _) in
+            (&mut animations_containers, &collisions, &dynamic_animations)
+                .join()
         {
-            for (target_entity, target_animations, _) in
-                (&entities, &mut animations_containers, &dynamic_animations)
-                    .join()
+            let mut set_animation = false;
+
+            for (trigger_entity, _) in
+                (&entities, &dynamic_animation_triggers).join()
             {
-                let target_id = target_entity.id();
+                let trigger_id = trigger_entity.id();
+
                 if let Some(collision_data) =
-                    trigger_collision.collision_with(target_id)
+                    target_collision.collision_with(trigger_id)
                 {
                     match collision_data.state {
                         collision::State::Enter => {
@@ -51,7 +54,15 @@ impl<'a> System<'a> for DynamicAnimationSystem {
                             target_animations.set_if_has("in_collision");
                         }
                     }
+                    // Only run for a single trigger.
+                    // Ignore any other triggers that may also be in collision.
+                    set_animation = true;
+                    break;
                 }
+            }
+
+            if !set_animation {
+                target_animations.set_if_has("default");
             }
         }
     }
