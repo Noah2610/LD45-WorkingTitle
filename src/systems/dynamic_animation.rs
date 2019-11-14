@@ -40,6 +40,11 @@ impl<'a> System<'a> for DynamicAnimationSystem {
                             }
                         }
                         collision::State::Leave => {
+                            if target_animations
+                                .has_animation("on_leave_collision")
+                            {
+                                target_animations.play("on_leave_collision");
+                            }
                             target_animations.set_if_has("default");
                         }
                         collision::State::Steady | _ => {

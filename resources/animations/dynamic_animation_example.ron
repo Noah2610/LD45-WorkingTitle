@@ -10,8 +10,14 @@
         /// (after the "on_collision" animation has played once)
         (
             name: "in_collision",
-            default_delay_ms: Some(100),
+            default_delay_ms: Some(500),
             sprite_ids: [5, 6],
+        ),
+        /// Played once when this leaves a collision with the player
+        (
+            name: "on_leave_collision",
+            default_delay_ms: Some(167),
+            sprite_ids: [13, 14, 15],
         ),
     ],
     current: None,
