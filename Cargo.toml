@@ -1,8 +1,13 @@
 [package]
-name = "ld45-working-title"
-version = "1.2.0"
-authors = ["Noah Rosenzweig <rosenzweig.noah@gmail.com>"]
-edition = "2018"
+name        = "ld45-working-title"
+version     = "1.2.0"
+authors     = ["Noah Rosenzweig <rosenzweig.noah@gmail.com>"]
+edition     = "2018"
+description = "Our Ludum Dare 45 jam entry!"
+homepage    = "https://noahro.itch.io/working-title"
+repository  = "https://github.com/Noah2610/LD45-WorkingTitle"
+readme      = "README.md"
+license     = "MIT"
 
 [dependencies]
 serde      = "1.0.101"

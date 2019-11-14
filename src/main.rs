@@ -39,9 +39,10 @@ fn main() -> Result<(), String> {
 fn print_welcome_mesage() {
     let first_line = format!("{} v{}", meta::NAME, meta::VERSION);
     println!(
-        "{}\n{}\nThanks for playing! <3",
+        "{}\n{}\n{}\nThanks for playing! <3",
         first_line,
-        "-".repeat(first_line.len())
+        meta::GITHUB,
+        "-".repeat(first_line.len().max(meta::GITHUB.len()))
     );
 }
 
