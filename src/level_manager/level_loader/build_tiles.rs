@@ -37,7 +37,7 @@ impl LevelLoader {
                             sprite_number: sprite_data.sprite_id,
                         }),
                         animation_from(spritesheet_handle.clone(), &properties),
-                        properties["animation_config"].as_str().map(|f| {
+                        properties["dynamic_animation"].as_str().map(|f| {
                             animations_container_from_file(
                                 resource(&format!("animations/{}", f)),
                                 spritesheet_handle,
