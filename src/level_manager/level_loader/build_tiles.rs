@@ -1,3 +1,6 @@
+use deathframe::components::animations_container::AnimationsContainerBuilder;
+use deathframe::components::Animation;
+
 use super::*;
 
 impl LevelLoader {
@@ -23,23 +26,26 @@ impl LevelLoader {
                 properties[PROPERTY_Z_KEY].as_f32().unwrap_or(TILE_Z),
             );
 
-            let (sprite_render_opt, animation_opt) =
+            let (sprite_render_opt, animation_opt, animations_container_opt) =
                 if let Some(sprite_data) = sprite {
-                    let (sprite_render, animation_opt) = {
-                        let spritesheet_handle = world
-                            .write_resource::<SpriteSheetHandles>()
-                            .get_or_load(&sprite_data.spritesheet_path, &world);
-                        (
-                            SpriteRender {
-                                sprite_sheet:  spritesheet_handle.clone(),
-                                sprite_number: sprite_data.sprite_id,
-                            },
-                            animation_from(spritesheet_handle, &properties),
-                        )
-                    };
-                    (Some(sprite_render), animation_opt)
+                    let spritesheet_handle = world
+                        .write_resource::<SpriteSheetHandles>()
+                        .get_or_load(&sprite_data.spritesheet_path, &world);
+                    (
+                        Some(SpriteRender {
+                            sprite_sheet:  spritesheet_handle.clone(),
+                            sprite_number: sprite_data.sprite_id,
+                        }),
+                        animation_from(spritesheet_handle.clone(), &properties),
+                        properties["animation_config"].as_str().map(|f| {
+                            animations_container_from_file(
+                                f,
+                                spritesheet_handle,
+                            )
+                        }),
+                    )
                 } else {
-                    (None, None)
+                    (None, None, None)
                 };
 
             let mut entity = world
@@ -52,11 +58,24 @@ impl LevelLoader {
                 .with(Loadable::default());
 
             if let Some(sprite_render) = sprite_render_opt {
-                entity = entity.with(sprite_render);
-            }
+                entity = entity.with(sprite_render.clone());
 
-            if let Some(animation) = animation_opt {
-                entity = entity.with(animation);
+                if let Some(animations_container) = animations_container_opt {
+                    let animations_container =
+                        AnimationsContainerBuilder::from(animations_container)
+                            .insert(
+                                "default",
+                                Animation::new()
+                                    .default_delay_ms(1000)
+                                    .sprite_renders(vec![sprite_render])
+                                    .build(),
+                            )
+                            .current("default")
+                            .build();
+                    entity = entity.with(animations_container);
+                } else if let Some(animation) = animation_opt {
+                    entity = entity.with(animation);
+                }
             }
 
             if is_solid(&properties) {

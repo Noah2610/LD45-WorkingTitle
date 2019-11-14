@@ -10,12 +10,12 @@ pub fn animation_from(
     spritesheet_handle: SpriteSheetHandle,
     properties: &JsonValue,
 ) -> Option<Animation> {
-    match (
-        properties["animation_sprite_ids"].as_str(),
-        properties["animation_delays_ms"].as_str(),
-    ) {
-        (Some(str_sprite_ids), Some(str_delays_ms)) => {
-            let sprite_ids = str_sprite_ids
+    fn sprites_and_delays_from(
+        str_sprite_ids: &str,
+        str_delays_ms: &str,
+    ) -> (Vec<usize>, Vec<u64>) {
+        (
+            str_sprite_ids
                 .split(",")
                 .map(|str_id| {
                     str_id.trim().parse::<usize>().expect(&format!(
@@ -24,8 +24,8 @@ pub fn animation_from(
                         str_id, str_sprite_ids
                     ))
                 })
-                .collect();
-            let delays_ms = str_delays_ms
+                .collect(),
+            str_delays_ms
                 .split(",")
                 .map(|str_ms| {
                     str_ms.trim().parse::<u64>().expect(&format!(
@@ -34,7 +34,21 @@ pub fn animation_from(
                         str_ms, str_delays_ms
                     ))
                 })
-                .collect();
+                .collect(),
+        )
+    }
+
+    match (
+        properties["animation_sprite_ids"].as_str(),
+        properties["animation_delays_ms"].as_str(),
+    ) {
+        (Some(_), None) | (None, Some(_)) => panic!(
+            "Tile with animation needs both properties `animation_sprite_ids` \
+             and `animation_delays_ms`"
+        ),
+        (Some(str_sprite_ids), Some(str_delays_ms)) => {
+            let (sprite_ids, delays_ms) =
+                sprites_and_delays_from(str_sprite_ids, str_delays_ms);
             Some(
                 Animation::new()
                     .default_sprite_sheet_handle(spritesheet_handle)
@@ -43,10 +57,6 @@ pub fn animation_from(
                     .build(),
             )
         }
-        (Some(_), None) | (None, Some(_)) => panic!(
-            "Tile with animation needs both properties `animation_sprite_ids` \
-             and `animation_delays_ms`"
-        ),
         (None, None) => None,
     }
 }
