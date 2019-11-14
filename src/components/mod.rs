@@ -11,6 +11,7 @@ pub mod prelude {
     pub use super::can_run::CanRun;
     pub use super::can_wall_jump::CanWallJump;
     pub use super::checkpoint::{Checkpoint, CheckpointId};
+    pub use super::dynamic_animation::DynamicAnimation;
     pub use super::enemy::{Enemy, EnemyType};
     pub use super::enemy_ai::{enemy_ai_data, EnemyAi};
     pub use super::feature::{Feature, FeatureType, ForceApplyFeature};
@@ -41,6 +42,7 @@ mod can_jump;
 mod can_run;
 mod can_wall_jump;
 mod checkpoint;
+mod dynamic_animation;
 mod enemy;
 mod enemy_ai;
 mod feature;
