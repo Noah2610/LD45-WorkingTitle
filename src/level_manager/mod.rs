@@ -135,7 +135,7 @@ impl LevelManager {
             Ok(serialized) => {
                 let savefile_settings =
                     &world.read_resource::<Settings>().savefile;
-                let savefile_path = file(&savefile_settings.filename);
+                let savefile_path = savefile_settings.path();
                 write_file(savefile_path, serialized).unwrap();
             }
             Err(err) => eprintln!(
@@ -165,8 +165,7 @@ impl LevelManager {
 
         let savefile_settings =
             world.read_resource::<Settings>().savefile.clone();
-        let savefile_path = file(&savefile_settings.filename);
-        if let Some(savefile_data) = get_savefile_data(savefile_path) {
+        if let Some(savefile_data) = get_savefile_data(&savefile_settings) {
             if let Some(level_data) = savefile_data.level(self.level_name()) {
                 self.load_level(world);
                 // Set CHECKPOINT
@@ -300,14 +299,12 @@ impl LevelManager {
     }
 }
 
-fn get_savefile_data<S>(filepath: S) -> Option<SavefileData>
-where
-    S: ToString,
-{
+fn get_savefile_data(
+    savefile_settings: &SavefileSettings,
+) -> Option<SavefileData> {
     use std::fs::File;
-    use std::path::PathBuf;
 
-    let savefile_path = PathBuf::from(filepath.to_string());
+    let savefile_path = savefile_settings.path();
     if savefile_path.is_file() {
         let savefile_file = File::open(savefile_path)
             .expect("Savefile should exist at this point");

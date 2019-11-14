@@ -10,11 +10,12 @@ readme      = "README.md"
 license     = "MIT"
 
 [dependencies]
+bitflags   = "=1.0.4"  # https://github.com/rust-lang/rust/issues/59134#issuecomment-489430178
+dirs       = "2.0.2"
+json       = "0.12.0"
+ron        = "0.5.1"
 serde      = "1.0.101"
 serde_json = "1.0.41"
-ron        = "0.5.1"
-json       = "0.12.0"
-bitflags   = "=1.0.4"  # https://github.com/rust-lang/rust/issues/59134#issuecomment-489430178
 
 [dependencies.amethyst]
 version = "0.13.2"

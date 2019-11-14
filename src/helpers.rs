@@ -1,4 +1,3 @@
-use std::fmt::Display;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
@@ -40,7 +39,7 @@ where
 
 pub fn write_file<P, S>(path: P, data: S) -> Result<(), io::Error>
 where
-    P: AsRef<Path> + Display,
+    P: AsRef<Path>,
     S: ToString,
 {
     let mut file = File::create(path)?;
