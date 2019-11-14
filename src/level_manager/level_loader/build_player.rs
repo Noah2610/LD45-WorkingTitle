@@ -61,7 +61,8 @@ impl LevelLoader {
                     resource("animations/player.ron"),
                     spritesheet_handle,
                 ))
-                .with(Followed::new(FollowTag::Player));
+                .with(Followed::new(FollowTag::Player))
+                .with(DynamicAnimationTrigger::default());
 
             if let Some(level_size) = self.level_size.as_ref() {
                 entity = entity.with(Confined::new(

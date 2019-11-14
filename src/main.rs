@@ -175,6 +175,12 @@ fn build_game_data<'a, 'b>(
             )?
             .with("ingame", CollisionSystem::default(), "collision_system", &[
             ])?
+            .with(
+                "ingame",
+                DynamicAnimationSystem::default(),
+                "dynamic_animation_system",
+                &["collision_system"],
+            )?
             .with("ingame", FeatureSystem::default(), "feature_system", &[
                 "collision_system",
             ])?

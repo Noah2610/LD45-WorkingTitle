@@ -6,6 +6,7 @@ pub mod prelude {
     pub use super::control_player::ControlPlayerSystem;
     pub use super::death_floor::DeathFloorSystem;
     pub use super::debug::DebugSystem;
+    pub use super::dynamic_animation::DynamicAnimationSystem;
     pub use super::enemy_ai::EnemyAiSystem;
     pub use super::feature::FeatureSystem;
     pub use super::follow::FollowSystem;
@@ -40,6 +41,7 @@ mod checkpoint;
 mod control_player;
 mod death_floor;
 mod debug;
+mod dynamic_animation;
 mod enemy_ai;
 mod feature;
 mod follow;

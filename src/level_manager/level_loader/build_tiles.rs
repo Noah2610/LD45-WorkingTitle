@@ -39,7 +39,7 @@ impl LevelLoader {
                         animation_from(spritesheet_handle.clone(), &properties),
                         properties["animation_config"].as_str().map(|f| {
                             animations_container_from_file(
-                                f,
+                                resource(&format!("animations/{}", f)),
                                 spritesheet_handle,
                             )
                         }),
@@ -74,7 +74,8 @@ impl LevelLoader {
                             .build();
                     entity = entity
                         .with(animations_container)
-                        .with(DynamicAnimation::default());
+                        .with(DynamicAnimation::default())
+                        .with(Collision::default());
                 } else if let Some(animation) = animation_opt {
                     entity = entity.with(animation);
                 }
