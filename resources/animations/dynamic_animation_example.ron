@@ -28,6 +28,6 @@
             sprite_ids: [13, 14, 15],
         ),
     ],
-    /// Keep this at `None`
+    /// Keep this at `None`.
     current: None,
 )
