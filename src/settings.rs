@@ -7,6 +7,7 @@ use crate::helpers::*;
 
 pub mod prelude {
     pub use super::CameraSettings;
+    pub use super::DebugSettings;
     pub use super::EnemiesSettings;
     pub use super::EnemySettings;
     pub use super::LevelManagerSettings;
@@ -28,6 +29,7 @@ pub struct Settings {
     pub level_manager: LevelManagerSettings,
     pub music:         MusicSettings,
     pub timer:         TimerSettings,
+    pub debug:         DebugSettings,
 }
 
 #[derive(Clone, Deserialize)]
@@ -123,4 +125,11 @@ pub struct MusicSettings {
 pub struct TimerSettings {
     pub time_prefix:      String,
     pub best_time_prefix: String,
+}
+
+#[derive(Clone, Deserialize)]
+pub struct DebugSettings {
+    pub print_fps:    bool,
+    pub print_deaths: bool,
+    pub print_time:   bool,
 }

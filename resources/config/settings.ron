@@ -84,4 +84,10 @@
         time_prefix:      "",
         best_time_prefix: "/ ",
     ),
+
+    debug: (
+        print_fps:    true,
+        print_deaths: false,
+        print_time:   true,
+    ),
 )
