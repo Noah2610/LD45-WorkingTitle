@@ -12,6 +12,7 @@ mod components;
 mod helpers;
 mod input;
 mod level_manager;
+mod meta;
 mod resources;
 mod savefile_data;
 mod settings;
@@ -31,7 +32,17 @@ use amethyst::{ApplicationBuilder, LogLevelFilter, LoggerConfig};
 use deathframe::custom_game_data::prelude::*;
 
 fn main() -> Result<(), String> {
+    print_welcome_mesage();
     init_game().map_err(|e| e.to_string())
+}
+
+fn print_welcome_mesage() {
+    let first_line = format!("{} v{}", meta::NAME, meta::VERSION);
+    println!(
+        "{}\n{}\nThanks for playing! <3",
+        first_line,
+        "-".repeat(first_line.len())
+    );
 }
 
 fn init_game() -> amethyst::Result<()> {
