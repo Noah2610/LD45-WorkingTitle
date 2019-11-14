@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.4" name="plants" tilewidth="16" tileheight="16" tilecount="128" columns="16">
+<tileset version="1.2" tiledversion="1.2.5" name="plants" tilewidth="16" tileheight="16" tilecount="128" columns="16">
  <image source="../resources/spritesheets/plants.png" width="256" height="128"/>
  <tile id="0">
   <properties>
@@ -121,6 +121,11 @@
   <properties>
    <property name="animation_delays_ms" value="150, 150, 150, 150"/>
    <property name="animation_sprite_ids" value="84, 85, 86, 87"/>
+  </properties>
+ </tile>
+ <tile id="88">
+  <properties>
+   <property name="dynamic_animation" value="dynamic_red_plant.ron"/>
   </properties>
  </tile>
  <tile id="96">

@@ -1,0 +1,25 @@
+(
+    animations: [
+        /// Played once when a new collision with the player happens
+        (
+            name: "on_collision",
+            default_delay_ms: Some(100),
+            sprite_ids: [89, 105],
+        ),
+        /// Played continuously while there is a collision with the player
+        /// (after the "on_collision" animation has played once)
+        (
+            name: "in_collision",
+            default_delay_ms: Some(200),
+            sprite_ids: [107, 123],
+        ),
+        /// Played once when this leaves a collision with the player
+        (
+            name: "on_leave_collision",
+            default_delay_ms: Some(100),
+            sprite_ids: [105, 89],
+        ),
+    ],
+    /// Keep this at `None`
+    current: None,
+)
