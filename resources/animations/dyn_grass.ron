@@ -10,7 +10,7 @@
     animations: [
         /// Played once when a new collision happens.
         (
-            name: "on_collision",
+            name: "on_collision_enter",
             default_delay_ms: Some(100),
             sprite_ids: [0, 1, 2],
         ),
@@ -23,7 +23,7 @@
         // ),
         /// Played once when this leaves a collision.
         // (
-            // name: "on_leave_collision",
+            // name: "on_collision_leave",
             // default_delay_ms: Some(167),
             // sprite_ids: [13, 14, 15],
         // ),

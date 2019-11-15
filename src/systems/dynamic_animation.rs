@@ -1,5 +1,9 @@
 use super::system_prelude::*;
 
+const ANIM_NAME_COLLISION_STEADY: &str = "in_collision";
+const ANIM_NAME_COLLISION_ENTER: &str = "on_collision_enter";
+const ANIM_NAME_COLLISION_LEAVE: &str = "on_collision_leave";
+
 #[derive(Default)]
 pub struct DynamicAnimationSystem;
 
@@ -38,20 +42,25 @@ impl<'a> System<'a> for DynamicAnimationSystem {
                 {
                     match collision_data.state {
                         collision::State::Enter => {
-                            if target_animations.has_animation("on_collision") {
-                                target_animations.play("on_collision");
+                            if target_animations
+                                .has_animation(ANIM_NAME_COLLISION_ENTER)
+                            {
+                                target_animations
+                                    .play(ANIM_NAME_COLLISION_ENTER);
                             }
                         }
                         collision::State::Leave => {
                             if target_animations
-                                .has_animation("on_leave_collision")
+                                .has_animation(ANIM_NAME_COLLISION_LEAVE)
                             {
-                                target_animations.play("on_leave_collision");
+                                target_animations
+                                    .play(ANIM_NAME_COLLISION_LEAVE);
                             }
                             target_animations.set_if_has("default");
                         }
                         collision::State::Steady | _ => {
-                            target_animations.set_if_has("in_collision");
+                            target_animations
+                                .set_if_has(ANIM_NAME_COLLISION_STEADY);
                         }
                     }
                     // Only run for a single trigger.
