@@ -3,12 +3,12 @@
  <image source="../resources/spritesheets/grass.png" width="128" height="64"/>
  <tile id="0">
   <properties>
-   <property name="dynamic_animation" value=""/>
+   <property name="dynamic_animation" value="dyn_grass.ron"/>
   </properties>
  </tile>
  <tile id="16">
   <properties>
-   <property name="dynamic_animation" value=""/>
+   <property name="dynamic_animation" value="dyn_grass.ron"/>
   </properties>
  </tile>
 </tileset>
