@@ -11,6 +11,12 @@ impl LevelLoad {
             level_manager: LevelManager::new(level),
         }
     }
+
+    pub fn with_delete_save(level: Level) -> Self {
+        Self {
+            level_manager: LevelManager::with_delete_save(level),
+        }
+    }
 }
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>

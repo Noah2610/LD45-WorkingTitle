@@ -21,6 +21,7 @@ pub enum MenuActionBinding {
     MenuNext,
     MenuPrev,
     MenuSelect,
+    MenuDeleteSave,
 }
 
 impl Default for MenuActionBinding {

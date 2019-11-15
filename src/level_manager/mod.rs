@@ -18,23 +18,35 @@ use crate::settings::prelude::*;
 use level_loader::{BuildType, LevelLoader, ToBuild};
 
 pub struct LevelManager {
-    pub level:        Level,
-    pub level_loader: LevelLoader,
-    savefile_data:    Option<SavefileData>,
+    pub level:          Level,
+    pub level_loader:   LevelLoader,
+    savefile_data:      Option<SavefileData>,
+    should_delete_save: bool,
 }
 
 impl LevelManager {
     pub fn new(level: Level) -> Self {
         Self {
-            level:         level,
-            level_loader:  Default::default(),
-            savefile_data: None,
+            level:              level,
+            level_loader:       Default::default(),
+            savefile_data:      None,
+            should_delete_save: false,
+        }
+    }
+
+    pub fn with_delete_save(level: Level) -> Self {
+        Self {
+            level:              level,
+            level_loader:       Default::default(),
+            savefile_data:      None,
+            should_delete_save: true,
         }
     }
 
     pub fn setup(&mut self, world: &mut World) {
         self.level_loader = LevelLoader::default();
 
+        self.reset_level(world);
         self.load_from_savefile(world);
 
         if world.read_resource::<Music>().should_audio_stop() {
@@ -151,6 +163,49 @@ impl LevelManager {
     }
 
     fn load_from_savefile(&mut self, world: &mut World) {
+        let savefile_settings =
+            world.read_resource::<Settings>().savefile.clone();
+        if let Some(savefile_data) = get_savefile_data(&savefile_settings) {
+            if let Some(level_data) = savefile_data.level(self.level_name()) {
+                // Set SHOULD_DISPLAY_TIMER
+                world.write_resource::<ShouldDisplayTimer>().0 = level_data.won
+                    && (level_data.checkpoint.is_none()
+                        || self.should_delete_save);
+
+                // Don't apply this level's save
+                if !self.should_delete_save {
+                    {
+                        // Set CHECKPOINT
+                        world.write_resource::<CheckpointRes>().0 =
+                            level_data.checkpoint.clone();
+                        // Set MUSIC
+                        world.write_resource::<Music>().queue =
+                            level_data.music.queue.clone();
+                        // Set PLAYER_DEATHS
+                        world.write_resource::<PlayerDeaths>().0 =
+                            level_data.stats.player_deaths;
+                        // Set BEST_TIME
+                        if let Some(best_time) = level_data.best_time.as_ref() {
+                            world.write_resource::<BestTime>().0 =
+                                Some(best_time.clone());
+                        }
+                        // Apply checkpoint
+                        self.apply_checkpoint(world);
+                    }
+                }
+            } else {
+                // No save for this level
+                // self.load_level(world);
+            }
+
+            self.savefile_data = Some(savefile_data);
+        } else {
+            // No savefile
+            // self.load_level(world);
+        }
+    }
+
+    fn reset_level(&mut self, world: &mut World) {
         // Reset some resources
         // Reset CHECKPOINT
         world.write_resource::<CheckpointRes>().0 = None;
@@ -163,40 +218,8 @@ impl LevelManager {
         // Reset BEST_TIME
         world.write_resource::<BestTime>().0 = None;
 
-        let savefile_settings =
-            world.read_resource::<Settings>().savefile.clone();
-        if let Some(savefile_data) = get_savefile_data(&savefile_settings) {
-            if let Some(level_data) = savefile_data.level(self.level_name()) {
-                self.load_level(world);
-                // Set CHECKPOINT
-                world.write_resource::<CheckpointRes>().0 =
-                    level_data.checkpoint.clone();
-                // Set MUSIC
-                world.write_resource::<Music>().queue =
-                    level_data.music.queue.clone();
-                // Set PLAYER_DEATHS
-                world.write_resource::<PlayerDeaths>().0 =
-                    level_data.stats.player_deaths;
-                // Set SHOULD_DISPLAY_TIMER
-                world.write_resource::<ShouldDisplayTimer>().0 =
-                    level_data.won && level_data.checkpoint.is_none();
-                // Set BEST_TIME
-                if let Some(best_time) = level_data.best_time.as_ref() {
-                    world.write_resource::<BestTime>().0 =
-                        Some(best_time.clone());
-                }
-                // Apply checkpoint
-                self.apply_checkpoint(world);
-            } else {
-                // No save for this level
-                self.load_level(world);
-            }
-
-            self.savefile_data = Some(savefile_data);
-        } else {
-            // No savefile
-            self.load_level(world);
-        }
+        // Load level
+        self.load_level(world);
     }
 
     fn load_level(&mut self, world: &mut World) {

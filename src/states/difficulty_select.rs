@@ -94,6 +94,14 @@ impl DifficultySelect {
                     selector.selection.level(),
                 ))));
             }
+        } else if input.is_down(MenuActionBinding::MenuDeleteSave) {
+            if let Some(selector) =
+                (&mut world.write_storage::<MenuSelector>()).join().next()
+            {
+                return Some(Trans::Push(Box::new(
+                    LevelLoad::with_delete_save(selector.selection.level()),
+                )));
+            }
         }
 
         if input.is_down(MenuActionBinding::Quit) {
