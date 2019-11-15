@@ -1,7 +1,7 @@
 (
     /// All of these animations are optional.
     /// So for example, if you don't want an animation to play
-    /// when leaving the collision, then you can simply remove or comment-out that
+    /// when leaving the collision, then you can simply remove or comment-out (with `//`) that
     /// animation item (delete everything around the `( ... )`, including the parantheses).
     /// If an animation is missing, it will render it's default sprite.
     ///

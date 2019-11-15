@@ -1,7 +1,7 @@
 (
     /// All of these animations are optional.
     /// So for example, if you don't want an animation to play
-    /// when leaving the collision, then you can simply remove or comment-out that
+    /// when leaving the collision, then you can simply remove or comment-out (with `//`) that
     /// animation item (delete everything around the `( ... )`, including the parantheses).
     /// If an animation is missing, it will render it's default sprite.
     ///
@@ -16,17 +16,17 @@
         ),
         /// Played continuously while there is a collision
         /// (after the "on_collision" animation has played once).
-        (
-          ///  name: "in_collision",
-          ///  default_delay_ms: Some(500),
-          ///  sprite_ids: [5, 6],
-        ),
+        // (
+            // name: "in_collision",
+            // default_delay_ms: Some(500),
+            // sprite_ids: [5, 6],
+        // ),
         /// Played once when this leaves a collision.
-        (
-          ///  name: "on_leave_collision",
-          ///  default_delay_ms: Some(167),
-          ///  sprite_ids: [13, 14, 15],
-        ),
+        // (
+            // name: "on_leave_collision",
+            // default_delay_ms: Some(167),
+            // sprite_ids: [13, 14, 15],
+        // ),
     ],
     /// Keep this at `None`.
     current: None,

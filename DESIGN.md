@@ -18,7 +18,7 @@ Tiled maps must have a tile size of __16x16px__.
   Example: `500, 1000, 500`
 - `dynamic_animation` (`string`) __optional__  
   Value must be the name of a animations config file under `resources/animations/`.  
-  To use, copy the `dynamic_animation_example.ron` file and rename it to something fitting  
+  To use, copy the `dyn_animation_example.ron` file and rename it to something fitting  
   (for example `dynamic_grass.ron`). Then you can edit the new file. The example file is commented,
   so open up the file to see what you can do.
 
