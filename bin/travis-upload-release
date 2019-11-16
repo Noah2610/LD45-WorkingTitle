@@ -29,6 +29,7 @@ function upload_release {
     then
         check "tail"
         check "cut"
+        msg "gdrive output:\n$out"
         gdrive_file_id="$( echo "$out" | head -n2 | tail -n1 | cut -d" " -f2 )"
         notify_telegram_success "$gdrive_file_id"
     else
