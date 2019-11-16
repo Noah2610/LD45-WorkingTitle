@@ -25,18 +25,18 @@ function upload_release {
     if out="$( gdrive upload                    \
         --refresh-token "$GDRIVE_REFRESH_TOKEN" \
         --parent "$GDRIVE_DIR_ID"               \
-        --share                                 \
         "$release_path" )"
     then
-        # gdrive_file_id="$( echo "$out" | cut -d "" )"
-        notify_telegram_success "$out"
+        check "cut"
+        gdrive_file_id="$( echo "$out" | cut -d" " -f2 )"
+        notify_telegram_success "$gdrive_file_id"
     else
         notify_telegram_failure "$out"
     fi
 }
 
 function notify_telegram_success {
-    local gdrive_out="$1"
+    local gdrive_file_id="$1"
 
     local message=
     message="$(
@@ -45,7 +45,10 @@ __Successfully built release \`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!__
 MSGEND
 )"
 
-    [ -n "$gdrive_out" ] && message="${message}  \n\`\`\`\n${gdrive_out}\n\`\`\`"
+    if [ -n "$gdrive_file_id" ]; then
+        local gdrive_file_url="https://drive.google.com/file/d/${gdrive_file_id}/view"
+        message="${message}  \n[Google Drive Download](${gdrive_file_url})"
+    fi
 
     send_telegram_message "$message"
 }
