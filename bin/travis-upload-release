@@ -54,11 +54,11 @@ MSGEND
     fi
 
     send_telegram_message "$message"
+    msg "$message"
 }
 
 function notify_telegram_failure {
     local out="$1"
-
     local message=
     message="$(
 cat <<MSGEND
@@ -71,6 +71,7 @@ $out
 MSGEND
 )"
     send_telegram_message "$message"
+    err "$message"
 }
 
 upload_release
