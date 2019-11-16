@@ -1,4 +1,5 @@
 pub mod prelude {
+    pub use amethyst::utils::ortho_camera::CameraOrthoSystem;
     pub use deathframe::systems::prelude::*;
 
     pub use super::background::BackgroundSystem;

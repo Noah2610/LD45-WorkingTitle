@@ -1,3 +1,9 @@
+use amethyst::utils::ortho_camera::{
+    CameraNormalizeMode,
+    CameraOrtho,
+    CameraOrthoWorldCoordinates,
+};
+
 use super::*;
 
 impl LevelLoader {
@@ -28,10 +34,23 @@ impl LevelLoader {
             )
                 .into();
 
+            let mut camera_ortho =
+                CameraOrtho::normalized(CameraNormalizeMode::Contain);
+            camera_ortho.world_coordinates = {
+                let half_size = (size.w * 0.5, size.h * 0.5);
+                CameraOrthoWorldCoordinates {
+                    top:    half_size.1,
+                    bottom: -half_size.1,
+                    left:   -half_size.0,
+                    right:  half_size.0,
+                }
+            };
+
             let mut entity = world
                 .create_entity()
                 .with(transform)
                 .with(AmethystCamera::standard_2d(size.w, size.h))
+                .with(camera_ortho)
                 .with(size)
                 .with(
                     Follower::new(FollowTag::Player)
