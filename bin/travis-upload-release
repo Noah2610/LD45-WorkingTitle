@@ -41,7 +41,8 @@ function notify_telegram_success {
     local message=
     message="$(
 cat <<MSGEND
-__Successfully built release \`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!__  
+__Successfully built release  
+\`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!__
 MSGEND
 )"
 

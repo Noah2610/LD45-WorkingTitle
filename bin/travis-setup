@@ -72,7 +72,8 @@ function notify_telegram {
     local message=
     message="$(
 cat <<MSGEND
-__Building release \`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\` ...__  
+__Building release  
+\`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`__  
 [Job Log](${TRAVIS_JOB_WEB_URL})
 MSGEND
 )"
