@@ -12,21 +12,21 @@
         (
             name: "on_collision_enter",
             default_delay_ms: Some(100),
-            sprite_ids: [0, 1, 2],
+            sprite_ids: [3, 4, 5],
         ),
         /// Played continuously while there is a collision
         /// (after the "on_collision" animation has played once).
-        // (
-            // name: "in_collision",
-            // default_delay_ms: Some(500),
-            // sprite_ids: [5, 6],
-        // ),
+        (
+            name: "in_collision",
+            default_delay_ms: Some(500),
+            sprite_ids: [4],
+        ),
         /// Played once when this leaves a collision.
-        // (
-            // name: "on_collision_leave",
-            // default_delay_ms: Some(167),
-            // sprite_ids: [13, 14, 15],
-        // ),
+        (
+            name: "on_collision_leave",
+            default_delay_ms: Some(167),
+            sprite_ids: [5, 4, 3],
+        ),
     ],
     /// Keep this at `None`.
     current: None,
