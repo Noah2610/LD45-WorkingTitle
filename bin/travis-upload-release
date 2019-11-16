@@ -24,8 +24,8 @@ function upload_release {
     msg "Uploading release to Google Drive using \`$( colored "$COLOR_CODE" "gdrive" )\`"
     if out="$( 2>&1 gdrive upload               \
         --refresh-token "$GDRIVE_REFRESH_TOKEN" \
-        --parent "$GDRIVE_DIR_ID"               \
-        "$release_path" )"
+        "$release_path"                         \
+        --parent "$GDRIVE_DIR_ID" )"
     then
         check "tail"
         check "cut"
