@@ -67,14 +67,20 @@ the package [vulkan-intel] did the trick for me.
 Sorry about this inconvenience, I'm not sure how to circumvent this.
 
 ## Change-Log
-### v1.0 (jam)
+### Jam Versions
+<details>
+<summary>
+    <strong>v1.0.0 - v1.0.2</strong>
+</summary>
+
 | Version | Download | Release Date | Notes |
 | :-----: | :------: | :----------: | :---- |
 | __1.0.0__ | [Windows][v1.0.0-windows]<br />[Linux][v1.0.0-linux] | 2019-10-08<br />_(jam deadline)_               | Initial Ludum Dare jam release. <br /> Has some major bugs, which prevent the game from being completed: <br /> When dying and respawning at a checkpoint, after getting the high-jump feature <br /> you lose your high-jump, which prevents the game from being completed <br /> (unless you beat it without dying). <br /> The order in which the music tracks are played are messed-up; <br /> you won't experience the intended flow of the music in this build. |
 | __1.0.1__ | [Windows][v1.0.1-windows]<br />[Linux][v1.0.1-linux] | 2019-10-08<br />_(~20 minutes after deadline)_ | Partially fixes the music playing-order bug from v1.0.0 (still has some bugs). <br /> Was released about 20 minutes after the deadline. |
 | __1.0.2__ | [Windows][v1.0.2-windows]<br />[Linux][v1.0.2-linux] | 2019-10-08<br />_(~5 hours after deadline)_    | Properly fixes the music playing-order bug. <br /> Fixes the bug where player's high-jump is taken away after respawning, making the game beatable. <br /> Adds frame rate counter system, which prints FPS to the console. <br /> Adds the `WorkingTitle.desktop` file for Linux file manager GUIs. <br /> Some minor, meta stuff. <br /> Was released about 5 hours after the deadline. |
+</details>
 
-### v1.1+ (post-jam)
+### Post-Jam Versions
 <details>
 <summary>
     <strong>v1.1.0</strong>
