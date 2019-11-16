@@ -1,5 +1,7 @@
 use super::system_prelude::*;
 
+const RESPAWN_POS_PADDING: (f32, f32) = (8.0, 8.0);
+
 #[derive(Default)]
 pub struct CheckpointSystem;
 
@@ -9,6 +11,7 @@ impl<'a> System<'a> for CheckpointSystem {
         Write<'a, CheckpointRes>,
         Write<'a, ShouldSave>,
         ReadStorage<'a, Transform>,
+        ReadStorage<'a, Size>,
         ReadStorage<'a, Collision>,
         ReadStorage<'a, Player>,
         ReadStorage<'a, Feature>,
@@ -22,20 +25,31 @@ impl<'a> System<'a> for CheckpointSystem {
             mut checkpoint_res,
             mut should_save,
             transforms,
+            sizes,
             collisions,
             players,
             features,
             mut checkpoints,
         ): Self::SystemData,
     ) {
-        if let Some((_, player_collision, player_transform)) =
-            (&players, &collisions, &transforms).join().next()
+        if let Some((_, player_collision, player_size)) =
+            (&players, &collisions, &sizes).join().next()
         {
-            let player_pos = Vector::from(player_transform);
+            let player_size_padding = (
+                player_size.w * 0.5 + RESPAWN_POS_PADDING.0,
+                player_size.h * 0.5 + RESPAWN_POS_PADDING.1,
+            )
+                .into();
 
-            for (checkpoint_entity, checkpoint) in
-                (&entities, &mut checkpoints).join()
+            for (
+                checkpoint_entity,
+                checkpoint,
+                checkpoint_transform,
+                checkpoint_size,
+            ) in (&entities, &mut checkpoints, &transforms, &sizes).join()
             {
+                let checkpoint_pos = checkpoint_transform.into();
+
                 let prev_checkpoint_ids =
                     checkpoint_res.0.as_ref().map(|c| c.checkpoints.clone());
 
@@ -56,7 +70,11 @@ impl<'a> System<'a> for CheckpointSystem {
                         checkpoints_ids.push(checkpoint.id);
 
                         let checkpoint_data = CheckpointData {
-                            position:    player_pos.clone(),
+                            position:    checkpoint.respawn_pos(
+                                &checkpoint_pos,
+                                &checkpoint_size,
+                                &player_size_padding,
+                            ),
                             features:    features
                                 .join()
                                 .filter_map(|feature| {

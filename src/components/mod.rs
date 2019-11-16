@@ -31,6 +31,7 @@ pub mod prelude {
 }
 
 pub mod component_prelude {
+    pub use amethyst::ui::Anchor as AmethystAnchor;
     pub use deathframe::components::component_prelude::*;
 
     pub use super::prelude::*;
