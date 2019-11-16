@@ -92,7 +92,11 @@ once the camera's left edge passes the background's left edge.
   (shouldn't be necessary for background)
 
 ### Type: "Checkpoint"
-No properties.
+- `respawn_anchor` (`string`) __optional__  
+  Specifies at which anchor point to respawn the player, relative to the checkpoint's center.  
+  For possible values, see: [amethyst::ui::Anchor](https://docs.amethyst.rs/stable/amethyst_ui/enum.Anchor.html#variants)  
+  Example (most common): `BottomMiddle`.  
+  If this property is omitted, then the default `respawn_anchor` will be `Middle`.
 
 ### Type: "Indicator"
 Indicators are images, which only become visible after the associated feature was triggered.
