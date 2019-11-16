@@ -7,7 +7,7 @@ rust:
   - 1.38.0
 env:
   global:
-    - RELEASE_VERSION="cargo"
+    - RELEASE_VERSION="travis"
     - RELEASE_RUST_VERSION="1.38.0"
     - RELEASE_FEATURES=""
     - RELEASE_PRINT_CARGO_STDERR="1"
