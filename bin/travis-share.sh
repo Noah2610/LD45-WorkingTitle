@@ -51,7 +51,7 @@ function send_telegram_message {
     curl -s -X POST "$url" \
         -d chat_id="$TELEGRAM_CHAT_ID" \
         -d text="$message" \
-        -d parse_mode="Markdown"
+        -d parse_mode="Markdown" &> /dev/null
 }
 
 alias pushd="pushd_wrapper"
