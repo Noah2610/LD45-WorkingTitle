@@ -30,7 +30,7 @@ function upload_release {
         check "tail"
         check "cut"
         msg "gdrive output:\n$out"
-        gdrive_file_id="$( echo "$out" | head -n2 | tail -n1 | cut -d" " -f2 )"
+        gdrive_file_id="$( echo "$out" | sed 's/\n\n/\n/g' | tail -n1 | cut -d" " -f2 )"
         notify_telegram_success "$gdrive_file_id"
     else
         notify_telegram_failure "$out"
