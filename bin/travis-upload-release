@@ -24,17 +24,23 @@ function upload_release {
     local out
     local gdrive_file_id
     msg "Uploading release to Google Drive using \`$( colored "$COLOR_CODE" "gdrive" )\`"
-    if out="$( 2>&1 gdrive                      \
+
+    gdrive                                      \
         --refresh-token "$GDRIVE_REFRESH_TOKEN" \
-        upload                                  \
+        upload "$release_path"                  \
         --parent "$GDRIVE_DIR_ID"               \
-        --name "$release_filename"              \
-        "$release_path" )"
+        --name "$release_filename"
+
+    if out="$( 2>&1 gdrive                     \
+        --refresh-token "$GDRIVE_REFRESH_TOKEN" \
+        upload "$release_path"                  \
+        --parent "$GDRIVE_DIR_ID"               \
+        --name "$release_filename" )"
     then
         check "tail"
         check "cut"
         msg "gdrive output:\n$out"
-        gdrive_file_id="$( echo "$out" | sed 's/\n\n/\n/g' | tail -n1 | cut -d" " -f2 )"
+        gdrive_file_id="$( echo "$out" | tail -n1 | grep -Eo ' \S+ ' | head -n1 | sed 's/\s//g' )"
         notify_telegram_success "$gdrive_file_id"
     else
         notify_telegram_failure "$out"
