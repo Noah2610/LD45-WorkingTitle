@@ -16,16 +16,20 @@ function upload_release {
         err "$( colored "$COLOR_CODE" "\$GDRIVE_DIR_ID" ) must be set"
 
     local release_path
+    local release_filename
     release_path="$( get_release_path )"
+    release_filename="$( basename "$release_path" )"
     check_file "$release_path"
 
     local out
     local gdrive_file_id
     msg "Uploading release to Google Drive using \`$( colored "$COLOR_CODE" "gdrive" )\`"
-    if out="$( 2>&1 gdrive upload               \
+    if out="$( 2>&1 gdrive                      \
         --refresh-token "$GDRIVE_REFRESH_TOKEN" \
-        "$release_path"                         \
-        --parent "$GDRIVE_DIR_ID" )"
+        upload                                  \
+        --parent "$GDRIVE_DIR_ID"               \
+        --name "$release_filename"              \
+        "$release_path" )"
     then
         check "tail"
         check "cut"
@@ -43,14 +47,14 @@ function notify_telegram_success {
     local message=
     message="$(
 cat <<MSGEND
-__Successfully built release  
+__Successfully built release
 \`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!__
 MSGEND
 )"
 
     if [ -n "$gdrive_file_id" ]; then
         local gdrive_file_url="https://drive.google.com/file/d/${gdrive_file_id}/view"
-        message="${message}  
+        message="${message}
 [Google Drive Download](${gdrive_file_url})"
     fi
 
@@ -63,9 +67,9 @@ function notify_telegram_failure {
     local message=
     message="$(
 cat <<MSGEND
-__Oh-oh!__ Something went wrong while uploading release  
-\`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!  
-Check the [Job Log](${TRAVIS_JOB_WEB_URL})  
+__Oh-oh!__ Something went wrong while uploading release
+\`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!
+Check the [Job Log](${TRAVIS_JOB_WEB_URL})
 \`\`\`
 $out
 \`\`\`
