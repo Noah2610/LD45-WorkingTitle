@@ -1,0 +1,33 @@
+(
+    /// All of these animations are optional.
+    /// So for example, if you don't want an animation to play
+    /// when leaving the collision, then you can simply remove or comment-out (with `//`) that
+    /// animation item (delete everything around the `( ... )`, including the parantheses).
+    /// If an animation is missing, it will render it's default sprite.
+    ///
+    /// "A collision" in this file refers to a collision with
+    /// the player or an enemy.
+    animations: [
+        /// Played once when a new collision happens.
+        (
+            name: "on_collision_enter",
+            default_delay_ms: Some(100),
+            sprite_ids: [8, 9, 17],
+        ),
+        /// Played continuously while there is a collision
+        /// (after the "on_collision" animation has played once).
+        (
+            name: "in_collision",
+            default_delay_ms: Some(500),
+            sprite_ids: [9],
+        ),
+        /// Played once when this leaves a collision.
+        (
+            name: "on_collision_leave",
+            default_delay_ms: Some(167),
+            sprite_ids: [17, 9, 8],
+        ),
+    ],
+    /// Keep this at `None`.
+    current: None,
+)
