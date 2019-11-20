@@ -251,7 +251,7 @@
     <property name="respawn_anchor" value="BottomMiddle"/>
    </properties>
   </object>
-  <object id="68" name="Checkpoint" type="Checkpoint" x="3568" y="0" width="96" height="384">
+  <object id="68" name="Checkpoint" type="Checkpoint" x="3568" y="0" width="96" height="368">
    <properties>
     <property name="respawn_anchor" value="BottomMiddle"/>
    </properties>
@@ -491,7 +491,7 @@
     <property name="solid" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="28" type="Enemy" x="4032" y="288" width="16" height="16">
+  <object id="28" type="Enemy" x="4032" y="320" width="16" height="16">
    <properties>
     <property name="always_loaded" type="bool" value="false"/>
     <property name="enemy_type" value="Ground"/>

@@ -10,7 +10,7 @@
   </properties>
   <object id="92" name="Background" type="Background" x="7088" y="0" width="416" height="416">
    <properties>
-    <property name="image" value="bg.png"/>
+    <property name="image" value="bg1.png"/>
    </properties>
   </object>
  </objectgroup>
