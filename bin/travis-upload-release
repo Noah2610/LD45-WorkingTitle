@@ -40,7 +40,7 @@ function notify_telegram_success {
 cat <<MSGEND
 __Successfully built release
 \`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!__
-[Google Drive Releases Folder](${gdrive_dir_url})"
+[Google Drive Releases Folder](${gdrive_dir_url})
 MSGEND
 )"
     send_telegram_message "$message"
