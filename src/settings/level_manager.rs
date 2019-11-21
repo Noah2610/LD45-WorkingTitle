@@ -7,9 +7,10 @@ pub struct LevelManagerSettings {
 
 #[derive(Clone, Deserialize)]
 pub struct LevelSettings {
-    pub level:    Level,
-    pub filename: String,
-    pub win_text: String,
+    pub level:       Level,
+    pub filename:    String,
+    pub win_text:    String,
+    pub description: String,
 }
 
 impl LevelManagerSettings {
