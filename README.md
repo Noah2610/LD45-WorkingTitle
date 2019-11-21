@@ -59,7 +59,7 @@ and the `panic.log` (if an error should occur) files will be saved to.
 It's location depends on the platform:
 
 | Platform    | Path                                                |
-| :---------: | :-------------------------------------------------- |
+| ----------: | :-------------------------------------------------- |
 | __Windows__ | `C:\Users\<USER>\AppData\Local\ld45-working-title\` |
 | __Linux__   | `$HOME/.local/share/ld45-working-title/`            |
 
@@ -225,6 +225,18 @@ Used [undefined-medium] for the text at the end.
 
 ## Development
 [![Build Status][Travis-CI-SVG]][Travis-CI]
+
+### Credits
+
+| User       | Role                                   |
+| :--------- | :------------------------------------- |
+| [dimling]  | Music, character sprites               |
+| [hoichael] | Level design, tile/background graphics |
+| [Noah2610] | Programming                            |
+
+[dimling]:  https://github.com/dimling
+[hoichael]: https://github.com/hoichael
+[Noah2610]: https://github.com/Noah2610
 
 ### Tools Used
 - __[Rust]__, programming language
