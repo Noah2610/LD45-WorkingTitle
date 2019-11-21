@@ -6,6 +6,9 @@
 #     If this variable is not `0` or empty,
 #     then the cargo command is executed in a new terminal.
 #     DEFAULT: ""
+#   $RUN_CARGO_SUBCMD
+#     Which cargo sub-command to run (`run`, `build`, etc.).
+#     DEFAULT: "run"
 #   $RUN_FEATURES
 #     Comma-separated list of features to build with.
 #     DEFAULT: "nightly,debug"
@@ -19,9 +22,10 @@ unset _dir
 function run {
     check "tee"
 
-    cargo_cmd "run" "$* 2> >(tee -a $LOGFILE >&1)"
+    cargo_cmd "$RUN_CARGO_SUBCMD" "$* 2> >(tee -a $LOGFILE >&1)"
 }
 
-[ -z "$RUN_FEATURES" ] && export RUN_FEATURES="nightly"
+[ -z "$RUN_CARGO_SUBCMD" ] && export RUN_CARGO_SUBCMD="run"
+[ -z "$RUN_FEATURES" ]     && export RUN_FEATURES="nightly"
 
 run "$@"
