@@ -1,6 +1,6 @@
 [package]
 name        = "ld45-working-title"
-version     = "1.3.0-pre.4"
+version     = "1.3.0-pre.5"
 authors     = ["Noah Rosenzweig <rosenzweig.noah@gmail.com>"]
 edition     = "2018"
 description = "Our Ludum Dare 45 jam entry!"
