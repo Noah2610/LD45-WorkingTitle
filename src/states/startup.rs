@@ -7,6 +7,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Startup {
     fn on_start(&mut self, data: StateData<CustomGameData<CustomData>>) {
         insert_resources(data.world);
         initialize_music(data.world);
+        initialize_savefile_data(data.world);
     }
 
     fn update(

@@ -14,7 +14,6 @@ use amethyst::ecs::{
 pub use level::Level;
 
 use crate::components::prelude::*;
-use crate::helpers::*;
 use crate::resources::prelude::*;
 use crate::savefile_data::prelude::*;
 use crate::settings::prelude::*;
@@ -23,7 +22,6 @@ use level_loader::{BuildType, LevelLoader, ToBuild};
 pub struct LevelManager {
     pub level:          Level,
     pub level_loader:   LevelLoader,
-    savefile_data:      Option<SavefileData>,
     should_delete_save: bool,
 }
 
@@ -32,7 +30,6 @@ impl LevelManager {
         Self {
             level:              level,
             level_loader:       Default::default(),
-            savefile_data:      None,
             should_delete_save: false,
         }
     }
@@ -41,7 +38,6 @@ impl LevelManager {
         Self {
             level:              level,
             level_loader:       Default::default(),
-            savefile_data:      None,
             should_delete_save: true,
         }
     }
@@ -101,66 +97,58 @@ impl LevelManager {
     }
 
     pub fn save_to_savefile(&mut self, world: &mut World, won: bool) {
-        let checkpoint_data = world.read_resource::<CheckpointRes>().0.clone();
-        let music_data = MusicData::from(&*world.read_resource::<Music>());
-        let player_deaths = world.read_resource::<PlayerDeaths>().0;
+        {
+            let checkpoint_data =
+                world.read_resource::<CheckpointRes>().0.clone();
+            let music_data = MusicData::from(&*world.read_resource::<Music>());
+            let player_deaths = world.read_resource::<PlayerDeaths>().0;
 
-        let time = world
-            .read_resource::<TimerRes>()
-            .0
-            .as_ref()
-            .filter(|timer| timer.state.is_finished())
-            .map(|timer| timer.time_output());
-        let existing_level_data = self
-            .savefile_data
-            .get_or_insert_with(Default::default)
-            .levels
-            .get(&self.level);
-        let level_data = LevelSaveData {
-            checkpoint: checkpoint_data.clone(),
-            music:      music_data,
-            stats:      StatsData { player_deaths },
-            best_time:  existing_level_data
-                .and_then(|p| p.best_time)
-                .map(|prev_time| {
-                    if let Some(time) = time {
-                        if time < prev_time {
-                            time
+            let savefile_data_res =
+                &mut world.write_resource::<SavefileDataRes>().0;
+            let savefile_data =
+                savefile_data_res.get_or_insert_with(Default::default);
+
+            let existing_level_data = savefile_data.levels.get(&self.level);
+
+            let time = world
+                .read_resource::<TimerRes>()
+                .0
+                .as_ref()
+                .filter(|timer| timer.state.is_finished())
+                .map(|timer| timer.time_output());
+            let level_data = LevelSaveData {
+                checkpoint: checkpoint_data.clone(),
+                music:      music_data,
+                stats:      StatsData { player_deaths },
+                best_time:  existing_level_data
+                    .and_then(|p| p.best_time)
+                    .map(|prev_time| {
+                        if let Some(time) = time {
+                            if time < prev_time {
+                                time
+                            } else {
+                                prev_time
+                            }
                         } else {
                             prev_time
                         }
-                    } else {
-                        prev_time
-                    }
-                })
-                .or(time),
-            won:        won
-                || existing_level_data.map(|d| d.won).unwrap_or(false),
-        };
-        self.savefile_data
-            .get_or_insert_with(Default::default)
-            .levels
-            .insert(self.level.clone(), level_data);
-
-        match serde_json::to_string(&self.savefile_data) {
-            Ok(serialized) => {
-                let savefile_settings =
-                    &world.read_resource::<Settings>().savefile;
-                let savefile_path = savefile_settings.path();
-                write_file(savefile_path, serialized).unwrap();
-            }
-            Err(err) => eprintln!(
-                "Couldn't save savefile data to file, an error occured while \
-                 serializing save data:\n{:#?}",
-                err
-            ),
+                    })
+                    .or(time),
+                won:        won
+                    || existing_level_data.map(|d| d.won).unwrap_or(false),
+            };
+            savefile_data.levels.insert(self.level.clone(), level_data);
         }
+
+        save_savefile_data(world);
     }
 
     fn load_from_savefile(&mut self, world: &mut World) {
-        let savefile_settings =
-            world.read_resource::<Settings>().savefile.clone();
-        if let Some(savefile_data) = get_savefile_data(&savefile_settings) {
+        let mut should_apply_checkpoint = false;
+
+        if let Some(savefile_data) =
+            world.read_resource::<SavefileDataRes>().0.as_ref()
+        {
             if let Some(level_data) = savefile_data.level(&self.level) {
                 // Set SHOULD_DISPLAY_TIMER
                 world.write_resource::<ShouldDisplayTimer>().0 = level_data.won
@@ -184,8 +172,8 @@ impl LevelManager {
                         // Set PLAYER_DEATHS
                         world.write_resource::<PlayerDeaths>().0 =
                             level_data.stats.player_deaths;
-                        // Apply checkpoint
-                        self.apply_checkpoint(world);
+                        // Apply the set checkpoint data later (due to borrow checker)
+                        should_apply_checkpoint = true;
                     }
                 }
             } else {
@@ -193,10 +181,16 @@ impl LevelManager {
                 // self.load_level(world);
             }
 
-            self.savefile_data = Some(savefile_data);
+        // TODO: Cleanup, savefile is now loaded from Startup state as a resource
+        // self.savefile_data = Some(savefile_data);
         } else {
             // No savefile
             // self.load_level(world);
+        }
+
+        // Apply checkpoint
+        if should_apply_checkpoint {
+            self.apply_checkpoint(world);
         }
     }
 
@@ -319,46 +313,5 @@ impl LevelManager {
             // If no checkpoint was set, then stop audio
             world.write_resource::<StopAudio>().0 = true;
         }
-    }
-}
-
-fn get_savefile_data(
-    savefile_settings: &SavefileSettings,
-) -> Option<SavefileData> {
-    use std::fs::File;
-    use std::io::Read;
-
-    let savefile_path = savefile_settings.path();
-    if savefile_path.is_file() {
-        let mut savefile_file = File::open(&savefile_path)
-            .expect("Savefile should exist at this point");
-        let mut savefile_raw = String::new();
-        savefile_file.read_to_string(&mut savefile_raw).unwrap();
-        match serde_json::de::from_str(&savefile_raw) {
-            Ok(data) => Some(data),
-            Err(e) => {
-                eprintln!("Couldn't deserialize savefile data: {:#?}", e);
-                eprintln!("Trying savefile data v1.2 ...");
-
-                match serde_json::de::from_str::<save_data_v1_2::SavefileData>(
-                    &savefile_raw,
-                ) {
-                    Ok(data_v1_2) => {
-                        eprintln!("Found v1.2 savefile, converted to new data");
-                        Some(data_v1_2.into())
-                    }
-                    Err(e) => {
-                        eprintln!(
-                            "Couldn't deserialize savefile data v1.2: {:#?}",
-                            e
-                        );
-                        eprintln!("Not using a savefile");
-                        None
-                    }
-                }
-            }
-        }
-    } else {
-        None
     }
 }

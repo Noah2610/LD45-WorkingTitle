@@ -26,6 +26,7 @@ pub mod state_prelude {
     pub use crate::input::prelude::*;
     pub use crate::level_manager::Level;
     pub use crate::resources::prelude::*;
+    pub use crate::savefile_data::prelude::*;
     pub use crate::settings::prelude::*;
     pub use crate::CustomData;
 }

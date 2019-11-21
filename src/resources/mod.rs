@@ -7,6 +7,7 @@ pub mod prelude {
     pub use super::insert_resources;
     pub use super::player_deaths::PlayerDeaths;
     pub use super::reset_level::ResetLevel;
+    pub use super::savefile_data::SavefileDataRes;
     pub use super::should_display_timer::ShouldDisplayTimer;
     pub use super::should_save::ShouldSave;
     pub use super::stop_audio::StopAudio;
@@ -22,6 +23,7 @@ mod best_time;
 mod checkpoint;
 mod player_deaths;
 mod reset_level;
+mod savefile_data;
 mod should_display_timer;
 mod should_save;
 mod stop_audio;
@@ -51,6 +53,7 @@ pub fn insert_resources(world: &mut World) {
     world.insert(ToMainMenu::default());
     world.insert(ShouldDisplayTimer::default());
     world.insert(BestTime::default());
+    world.insert(SavefileDataRes::default());
 }
 
 fn load_settings() -> Settings {
