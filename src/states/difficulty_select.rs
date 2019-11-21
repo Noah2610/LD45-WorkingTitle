@@ -1,4 +1,9 @@
 use amethyst::assets::ProgressCounter;
+use amethyst::core::Parent;
+use amethyst::ecs::{Join, ReadExpect, ReadStorage, WriteStorage};
+use amethyst::prelude::Builder;
+use amethyst::ui::{Anchor, UiImage, UiText, UiTransform};
+use std::convert::TryFrom;
 
 use super::state_prelude::*;
 
@@ -41,7 +46,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
 
         if let Some(progress) = self.ui_loading_progress.as_ref() {
             if progress.is_complete() {
-                self.set_ui_text(data.world);
+                self.populate_ui(data.world);
                 self.ui_loading_progress = None;
             }
         }
@@ -77,26 +82,55 @@ impl DifficultySelect {
         self.create_selector(data.world);
     }
 
-    fn set_ui_text(&self, world: &mut World) {
-        use amethyst::ecs::{Join, ReadStorage, WriteStorage};
-        use amethyst::ui::{UiText, UiTransform};
-
+    fn populate_ui(&self, world: &mut World) {
         const VERSION_UI_TRANSFORM_ID: &str = "label_version";
+        const PREFIX_BEST_TIME_UI_TRANSFORM_ID: &str = "label_best_time_";
 
-        // Set version number
         world.exec(
-            |(ui_transforms, mut ui_texts): (
+            |(savefile_data_res, ui_transforms, mut ui_texts): (
+                ReadExpect<SavefileDataRes>,
                 ReadStorage<UiTransform>,
                 WriteStorage<UiText>,
             )| {
-                if let Some((_, text)) = (&ui_transforms, &mut ui_texts)
-                    .join()
-                    .find(|(transform, _)| {
-                        transform.id.as_str() == VERSION_UI_TRANSFORM_ID
-                    })
+                for (transform, text) in (&ui_transforms, &mut ui_texts).join()
                 {
-                    if text.text.as_str() != crate::meta::VERSION {
+                    let transform_id = transform.id.as_str();
+
+                    // Set version number
+                    if transform_id == VERSION_UI_TRANSFORM_ID
+                        && text.text.as_str() != crate::meta::VERSION
+                    {
                         text.text = format!("v{}", crate::meta::VERSION);
+                    }
+                    // Set best time
+                    if let Some(savefile_data) = savefile_data_res.0.as_ref() {
+                        dbg!("HAS SAVEFILE");
+                        if transform_id
+                            .starts_with(PREFIX_BEST_TIME_UI_TRANSFORM_ID)
+                        {
+                            dbg!("TRANSFORM ID MATCHES");
+                            dbg!(&transform_id);
+                            if let Some(best_time) = Level::try_from(
+                                transform_id
+                                    .replace(
+                                        PREFIX_BEST_TIME_UI_TRANSFORM_ID,
+                                        "",
+                                    )
+                                    .as_str(),
+                            )
+                            .ok()
+                            .and_then(|level| {
+                                dbg!(&level.to_string());
+                                savefile_data.level(&level)
+                            })
+                            .and_then(|level_data| {
+                                dbg!("HAS LEVEL DATA");
+                                level_data.best_time.as_ref()
+                            }) {
+                                dbg!(best_time.to_string());
+                                text.text = best_time.to_string();
+                            }
+                        }
                     }
                 }
             },
@@ -107,8 +141,6 @@ impl DifficultySelect {
         &mut self,
         world: &World,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
-        use amethyst::ecs::Join;
-
         let input = world.read_resource::<InputManager<MenuBindings>>();
 
         if input.is_down(MenuActionBinding::MenuPrev) {
@@ -147,10 +179,6 @@ impl DifficultySelect {
     }
 
     fn create_selector(&mut self, world: &mut World) {
-        use amethyst::core::Parent;
-        use amethyst::prelude::Builder;
-        use amethyst::ui::{Anchor, UiImage, UiTransform};
-
         let parent_transform = UiTransform::new(
             "container_menu_selector".to_string(), // id
             Anchor::Middle,                        // anchor
@@ -202,9 +230,6 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
         event_name: String,
         event: UiEvent,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
-        use amethyst::ecs::Join;
-        use std::convert::TryFrom;
-
         match (event_name.as_ref(), event.event_type) {
             ("button_start_very_easy", UiEventType::ClickStop) => {
                 Some(Trans::Push(Box::new(LevelLoad::new(Level::VeryEasy))))

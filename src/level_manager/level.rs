@@ -33,7 +33,9 @@ impl TryFrom<&str> for Level {
 
     fn try_from(name: &str) -> Result<Self, Self::Error> {
         match name.to_lowercase().as_str() {
-            "veryeasy" | "level_very_easy.json" => Ok(Self::Easy),
+            "veryeasy" | "very_easy" | "level_very_easy.json" => {
+                Ok(Self::VeryEasy)
+            }
             "easy" | "level_easy.json" => Ok(Self::Easy),
             "normal" | "level_normal.json" => Ok(Self::Normal),
             "hard" | "level_hard.json" => Ok(Self::Hard),

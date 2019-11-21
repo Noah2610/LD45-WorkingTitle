@@ -90,6 +90,7 @@ Container(
             ),
         ),
 
+        // VERY EASY
         Container(
             transform: (
                 id:             "selection_very_easy",
@@ -127,9 +128,32 @@ Container(
                         hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
+                Label(
+                    transform: (
+                        id:             "label_best_time_very_easy",
+                        x:              16.0,
+                        y:              -24.0,
+                        z:              0.5,
+                        width:          160.0,
+                        height:         24.0,
+                        anchor:         MiddleLeft,
+                        pivot:          MiddleLeft,
+                        mouse_reactive: false,
+                        percent:        false,
+                        opaque:         false,
+                    ),
+                    text: (
+                        text:      "",
+                        font_size: 14.0,
+                        color:     (0.5, 0.5, 0.5, 1.0),
+                        font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                        align:     MiddleLeft,
+                    ),
+                ),
             ],
         ),
 
+        // EASY
         Container(
             transform: (
                 id:             "selection_easy",
@@ -167,9 +191,32 @@ Container(
                         hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
+                Label(
+                    transform: (
+                        id:             "label_best_time_easy",
+                        x:              16.0,
+                        y:              -24.0,
+                        z:              0.5,
+                        width:          160.0,
+                        height:         24.0,
+                        anchor:         MiddleLeft,
+                        pivot:          MiddleLeft,
+                        mouse_reactive: false,
+                        percent:        false,
+                        opaque:         false,
+                    ),
+                    text: (
+                        text:      "",
+                        font_size: 14.0,
+                        color:     (0.5, 0.5, 0.5, 1.0),
+                        font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                        align:     MiddleLeft,
+                    ),
+                ),
             ],
         ),
 
+        // NORMAL
         Container(
             transform: (
                 id:             "selection_normal",
@@ -207,9 +254,32 @@ Container(
                         hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
+                Label(
+                    transform: (
+                        id:             "label_best_time_normal",
+                        x:              16.0,
+                        y:              -24.0,
+                        z:              0.5,
+                        width:          160.0,
+                        height:         24.0,
+                        anchor:         MiddleLeft,
+                        pivot:          MiddleLeft,
+                        mouse_reactive: false,
+                        percent:        false,
+                        opaque:         false,
+                    ),
+                    text: (
+                        text:      "",
+                        font_size: 14.0,
+                        color:     (0.5, 0.5, 0.5, 1.0),
+                        font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                        align:     MiddleLeft,
+                    ),
+                ),
             ],
         ),
 
+        // HARD
         Container(
             transform: (
                 id:             "selection_hard",
@@ -247,9 +317,32 @@ Container(
                         hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
+                Label(
+                    transform: (
+                        id:             "label_best_time_hard",
+                        x:              16.0,
+                        y:              -24.0,
+                        z:              0.5,
+                        width:          160.0,
+                        height:         24.0,
+                        anchor:         MiddleLeft,
+                        pivot:          MiddleLeft,
+                        mouse_reactive: false,
+                        percent:        false,
+                        opaque:         false,
+                    ),
+                    text: (
+                        text:      "",
+                        font_size: 14.0,
+                        color:     (0.5, 0.5, 0.5, 1.0),
+                        font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                        align:     MiddleLeft,
+                    ),
+                ),
             ],
         ),
 
+        // ABSURD
         Container(
             transform: (
                 id:             "selection_absurd",
@@ -287,6 +380,28 @@ Container(
                         hover_text_color:  (1.0, 0.025, 0.025, 1.0),
                         // normal_text_color: (1.0, 1.0, 1.0, 1.0),
                         // hover_text_color:  (0.25, 0.25, 0.25, 1.0),
+                    ),
+                ),
+                Label(
+                    transform: (
+                        id:             "label_best_time_absurd",
+                        x:              16.0,
+                        y:              -24.0,
+                        z:              0.5,
+                        width:          160.0,
+                        height:         24.0,
+                        anchor:         MiddleLeft,
+                        pivot:          MiddleLeft,
+                        mouse_reactive: false,
+                        percent:        false,
+                        opaque:         false,
+                    ),
+                    text: (
+                        text:      "",
+                        font_size: 14.0,
+                        color:     (0.5, 0.5, 0.5, 1.0),
+                        font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                        align:     MiddleLeft,
                     ),
                 ),
             ],
