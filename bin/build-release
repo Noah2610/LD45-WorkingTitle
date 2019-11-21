@@ -254,18 +254,17 @@ function build_release {
     local prev_spacing="$spacing"
     spacing="$spacing  "
     msg "${prev_spacing}Compiling..."
-    # TODO
-    # also_to_stderr="$RELEASE_PRINT_CARGO_STDERR" try_run \
-    #     "cargo +${RELEASE_RUST_VERSION} build --release ${features_arg} $*"
+    also_to_stderr="$RELEASE_PRINT_CARGO_STDERR" try_run \
+        "cargo +${RELEASE_RUST_VERSION} build --release ${features_arg} $*"
 
     local target_dir="${RELEASE_DIR}/${filename}"
     mkdir "$target_dir"
 
-    # msg "${prev_spacing}Copying executable and resources..."
-    # try_run "cp ${RUST_TARGET_DIR}/${RELEASE_EXE_NAME} ${target_dir}/${RELEASE_EXE_NAME_OUTPUT}"
-    # try_run "cp -r $RELEASE_RESOURCES_DIR $target_dir"
-    # try_run "cp ${INCLUDE_FILES[*]} $target_dir";
-    # spacing="$prev_spacing"
+    msg "${prev_spacing}Copying executable and resources..."
+    try_run "cp ${RUST_TARGET_DIR}/${RELEASE_EXE_NAME} ${target_dir}/${RELEASE_EXE_NAME_OUTPUT}"
+    try_run "cp -r $RELEASE_RESOURCES_DIR $target_dir"
+    try_run "cp ${INCLUDE_FILES[*]} $target_dir";
+    spacing="$prev_spacing"
 
     mk_archive "$target_dir"
 
