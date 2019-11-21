@@ -69,6 +69,30 @@ Container(
 
         Button(
             transform: (
+                id:             "button_start_very_easy",
+                x:              0.0,
+                y:              0.2,
+                z:              1.0,
+                width:          0.3,
+                height:         0.1,
+                anchor:         MiddleLeft,
+                pivot:          MiddleLeft,
+                mouse_reactive: true,
+                percent:        true,
+                opaque:         true,
+                selectable:     0,
+            ),
+            button: (
+                text:              "Very Easy",
+                font_size:         24.0,
+                font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
+                normal_text_color: (1.0, 1.0, 1.0, 1.0),
+                hover_text_color:  (0.25, 0.25, 0.25, 1.0),
+            ),
+        ),
+
+        Button(
+            transform: (
                 id:             "button_start_easy",
                 x:              0.0,
                 y:              0.1,

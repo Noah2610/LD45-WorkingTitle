@@ -10,20 +10,22 @@ impl MenuSelection {
     #[rustfmt::skip]
     pub fn next(&mut self) {
         self.0 = match self.0 {
-            Level::Easy   => Level::Normal,
-            Level::Normal => Level::Hard,
-            Level::Hard   => Level::Absurd,
-            Level::Absurd => Level::Easy,
+            Level::VeryEasy => Level::Easy,
+            Level::Easy     => Level::Normal,
+            Level::Normal   => Level::Hard,
+            Level::Hard     => Level::Absurd,
+            Level::Absurd   => Level::VeryEasy,
         };
     }
 
     #[rustfmt::skip]
     pub fn prev(&mut self) {
         self.0 = match self.0 {
-            Level::Easy   => Level::Absurd,
-            Level::Normal => Level::Easy,
-            Level::Hard   => Level::Normal,
-            Level::Absurd => Level::Hard,
+            Level::VeryEasy => Level::Absurd,
+            Level::Easy     => Level::VeryEasy,
+            Level::Normal   => Level::Easy,
+            Level::Hard     => Level::Normal,
+            Level::Absurd   => Level::Hard,
         };
     }
 
@@ -37,6 +39,7 @@ impl TryFrom<&str> for MenuSelection {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value.to_string().as_str() {
+            "button_start_very_easy" => Ok(Self(Level::VeryEasy)),
             "button_start_easy" => Ok(Self(Level::Easy)),
             "button_start_normal" => Ok(Self(Level::Normal)),
             "button_start_hard" => Ok(Self(Level::Hard)),

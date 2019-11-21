@@ -69,6 +69,12 @@
     level_manager: (
         levels: [
             (
+                level:       VeryEasy,
+                filename:    "level_very_easy.json",
+                win_text:    "Good Job!",
+                description: "The recommended level for people who don't often play video games. This level is intended to simply showcase the features of the game, without any challenge.",
+            ),
+            (
                 level:       Easy,
                 filename:    "level_easy.json",
                 win_text:    "Level Clear!",

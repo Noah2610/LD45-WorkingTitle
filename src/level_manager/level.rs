@@ -3,6 +3,7 @@ use std::fmt;
 
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Level {
+    VeryEasy,
     Easy,
     Normal,
     Hard,
@@ -12,6 +13,7 @@ pub enum Level {
 impl Level {
     fn name(&self) -> &str {
         match self {
+            Level::VeryEasy => "VeryEasy",
             Level::Easy => "Easy",
             Level::Normal => "Normal",
             Level::Hard => "Hard",
@@ -31,6 +33,7 @@ impl TryFrom<&str> for Level {
 
     fn try_from(name: &str) -> Result<Self, Self::Error> {
         match name.to_lowercase().as_str() {
+            "veryeasy" | "level_very_easy.json" => Ok(Self::Easy),
             "easy" | "level_easy.json" => Ok(Self::Easy),
             "normal" | "level_normal.json" => Ok(Self::Normal),
             "hard" | "level_hard.json" => Ok(Self::Hard),

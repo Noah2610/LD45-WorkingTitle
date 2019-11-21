@@ -170,6 +170,9 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
         use amethyst::ecs::Join;
 
         match (event_name.as_ref(), event.event_type) {
+            ("button_start_very_easy", UiEventType::ClickStop) => {
+                Some(Trans::Push(Box::new(LevelLoad::new(Level::VeryEasy))))
+            }
             ("button_start_easy", UiEventType::ClickStop) => {
                 Some(Trans::Push(Box::new(LevelLoad::new(Level::Easy))))
             }
