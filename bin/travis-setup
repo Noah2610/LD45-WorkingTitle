@@ -16,8 +16,12 @@ function run_install {
             libasound2-dev
             libpulse-dev
             portaudio19-dev
-            libsdl2-dev
-            rclone'
+            libsdl2-dev'
+
+            # Install latest `rclone` manually, because bionic's `rclone` is far out-of-date
+            msg "Installing latest \`rclone\` using its install script"
+            ( curl https://rclone.org/install.sh | sudo bash ) || \
+                err "Couldn't install \`rclone\`"
             ;;
 
         "windows")
