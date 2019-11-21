@@ -326,20 +326,38 @@ fn get_savefile_data(
     savefile_settings: &SavefileSettings,
 ) -> Option<SavefileData> {
     use std::fs::File;
+    use std::io::Read;
 
     let savefile_path = savefile_settings.path();
     if savefile_path.is_file() {
-        let savefile_file = File::open(savefile_path)
+        let mut savefile_file = File::open(&savefile_path)
             .expect("Savefile should exist at this point");
-        let savefile_data: Option<SavefileData> =
-            match serde_json::de::from_reader(savefile_file) {
-                Ok(data) => Some(data),
-                Err(e) => {
-                    eprintln!("Couldn't deserialize savefile data: {:#?}", e);
-                    None
+        let mut savefile_raw = String::new();
+        savefile_file.read_to_string(&mut savefile_raw).unwrap();
+        match serde_json::de::from_str(&savefile_raw) {
+            Ok(data) => Some(data),
+            Err(e) => {
+                eprintln!("Couldn't deserialize savefile data: {:#?}", e);
+                eprintln!("Trying savefile data v1.2 ...");
+
+                match serde_json::de::from_str::<save_data_v1_2::SavefileData>(
+                    &savefile_raw,
+                ) {
+                    Ok(data_v1_2) => {
+                        eprintln!("Found v1.2 savefile, converted to new data");
+                        Some(data_v1_2.into())
+                    }
+                    Err(e) => {
+                        eprintln!(
+                            "Couldn't deserialize savefile data v1.2: {:#?}",
+                            e
+                        );
+                        eprintln!("Not using a savefile");
+                        None
+                    }
                 }
-            };
-        savefile_data
+            }
+        }
     } else {
         None
     }

@@ -1,3 +1,4 @@
+use std::convert::TryFrom;
 use std::fmt;
 
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -22,6 +23,20 @@ impl Level {
 impl Default for Level {
     fn default() -> Self {
         Level::Easy
+    }
+}
+
+impl TryFrom<&str> for Level {
+    type Error = String;
+
+    fn try_from(name: &str) -> Result<Self, Self::Error> {
+        match name.to_lowercase().as_str() {
+            "easy" | "level_easy.json" => Ok(Self::Easy),
+            "normal" | "level_normal.json" => Ok(Self::Normal),
+            "hard" | "level_hard.json" => Ok(Self::Hard),
+            "absurd" | "level_absurd.json" => Ok(Self::Absurd),
+            n => Err(format!("Level cannot be created from String '{}'", n)),
+        }
     }
 }
 
