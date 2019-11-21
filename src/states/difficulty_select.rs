@@ -104,12 +104,9 @@ impl DifficultySelect {
                     }
                     // Set best time
                     if let Some(savefile_data) = savefile_data_res.0.as_ref() {
-                        dbg!("HAS SAVEFILE");
                         if transform_id
                             .starts_with(PREFIX_BEST_TIME_UI_TRANSFORM_ID)
                         {
-                            dbg!("TRANSFORM ID MATCHES");
-                            dbg!(&transform_id);
                             if let Some(best_time) = Level::try_from(
                                 transform_id
                                     .replace(
@@ -119,15 +116,10 @@ impl DifficultySelect {
                                     .as_str(),
                             )
                             .ok()
-                            .and_then(|level| {
-                                dbg!(&level.to_string());
-                                savefile_data.level(&level)
-                            })
+                            .and_then(|level| savefile_data.level(&level))
                             .and_then(|level_data| {
-                                dbg!("HAS LEVEL DATA");
                                 level_data.best_time.as_ref()
                             }) {
-                                dbg!(best_time.to_string());
                                 text.text = best_time.to_string();
                             }
                         }
