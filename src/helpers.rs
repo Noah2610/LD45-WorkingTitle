@@ -1,7 +1,9 @@
-use std::fs::File;
+use std::fs::{create_dir_all, File};
 use std::io;
 use std::io::prelude::*;
-use std::path::Path;
+use std::path::{Path, PathBuf};
+
+use amethyst::utils::app_root_dir::application_root_dir;
 
 pub fn file<S>(path: S) -> String
 where
@@ -44,4 +46,16 @@ where
 {
     let mut file = File::create(path)?;
     write!(&mut file, "{}", data.to_string())
+}
+
+pub fn data_dir() -> Option<PathBuf> {
+    if let Some(mut path) = dirs::data_local_dir() {
+        path.push(crate::meta::NAME);
+        if !path.is_dir() {
+            create_dir_all(&path).unwrap();
+        }
+        Some(path)
+    } else {
+        application_root_dir().ok()
+    }
 }

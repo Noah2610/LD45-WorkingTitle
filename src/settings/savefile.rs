@@ -1,7 +1,6 @@
-use std::fs::create_dir_all;
 use std::path::PathBuf;
 
-use crate::helpers::file;
+use crate::helpers::{data_dir, file};
 
 #[derive(Clone, Deserialize)]
 pub struct SavefileSettings {
@@ -10,11 +9,7 @@ pub struct SavefileSettings {
 
 impl SavefileSettings {
     pub fn path(&self) -> PathBuf {
-        if let Some(mut path) = dirs::data_local_dir() {
-            path.push(crate::meta::NAME);
-            if !path.is_dir() {
-                create_dir_all(&path).unwrap();
-            }
+        if let Some(mut path) = data_dir() {
             path.push(&self.filename);
             path
         } else {

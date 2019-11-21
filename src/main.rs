@@ -1,4 +1,6 @@
 extern crate amethyst;
+extern crate backtrace;
+extern crate chrono;
 extern crate climer;
 extern crate deathframe;
 extern crate dirs;
@@ -15,6 +17,7 @@ mod helpers;
 mod input;
 mod level_manager;
 mod meta;
+mod panic_hook;
 mod resources;
 mod savefile_data;
 mod settings;
@@ -34,8 +37,13 @@ use amethyst::{ApplicationBuilder, LogLevelFilter, LoggerConfig};
 use deathframe::custom_game_data::prelude::*;
 
 fn main() -> Result<(), String> {
+    set_panic_hook();
     print_welcome_mesage();
     init_game().map_err(|e| e.to_string())
+}
+
+fn set_panic_hook() {
+    std::panic::set_hook(Box::new(panic_hook::on_panic));
 }
 
 fn print_welcome_mesage() {
