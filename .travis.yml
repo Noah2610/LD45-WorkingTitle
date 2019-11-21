@@ -1,7 +1,7 @@
 os:
   - windows
   - linux
-dist: xenial
+dist: bionic
 language: rust
 rust:
   - 1.38.0
