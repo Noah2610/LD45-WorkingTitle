@@ -17,6 +17,8 @@ script:
   - bin/build-release
 after_success:
   - bin/travis-upload-release
+after_failure:
+  - bin/travis-failure
 branches:
   only:
     - /^v\d+\.\d+(\.\d+)?(-\S*)?$/

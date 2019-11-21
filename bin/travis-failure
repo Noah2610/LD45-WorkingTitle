@@ -1,0 +1,23 @@
+#!/bin/bash
+# Script, which is run after a failure occures during the build.
+# Sends a telegram message, notifying that an error has occured.
+
+# shellcheck source=./travis-share.sh
+_dir="$( dirname "$0" )"
+source "${_dir}/travis-share.sh"
+unset _dir
+
+function send_telegram_failure_message {
+    local message=
+    message="$(
+cat <<MSGEND
+__FAILED building release build__
+\`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!
+Check the [Job Log](${TRAVIS_JOB_WEB_URL})
+MSGEND
+)"
+    send_telegram_message "$message"
+    err "$message"
+}
+
+send_telegram_failure_message
