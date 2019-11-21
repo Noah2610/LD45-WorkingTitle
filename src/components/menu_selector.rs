@@ -1,65 +1,34 @@
 use std::convert::TryFrom;
 
 use super::component_prelude::*;
+use crate::level_manager::Level;
 
-pub type Level = MenuSelection;
-
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub enum MenuSelection {
-    Easy,
-    Normal,
-    Hard,
-    Absurd,
-}
+#[derive(Default, Clone, PartialEq, Eq, Hash, Deserialize)]
+pub struct MenuSelection(pub Level);
 
 impl MenuSelection {
     #[rustfmt::skip]
-    pub fn next(&self) -> Self {
-        match self {
-            MenuSelection::Easy   => MenuSelection::Normal,
-            MenuSelection::Normal => MenuSelection::Hard,
-            MenuSelection::Hard   => MenuSelection::Absurd,
-            MenuSelection::Absurd => MenuSelection::Easy,
-        }
+    pub fn next(&mut self) {
+        self.0 = match self.0 {
+            Level::Easy   => Level::Normal,
+            Level::Normal => Level::Hard,
+            Level::Hard   => Level::Absurd,
+            Level::Absurd => Level::Easy,
+        };
     }
 
     #[rustfmt::skip]
-    pub fn prev(&self) -> Self {
-        match self {
-            MenuSelection::Easy   => MenuSelection::Absurd,
-            MenuSelection::Normal => MenuSelection::Easy,
-            MenuSelection::Hard   => MenuSelection::Normal,
-            MenuSelection::Absurd => MenuSelection::Hard,
-        }
+    pub fn prev(&mut self) {
+        self.0 = match self.0 {
+            Level::Easy   => Level::Absurd,
+            Level::Normal => Level::Easy,
+            Level::Hard   => Level::Normal,
+            Level::Absurd => Level::Hard,
+        };
     }
 
-    #[rustfmt::skip]
     pub fn level(&self) -> Level {
-        self.clone()
-    }
-
-    #[rustfmt::skip]
-    pub fn level_name(&self) -> &str {
-        match self {
-            MenuSelection::Easy   => "level_easy.json",
-            MenuSelection::Normal => "level_normal.json",
-            MenuSelection::Hard   => "level_hard.json",
-            MenuSelection::Absurd => "level_absurd.json",
-        }
-    }
-
-    pub fn win_text(&self) -> &str {
-        match self {
-            MenuSelection::Easy | MenuSelection::Normal => "Level Clear!",
-            MenuSelection::Hard => "Congratulations!",
-            MenuSelection::Absurd => "Thank You For Playing <3",
-        }
-    }
-}
-
-impl Default for MenuSelection {
-    fn default() -> Self {
-        MenuSelection::Easy
+        self.0.clone()
     }
 }
 
@@ -68,10 +37,10 @@ impl TryFrom<&str> for MenuSelection {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value.to_string().as_str() {
-            "button_start_easy" => Ok(MenuSelection::Easy),
-            "button_start_normal" => Ok(MenuSelection::Normal),
-            "button_start_hard" => Ok(MenuSelection::Hard),
-            "button_start_absurd" => Ok(MenuSelection::Absurd),
+            "button_start_easy" => Ok(Self(Level::Easy)),
+            "button_start_normal" => Ok(Self(Level::Normal)),
+            "button_start_hard" => Ok(Self(Level::Hard)),
+            "button_start_absurd" => Ok(Self(Level::Absurd)),
             _ => Err(()),
         }
     }
@@ -84,11 +53,11 @@ pub struct MenuSelector {
 
 impl MenuSelector {
     pub fn next(&mut self) {
-        self.selection = self.selection.next();
+        self.selection.next();
     }
 
     pub fn prev(&mut self) {
-        self.selection = self.selection.prev();
+        self.selection.prev();
     }
 
     pub fn set(&mut self, selection: MenuSelection) {

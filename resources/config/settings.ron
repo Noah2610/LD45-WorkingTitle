@@ -67,11 +67,27 @@
     ),
 
     level_manager: (
-        level_names: [
-            "level_easy.json",
-            "level_normal.json",
-            "level_hard.json",
-            "level_absurd.json",
+        levels: [
+            (
+                level:    Easy,
+                filename: "level_easy.json",
+                win_text: "Level Clear!",
+            ),
+            (
+                level:    Normal,
+                filename: "level_normal.json",
+                win_text: "Level Clear!",
+            ),
+            (
+                level:    Hard,
+                filename: "level_hard.json",
+                win_text: "Congratulations!",
+            ),
+            (
+                level:    Absurd,
+                filename: "level_absurd.json",
+                win_text: "Thank You For Playing <3",
+            ),
         ],
     ),
 

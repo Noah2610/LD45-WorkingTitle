@@ -1,3 +1,4 @@
+pub mod level;
 pub mod level_loader;
 
 use amethyst::ecs::{
@@ -9,6 +10,8 @@ use amethyst::ecs::{
     WorldExt,
     WriteStorage,
 };
+
+pub use level::Level;
 
 use crate::components::prelude::*;
 use crate::helpers::*;
@@ -108,20 +111,16 @@ impl LevelManager {
             .as_ref()
             .filter(|timer| timer.state.is_finished())
             .map(|timer| timer.time_output());
-        let level_name = self.level_name().to_string();
         let existing_level_data = self
             .savefile_data
             .get_or_insert_with(Default::default)
             .levels
-            .get(&self.level.level_name().to_string());
+            .get(&self.level);
         let level_data = LevelSaveData {
-            level_manager: LevelManagerData {
-                level_name: level_name.clone(),
-            },
-            checkpoint:    checkpoint_data.clone(),
-            music:         music_data,
-            stats:         StatsData { player_deaths },
-            best_time:     existing_level_data
+            checkpoint: checkpoint_data.clone(),
+            music:      music_data,
+            stats:      StatsData { player_deaths },
+            best_time:  existing_level_data
                 .and_then(|p| p.best_time)
                 .map(|prev_time| {
                     if let Some(time) = time {
@@ -135,13 +134,13 @@ impl LevelManager {
                     }
                 })
                 .or(time),
-            won:           won
+            won:        won
                 || existing_level_data.map(|d| d.won).unwrap_or(false),
         };
         self.savefile_data
             .get_or_insert_with(Default::default)
             .levels
-            .insert(level_name, level_data);
+            .insert(self.level.clone(), level_data);
 
         match serde_json::to_string(&self.savefile_data) {
             Ok(serialized) => {
@@ -158,15 +157,11 @@ impl LevelManager {
         }
     }
 
-    fn level_name(&self) -> &str {
-        self.level.level_name()
-    }
-
     fn load_from_savefile(&mut self, world: &mut World) {
         let savefile_settings =
             world.read_resource::<Settings>().savefile.clone();
         if let Some(savefile_data) = get_savefile_data(&savefile_settings) {
-            if let Some(level_data) = savefile_data.level(self.level_name()) {
+            if let Some(level_data) = savefile_data.level(&self.level) {
                 // Set SHOULD_DISPLAY_TIMER
                 world.write_resource::<ShouldDisplayTimer>().0 = level_data.won
                     && (level_data.checkpoint.is_none()
@@ -223,11 +218,16 @@ impl LevelManager {
     }
 
     fn load_level(&mut self, world: &mut World) {
-        let level_name = self.level_name().to_string();
+        let level_filename = world
+            .read_resource::<Settings>()
+            .level_manager
+            .level(&self.level)
+            .filename
+            .clone();
         world.delete_all();
         world.write_resource::<CheckpointRes>().0 = None;
         self.level_loader.to_build = ToBuild::all();
-        self.level_loader.load(level_name);
+        self.level_loader.load(level_filename);
         self.level_loader.build(world);
     }
 

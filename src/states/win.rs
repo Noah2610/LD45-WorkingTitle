@@ -1,6 +1,6 @@
-use super::state_prelude::*;
-
 use amethyst::assets::ProgressCounter;
+
+use super::state_prelude::*;
 
 const RON_PATH: &str = "ui/win.ron";
 
@@ -26,7 +26,12 @@ impl Win {
 
         const WIN_LABEL_UI_TRANSFORM_ID: &str = "label_win";
 
-        let new_text = self.level.win_text();
+        let new_text = world
+            .read_resource::<Settings>()
+            .level_manager
+            .level(&self.level)
+            .win_text
+            .clone();
 
         world.exec(
             |(ui_transforms, mut ui_texts): (
@@ -44,7 +49,7 @@ impl Win {
                     })
                     .next()
                 {
-                    if text.text.as_str() != new_text {
+                    if text.text.as_str() != new_text.as_str() {
                         text.text = new_text.to_string();
                     }
                 }

@@ -2,7 +2,7 @@ pub mod prelude {
     pub use super::camera::CameraSettings;
     pub use super::debug::DebugSettings;
     pub use super::enemies::{EnemiesSettings, EnemySettings};
-    pub use super::level_manager::LevelManagerSettings;
+    pub use super::level_manager::{LevelManagerSettings, LevelSettings};
     pub use super::music::MusicSettings;
     pub use super::player::{
         PlayerAnimationSizes,
