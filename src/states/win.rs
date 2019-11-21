@@ -38,16 +38,11 @@ impl Win {
                 ReadStorage<UiTransform>,
                 WriteStorage<UiText>,
             )| {
-                if let Some(text) = (&ui_transforms, &mut ui_texts)
+                if let Some((_, text)) = (&ui_transforms, &mut ui_texts)
                     .join()
-                    .filter_map(|(transform, text)| {
-                        if transform.id.as_str() == WIN_LABEL_UI_TRANSFORM_ID {
-                            Some(text)
-                        } else {
-                            None
-                        }
+                    .find(|(transform, _)| {
+                        transform.id.as_str() == WIN_LABEL_UI_TRANSFORM_ID
                     })
-                    .next()
                 {
                     if text.text.as_str() != new_text.as_str() {
                         text.text = new_text.to_string();
@@ -82,6 +77,7 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent> for Win {
         if let Some(progress) = self.ui_loading_progress.as_ref() {
             if progress.is_complete() {
                 self.set_label(data.world);
+                self.ui_loading_progress = None;
             }
         }
 

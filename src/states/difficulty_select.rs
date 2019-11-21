@@ -1,4 +1,4 @@
-use std::convert::TryFrom;
+use amethyst::assets::ProgressCounter;
 
 use super::state_prelude::*;
 
@@ -6,7 +6,8 @@ const UI_RON_PATH: &str = "ui/difficulty_select.ron";
 
 #[derive(Default)]
 pub struct DifficultySelect {
-    ui_data: UiData,
+    ui_data:             UiData,
+    ui_loading_progress: Option<ProgressCounter>,
 }
 
 impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
@@ -38,6 +39,13 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
             return trans;
         }
 
+        if let Some(progress) = self.ui_loading_progress.as_ref() {
+            if progress.is_complete() {
+                self.set_ui_text(data.world);
+                self.ui_loading_progress = None;
+            }
+        }
+
         Trans::None
     }
 
@@ -64,8 +72,35 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
 impl DifficultySelect {
     fn create_uis(&mut self, data: &mut StateData<CustomGameData<CustomData>>) {
         let _progress = self.create_ui(data, resource(QUIT_UI_RON_PATH));
-        let _progress = self.create_ui(data, resource(UI_RON_PATH));
+        self.ui_loading_progress =
+            Some(self.create_ui(data, resource(UI_RON_PATH)));
         self.create_selector(data.world);
+    }
+
+    fn set_ui_text(&self, world: &mut World) {
+        use amethyst::ecs::{Join, ReadStorage, WriteStorage};
+        use amethyst::ui::{UiText, UiTransform};
+
+        const VERSION_UI_TRANSFORM_ID: &str = "label_version";
+
+        // Set version number
+        world.exec(
+            |(ui_transforms, mut ui_texts): (
+                ReadStorage<UiTransform>,
+                WriteStorage<UiText>,
+            )| {
+                if let Some((_, text)) = (&ui_transforms, &mut ui_texts)
+                    .join()
+                    .find(|(transform, _)| {
+                        transform.id.as_str() == VERSION_UI_TRANSFORM_ID
+                    })
+                {
+                    if text.text.as_str() != crate::meta::VERSION {
+                        text.text = format!("v{}", crate::meta::VERSION);
+                    }
+                }
+            },
+        );
     }
 
     fn handle_keys<'a, 'b>(
@@ -168,6 +203,7 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
         event: UiEvent,
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
         use amethyst::ecs::Join;
+        use std::convert::TryFrom;
 
         match (event_name.as_ref(), event.event_type) {
             ("button_start_very_easy", UiEventType::ClickStop) => {
