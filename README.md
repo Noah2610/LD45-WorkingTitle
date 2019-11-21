@@ -9,6 +9,41 @@ Our [Ludum Dare 45 game jam entry][ludumdare].
 The theme...
 > Start with nothing
 
+---
+
+<details>
+<summary>
+<strong>
+Table of Contents
+</strong>
+</summary>
+
+- [Screenshots](#screenshots)
+- [Description](#description)
+- [Controls](#controls)
+  - [Ingame](#ingame)
+  - [Main Menu](#main-menu)
+- [Downloads](#downloads)
+- [Data Directory](#data-directory)
+- [Notes](#notes)
+  - [Requires Vulkan support to run!](#requires-vulkan-support-to-run)
+- [Change-Log](#change-log)
+  - [Jam Versions](#jam-versions)
+  - [Post-Jam Versions](#post-jam-versions)
+    - [Change-Log v1.1.0](#change-log-v110)
+    - [Change-Log v1.1.1](#change-log-v111)
+    - [Change-Log v1.1.2](#change-log-v112)
+    - [Change-Log v1.1.3](#change-log-v113)
+    - [Change-Log v1.2.0](#change-log-v120)
+- [Fonts Used](#fonts-used)
+- [Development](#development)
+  - [Credits](#credits)
+  - [Tools Used](#tools-used)
+  - [Compiling from source](#compiling-from-source)
+  - [Making levels](#making-levels)
+- [License](#license)
+</details>
+
 ## Screenshots
 <p align="center">
   <img
@@ -102,7 +137,7 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
 | :------: | :----------: |
 | [Windows][v1.1.0-windows] / [Linux][v1.1.0-linux] | 2019-10-30 |
 
-#### Change-Log
+#### Change-Log v1.1.0
 - Change settings to be more low-gravity and feel more like space.
 - Add a hover mechanic, where the player can hold down the jump button  
   to slowly hover downwards for the space-y gravity sections.
@@ -128,7 +163,7 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
 | :------: | :----------: |
 | [Windows][v1.1.1-windows] / [Linux][v1.1.1-linux] | 2019-10-30 |
 
-#### Change-Log
+#### Change-Log v1.1.1
 - Add a player death counter, which is printed to the console at regular intervals.
 - Improve performance from previous version.
 - Bug fixes, level adjustments, settings tweaks.
@@ -143,7 +178,7 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
 | :------: | :----------: |
 | [Windows][v1.1.2-windows] / [Linux][v1.1.2-linux] | 2019-10-31 |
 
-#### Change-Log
+#### Change-Log v1.1.2
 - Update background image, less distracting.
 - Level, textures, settings adjustments.
 </details>
@@ -157,7 +192,7 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
 | :------: | :----------: |
 | [Windows][v1.1.3-windows] / [Linux][v1.1.3-linux] | 2019-11-03 |
 
-#### Change-Log
+#### Change-Log v1.1.3
 - Add indicators for when certain features are added (jump, low-gravity).
   - [#16 Add Indicator object, which becomes visible when touched](https://github.com/Noah2610/LD45-WorkingTitle/issues/16)
   - [#18 Add indicator animations](https://github.com/Noah2610/LD45-WorkingTitle/issues/18)
@@ -181,7 +216,7 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
 | :------: | :----------: |
 | [Windows][v1.2.0-windows] / [Linux][v1.2.0-linux] | 2019-11-06 |
 
-#### Change-Log
+#### Change-Log v1.2.0
 - Add main menu, where you can select the difficulty you want to play.  
   Use _keyboard_ or _mouse_ to select a difficulty.  
   Each difficulty has its own save.
