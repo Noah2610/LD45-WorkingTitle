@@ -7,6 +7,7 @@ use super::system_prelude::*;
 
 const DIFFICULTY_DESCRIPTION_TRANSFORM_ID: &str =
     "label_difficulty_description";
+const PREFIX_SELECTION_TRANSFORM_ID: &str = "selection_";
 
 #[derive(Default)]
 pub struct MenuSelectionSystem;
@@ -27,13 +28,18 @@ impl<'a> System<'a> for MenuSelectionSystem {
             (&transforms)
                 .join()
                 .filter_map(|transform| {
-                    if let Ok(selection) =
-                        MenuSelection::try_from(transform.id.as_str())
-                    {
-                        Some((
-                            selection,
-                            (transform.local_x, transform.local_y),
-                        ))
+                    let transform_id = transform.id.as_str();
+                    if transform_id.starts_with(PREFIX_SELECTION_TRANSFORM_ID) {
+                        if let Ok(selection) =
+                            MenuSelection::try_from(transform_id)
+                        {
+                            Some((
+                                selection,
+                                (transform.local_x, transform.local_y),
+                            ))
+                        } else {
+                            None
+                        }
                     } else {
                         None
                     }

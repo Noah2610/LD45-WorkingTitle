@@ -37,13 +37,24 @@ impl MenuSelection {
 impl TryFrom<&str> for MenuSelection {
     type Error = ();
 
+    #[rustfmt::skip]
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value.to_string().as_str() {
-            "button_start_very_easy" => Ok(Self(Level::VeryEasy)),
-            "button_start_easy" => Ok(Self(Level::Easy)),
-            "button_start_normal" => Ok(Self(Level::Normal)),
-            "button_start_hard" => Ok(Self(Level::Hard)),
-            "button_start_absurd" => Ok(Self(Level::Absurd)),
+            "selection_very_easy" | "button_start_very_easy" => {
+                Ok(Self(Level::VeryEasy))
+            }
+            "selection_easy"      | "button_start_easy"      => {
+                Ok(Self(Level::Easy))
+            },
+            "selection_normal"    | "button_start_normal"    => {
+                Ok(Self(Level::Normal))
+            }
+            "selection_hard"      | "button_start_hard"      => {
+                Ok(Self(Level::Hard))
+            },
+            "selection_absurd"    | "button_start_absurd"    => {
+                Ok(Self(Level::Absurd))
+            }
             _ => Err(()),
         }
     }
