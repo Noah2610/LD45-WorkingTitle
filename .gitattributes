@@ -1,0 +1,2 @@
+# Treat level JSON files as binary, so they aren't diff-ed or merged
+/resources/levels/*.json binary
