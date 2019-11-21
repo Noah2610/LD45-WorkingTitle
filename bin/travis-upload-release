@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script, which is run after a travis build.
 # Uploads the built release to Google Drive
-# using `gdrive` (https://github.com/gdrive-org/gdrive).
+# using `rclone` (https://github.com/rclone/rclone).
 
 # shellcheck source=./travis-share.sh
 _dir="$( dirname "$0" )"
@@ -9,54 +9,40 @@ source "${_dir}/travis-share.sh"
 unset _dir
 
 function upload_release {
-    check "gdrive"
-    [ -n "$GDRIVE_REFRESH_TOKEN" ] || \
-        err "$( colored "$COLOR_CODE" "\$GDRIVE_REFRESH_TOKEN" ) must be set"
+    check "rclone"
+    [ -n "$RCLONE_DRIVE_TOKEN" ] || \
+        err "$( colored "$COLOR_CODE" "\$RCLONE_DRIVE_TOKEN" ) must be set"
     [ -n "$GDRIVE_DIR_ID" ] || \
         err "$( colored "$COLOR_CODE" "\$GDRIVE_DIR_ID" ) must be set"
 
+    export RCLONE_CONFIG_DRIVE_TYPE="drive"
+    export RCLONE_CONFIG_DRIVE_TOKEN="$RCLONE_DRIVE_TOKEN"
+    export RCLONE_CONFIG_DRIVE_ROOT_FOLDER_ID="$GDRIVE_DIR_ID"
+
     local release_path
-    local release_filename
     release_path="$( get_release_path )"
-    release_filename="$( basename "$release_path" )"
     check_file "$release_path"
 
     local out
-    local gdrive_file_id
-    msg "Uploading release to Google Drive using \`$( colored "$COLOR_CODE" "gdrive" )\`"
+    msg "Uploading release to Google Drive using \`$( colored "$COLOR_CODE" "rclone" )\`"
 
-    if out="$( 2>&1 gdrive                      \
-        --refresh-token "$GDRIVE_REFRESH_TOKEN" \
-        upload "$release_path"                  \
-        --parent "$GDRIVE_DIR_ID"               \
-        --name "$release_filename" )"
-    then
-        msg "gdrive output:\n$out"
-        gdrive_file_id="$( echo "$out" | tail -n1 | grep -Eo ' \S+ ' | head -n1 | sed 's/\s//g' )"
-        echo "gdrive_file_id: $gdrive_file_id"
-        notify_telegram_success "$gdrive_file_id"
+    if out="$( 2>&1 rclone copy "$release_path" drive:/ )"; then
+        notify_telegram_success
     else
         notify_telegram_failure "$out"
     fi
 }
 
 function notify_telegram_success {
-    local gdrive_file_id="$1"
-
     local message=
+    local gdrive_dir_url="https://drive.google.com/drive/folders/${GDRIVE_DIR_ID}"
     message="$(
 cat <<MSGEND
 __Successfully built release
 \`${TRAVIS_TAG}-${TRAVIS_OS_NAME}\`!__
+[Google Drive Releases Folder](${gdrive_dir_url})"
 MSGEND
 )"
-
-    if [ -n "$gdrive_file_id" ]; then
-        local gdrive_file_url="https://drive.google.com/file/d/${gdrive_file_id}/view"
-        message="${message}
-[Google Drive Download](${gdrive_file_url})"
-    fi
-
     send_telegram_message "$message"
     msg "$message"
 }

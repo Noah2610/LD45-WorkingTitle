@@ -16,26 +16,20 @@ function run_install {
             libasound2-dev
             libpulse-dev
             portaudio19-dev
-            libsdl2-dev'
-
-            # Kind of ironic, that ubuntu is the only one of these OSes,
-            # that doesn't have `gdrive` available in their main repos.
-            local GDRIVE_DOWNLOAD="https://github.com/gdrive-org/gdrive/releases/download/2.1.0/gdrive-linux-x64"
-            curl -L "$GDRIVE_DOWNLOAD" > ./tmp-gdrive
-            sudo mv ./tmp-gdrive /bin/gdrive
-            sudo chmod +x /bin/gdrive
+            libsdl2-dev
+            rclone'
             ;;
 
         "windows")
             check "choco"
-            try_run 'choco install zip gdrive'
+            try_run 'choco install zip rclone'
             windows_install_sdl2_libs
             ;;
 
         "osx")
             check "brew"
             try_run 'brew update'
-            try_run 'brew install SDL2 gdrive'
+            try_run 'brew install SDL2 rclone'
             ;;
 
         *)
