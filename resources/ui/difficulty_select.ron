@@ -58,9 +58,9 @@ Container(
                 opaque:         true,
             ),
             text: (
-                text:      "DESCRIPTION",
+                text:      "",
                 font_size: 20.0,
-                color:     (1.0, 1.0, 1.0, 1.0),
+                color:     (0.5, 0.5, 0.5, 1.0),
                 font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                 align:     MiddleRight,
                 line_mode: Wrap,
