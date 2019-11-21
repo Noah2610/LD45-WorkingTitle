@@ -44,10 +44,10 @@ menacing enemies, destructive spikes, and adaptive music.
 | Action                             | Keyboard                       |
 | :--------------------------------- | :----------------------------- |
 | Start Selected                     | `Enter` / `Space`              |
-| Start Selected (without save data) | `X` / `Backspace`              |
+| Start Selected (without save data) | `X` / `Delete`                 |
 | Select Next                        | `S` / `Down` / `J` / `Tab`     |
 | Select Previous                    | `W` / `Up` / `K` / `Shift+Tab` |
-| Quit Game                          | `Shift+Escape` / `Shift+Q`     |
+| Quit Game                          | `Escape` / `Shift+Q`           |
 
 ## Downloads
 Download the build for your platform from [itch.io][itch].  
