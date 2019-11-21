@@ -1,6 +1,6 @@
 use super::system_prelude::*;
 
-const RESPAWN_POS_PADDING: (f32, f32) = (8.0, 8.0);
+const RESPAWN_POS_PADDING: (f32, f32) = (4.0, 4.0);
 
 #[derive(Default)]
 pub struct CheckpointSystem;
