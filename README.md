@@ -53,6 +53,18 @@ menacing enemies, destructive spikes, and adaptive music.
 Download the build for your platform from [itch.io][itch].  
 Supported platforms: __Windows__ and __Linux__.
 
+## Data Directory
+The game's data directory is where the `savefile.json`,  
+and the `panic.log` (if an error should occur) files will be saved to.  
+It's location depends on the platform:
+
+| Platform    | Path                                                |
+| :---------: | :-------------------------------------------------- |
+| __Windows__ | `C:\Users\<USER>\AppData\Local\ld45-working-title\` |
+| __Linux__   | `$HOME/.local/share/ld45-working-title/`            |
+
+Location is determined by the [`dirs` crate's `data_local_dir()` function](https://docs.rs/dirs/2.0.2/dirs/fn.data_local_dir.html).
+
 ## Notes
 ### Requires Vulkan support to run!
 If the game doesn't run, it's likely that you're missing Vulkan API support.  
