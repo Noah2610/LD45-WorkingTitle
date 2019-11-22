@@ -8,6 +8,8 @@ pub enum IngameAxisBinding {
     None,
     PlayerX,
     PlayerY,
+    PlayerAltX,
+    PlayerAltY,
 }
 
 impl Default for IngameAxisBinding {

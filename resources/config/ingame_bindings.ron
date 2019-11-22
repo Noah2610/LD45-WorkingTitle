@@ -1,7 +1,9 @@
 (
     axes: {
-        PlayerX: Emulated(pos: Key(D), neg: Key(A)),
-        PlayerY: Emulated(pos: Key(W), neg: Key(S)),
+        PlayerX:    Emulated(pos: Key(D),     neg: Key(A)),
+        PlayerY:    Emulated(pos: Key(W),     neg: Key(S)),
+        PlayerAltX: Emulated(pos: Key(Right), neg: Key(Left)),
+        PlayerAltY: Emulated(pos: Key(Up),    neg: Key(Down)),
     },
     actions: {
         Quit:        [ [Key(LShift), Key(Escape)], [Key(LShift), Key(Q)], ],

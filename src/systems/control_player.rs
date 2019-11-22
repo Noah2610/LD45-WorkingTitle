@@ -78,9 +78,11 @@ impl<'a> System<'a> for ControlPlayerSystem {
             );
 
             // MOVEMENT
-            if let Some(x) =
-                input_manager.axis_value(IngameAxisBinding::PlayerX)
-            {
+            if let Some(x) = input_manager.axis_value_find(|(key, val)| {
+                val != &&0.0
+                    && (key == &&IngameAxisBinding::PlayerX
+                        || key == &&IngameAxisBinding::PlayerAltX)
+            }) {
                 if x != 0.0 {
                     player_velocity.increase_x_with_max(
                         player.acceleration.0 * x * dt,
@@ -107,9 +109,11 @@ impl<'a> System<'a> for ControlPlayerSystem {
                 }
             }
             if player_gravity_opt.is_none() {
-                if let Some(y) =
-                    input_manager.axis_value(IngameAxisBinding::PlayerY)
-                {
+                if let Some(y) = input_manager.axis_value_find(|(key, val)| {
+                    val != &&0.0
+                        && (key == &&IngameAxisBinding::PlayerY
+                            || key == &&IngameAxisBinding::PlayerAltY)
+                }) {
                     if y != 0.0 {
                         player_velocity.increase_y_with_max(
                             player.acceleration.0 * y * dt,
