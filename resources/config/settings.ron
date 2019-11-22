@@ -98,12 +98,16 @@
                 initially_locked: false,
             ),
             (
-                level:            Absurd,
-                filename:         "level_absurd.json",
-                win_text:         "Thank You For Playing <3",
-                description:      "Were the previous levels too easy for you? Are you liking the game? DO YOU LIKE PAIN? Well, then this level is for you!",
-                initially_locked: true,
-                unlocked_by_any:  [Normal, Hard],
+                level:              Absurd,
+                filename:           "level_absurd.json",
+                win_text:           "Thank You For Playing <3",
+                description:        "Were the previous levels too easy for you? Are you liking the game? DO YOU LIKE PAIN? Well, then this level is for you!",
+                initially_locked:   true,
+                unlocked_by_any:    [Normal, Hard],
+                locked_description: r"
+LOCKED
+unlock by beating Normal or Hard first!
+                ",
             ),
         ],
     ),

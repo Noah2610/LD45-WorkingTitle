@@ -8,6 +8,7 @@ use super::system_prelude::*;
 const DIFFICULTY_DESCRIPTION_TRANSFORM_ID: &str =
     "label_difficulty_description";
 const PREFIX_SELECTION_TRANSFORM_ID: &str = "selection_";
+const DEFAULT_LOCKED_DESCRIPTION: &str = "LOCKED";
 
 #[derive(Default)]
 pub struct MenuSelectionSystem;
@@ -15,6 +16,7 @@ pub struct MenuSelectionSystem;
 impl<'a> System<'a> for MenuSelectionSystem {
     type SystemData = (
         ReadExpect<'a, Settings>,
+        Read<'a, SavefileDataRes>,
         ReadStorage<'a, MenuSelector>,
         WriteStorage<'a, UiTransform>,
         WriteStorage<'a, UiText>,
@@ -22,8 +24,16 @@ impl<'a> System<'a> for MenuSelectionSystem {
 
     fn run(
         &mut self,
-        (settings, menu_selectors, mut transforms, mut texts): Self::SystemData,
+        (
+            settings,
+            savefile_data,
+            menu_selectors,
+            mut transforms,
+            mut texts,
+        ): Self::SystemData,
     ) {
+        let level_manager_settings = &settings.level_manager;
+
         let selections_positions: HashMap<MenuSelection, (f32, f32)> =
             (&transforms)
                 .join()
@@ -62,8 +72,21 @@ impl<'a> System<'a> for MenuSelectionSystem {
         }
 
         if let Some(selected_level) = selected_level_opt {
-            let level_description =
-                &settings.level_manager.level(&selected_level).description;
+            let level_settings = level_manager_settings.level(&selected_level);
+
+            let level_description = if is_level_locked(
+                &selected_level,
+                level_manager_settings,
+                &savefile_data.0,
+            ) {
+                level_settings
+                    .locked_description
+                    .as_ref()
+                    .map(String::as_str)
+                    .unwrap_or(DEFAULT_LOCKED_DESCRIPTION)
+            } else {
+                level_settings.description.as_str()
+            };
 
             // Update level description
             (&transforms, &mut texts)
@@ -72,7 +95,7 @@ impl<'a> System<'a> for MenuSelectionSystem {
                     transform.id == DIFFICULTY_DESCRIPTION_TRANSFORM_ID
                 })
                 .map(|(_, description)| {
-                    if &description.text != level_description {
+                    if description.text.as_str() != level_description {
                         description.text = level_description.to_string();
                     }
                 });

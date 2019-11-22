@@ -7,12 +7,13 @@ pub struct LevelManagerSettings {
 
 #[derive(Clone, Deserialize)]
 pub struct LevelSettings {
-    pub level:            Level,
-    pub filename:         String,
-    pub win_text:         String,
-    pub description:      String,
-    pub initially_locked: bool,
-    pub unlocked_by_any:  Option<Vec<Level>>,
+    pub level:              Level,
+    pub filename:           String,
+    pub win_text:           String,
+    pub description:        String,
+    pub locked_description: Option<String>,
+    pub initially_locked:   bool,
+    pub unlocked_by_any:    Option<Vec<Level>>,
 }
 
 impl LevelManagerSettings {
