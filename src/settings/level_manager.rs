@@ -2,7 +2,9 @@ use crate::level_manager::Level;
 
 #[derive(Clone, Deserialize)]
 pub struct LevelManagerSettings {
-    pub levels: Vec<LevelSettings>,
+    pub levels:                     Vec<LevelSettings>,
+    pub default_locked_description: String,
+    pub default_locked_text_color:  [f32; 4],
 }
 
 #[derive(Clone, Deserialize)]
@@ -14,6 +16,7 @@ pub struct LevelSettings {
     pub locked_description: Option<String>,
     pub initially_locked:   bool,
     pub unlocked_by_any:    Option<Vec<Level>>,
+    pub locked_text_color:  Option<[f32; 4]>,
 }
 
 impl LevelManagerSettings {

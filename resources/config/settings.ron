@@ -68,6 +68,8 @@
     ),
 
     level_manager: (
+        default_locked_description: "LOCKED",
+        default_locked_text_color:  (0.3, 0.3, 0.3, 0.5),
         levels: [
             (
                 level:            VeryEasy,

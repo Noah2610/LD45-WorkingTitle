@@ -8,7 +8,6 @@ use super::system_prelude::*;
 const DIFFICULTY_DESCRIPTION_TRANSFORM_ID: &str =
     "label_difficulty_description";
 const PREFIX_SELECTION_TRANSFORM_ID: &str = "selection_";
-const DEFAULT_LOCKED_DESCRIPTION: &str = "LOCKED";
 
 #[derive(Default)]
 pub struct MenuSelectionSystem;
@@ -83,7 +82,11 @@ impl<'a> System<'a> for MenuSelectionSystem {
                     .locked_description
                     .as_ref()
                     .map(String::as_str)
-                    .unwrap_or(DEFAULT_LOCKED_DESCRIPTION)
+                    .unwrap_or(
+                        level_manager_settings
+                            .default_locked_description
+                            .as_str(),
+                    )
             } else {
                 level_settings.description.as_str()
             };

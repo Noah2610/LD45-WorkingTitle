@@ -1,6 +1,6 @@
 use amethyst::assets::ProgressCounter;
 use amethyst::core::Parent;
-use amethyst::ecs::{Join, ReadExpect, ReadStorage, WriteStorage};
+use amethyst::ecs::{Join, Read, ReadExpect, ReadStorage, WriteStorage};
 use amethyst::prelude::Builder;
 use amethyst::ui::{Anchor, UiImage, UiText, UiTransform};
 use std::convert::TryFrom;
@@ -84,14 +84,19 @@ impl DifficultySelect {
 
     fn populate_ui(&self, world: &mut World) {
         const VERSION_UI_TRANSFORM_ID: &str = "label_version";
+        const PREFIX_BUTTON_UI_TRANSFORM_ID: &str = "button_start_";
         const PREFIX_BEST_TIME_UI_TRANSFORM_ID: &str = "label_best_time_";
+        const SUFFIX_BUTTON_TEXT_UI_TRANSFORM_ID: &str = "_btn_txt";
 
         world.exec(
-            |(savefile_data_res, ui_transforms, mut ui_texts): (
-                ReadExpect<SavefileDataRes>,
+            |(settings, savefile_data_res, ui_transforms, mut ui_texts): (
+                ReadExpect<Settings>,
+                Read<SavefileDataRes>,
                 ReadStorage<UiTransform>,
                 WriteStorage<UiText>,
             )| {
+                let level_manager_settings = &settings.level_manager;
+
                 for (transform, text) in (&ui_transforms, &mut ui_texts).join()
                 {
                     let transform_id = transform.id.as_str();
@@ -122,6 +127,34 @@ impl DifficultySelect {
                             }) {
                                 text.text = best_time.to_string();
                             }
+                        }
+                    }
+                    // Set locked text color
+                    if transform_id.starts_with(PREFIX_BUTTON_UI_TRANSFORM_ID)
+                        && transform_id
+                            .ends_with(SUFFIX_BUTTON_TEXT_UI_TRANSFORM_ID)
+                    {
+                        if let Some(locked_level) = Level::try_from(
+                            transform_id
+                                .replace(PREFIX_BUTTON_UI_TRANSFORM_ID, "")
+                                .replace(SUFFIX_BUTTON_TEXT_UI_TRANSFORM_ID, "")
+                                .as_str(),
+                        )
+                        .ok()
+                        .filter(|level| {
+                            is_level_locked(
+                                level,
+                                level_manager_settings,
+                                &savefile_data_res.0,
+                            )
+                        }) {
+                            let level_settings =
+                                level_manager_settings.level(&locked_level);
+                            text.color =
+                                level_settings.locked_text_color.unwrap_or(
+                                    level_manager_settings
+                                        .default_locked_text_color,
+                                );
                         }
                     }
                 }
