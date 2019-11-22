@@ -109,7 +109,12 @@ Attempt this level once you feel comfortable with the controls.
 This is where things get challenging,
 good luck >:)
 ",
-                initially_locked: false,
+                initially_locked: true,
+                unlocked_by_any:    [Easy, Normal],
+                locked_description: r"
+LOCKED!
+Unlock by beating Easy or Normal first!
+",
             ),
             (
                 level:              Absurd,
@@ -127,6 +132,7 @@ Well, then this level is for you!
 LOCKED!
 Unlock by beating Normal or Hard first!
 ",
+                locked_text_color:  (0.5, 0.3, 0.3, 0.5),
             ),
         ],
     ),
