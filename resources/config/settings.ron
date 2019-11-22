@@ -73,41 +73,58 @@
                 level:            VeryEasy,
                 filename:         "level_very_easy.json",
                 win_text:         "Good Job!",
-                description:      "The recommended level for people who don't often play video games. This level is intended to simply showcase the features of the game, without any challenge.",
+                description:      r"
+The recommended level for people who don't often play video games.
+This level is intended to simply showcase the features of the game,
+without much challenge.
+",
                 initially_locked: false,
             ),
             (
                 level:            Easy,
                 filename:         "level_easy.json",
                 win_text:         "Level Clear!",
-                description:      "The recommended level for G A M E R S!",
+                description:      r"
+The recommended level for
+G A M E R S!
+",
                 initially_locked: false,
             ),
             (
                 level:            Normal,
                 filename:         "level_normal.json",
                 win_text:         "Level Clear!",
-                description:      "Attempt this level once you feel comfortable with the controls.",
+                description:      r"
+Attempt this level once you feel comfortable with the controls.
+",
                 initially_locked: false,
             ),
             (
                 level:            Hard,
                 filename:         "level_hard.json",
                 win_text:         "Congratulations!",
-                description:      "This is where things get challenging, good luck >:)",
+                description:      r"
+This is where things get challenging,
+good luck >:)
+",
                 initially_locked: false,
             ),
             (
                 level:              Absurd,
                 filename:           "level_absurd.json",
                 win_text:           "Thank You For Playing <3",
-                description:        "Were the previous levels too easy for you? Are you liking the game? DO YOU LIKE PAIN? Well, then this level is for you!",
+                description:        r"
+Were the previous levels too easy for you?
+Are you liking the game?
+DO YOU LIKE PAIN?
+Well, then this level is for you!
+",
                 initially_locked:   true,
                 unlocked_by_any:    [Normal, Hard],
                 locked_description: r"
-LOCKED
-unlock by beating Normal or Hard first!
-                ",
+LOCKED!
+Unlock by beating Normal or Hard first!
+",
             ),
         ],
     ),
