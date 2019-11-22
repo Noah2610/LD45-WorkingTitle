@@ -101,7 +101,12 @@ G A M E R S!
                 description:      r"
 Attempt this level once you feel comfortable with the controls.
 ",
-                initially_locked: false,
+                initially_locked: true,
+                unlocked_by_any:    [Easy],
+                locked_description: r"
+LOCKED!
+Unlock by beating Easy first!
+",
             ),
             (
                 level:            Hard,
@@ -112,10 +117,10 @@ This is where things get challenging,
 good luck >:)
 ",
                 initially_locked: true,
-                unlocked_by_any:    [Easy, Normal],
+                unlocked_by_any:    [Normal],
                 locked_description: r"
 LOCKED!
-Unlock by beating Easy or Normal first!
+Unlock by beating Normal first!
 ",
             ),
             (
@@ -129,10 +134,10 @@ DO YOU LIKE PAIN?
 Well, then this level is for you!
 ",
                 initially_locked:   true,
-                unlocked_by_any:    [Normal, Hard],
+                unlocked_by_any:    [Hard],
                 locked_description: r"
 LOCKED!
-Unlock by beating Normal or Hard first!
+Unlock by beating Hard first!
 ",
                 locked_text_color:  (0.5, 0.3, 0.3, 0.5),
             ),
