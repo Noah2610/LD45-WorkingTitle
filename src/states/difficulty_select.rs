@@ -149,17 +149,16 @@ impl DifficultySelect {
             if let Some(selector) =
                 (&mut world.write_storage::<MenuSelector>()).join().next()
             {
-                return Some(Trans::Push(Box::new(LevelLoad::new(
-                    selector.selection.level(),
-                ))));
+                return Some(start_level(world, selector.selection.level()));
             }
         } else if input.is_down(MenuActionBinding::MenuDeleteSave) {
             if let Some(selector) =
                 (&mut world.write_storage::<MenuSelector>()).join().next()
             {
-                return Some(Trans::Push(Box::new(
-                    LevelLoad::with_delete_save(selector.selection.level()),
-                )));
+                return Some(start_level_with_delete_save(
+                    world,
+                    selector.selection.level(),
+                ));
             }
         }
 
@@ -224,19 +223,19 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
     ) -> Option<Trans<CustomGameData<'a, 'b, CustomData>, StateEvent>> {
         match (event_name.as_ref(), event.event_type) {
             ("button_start_very_easy", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new(Level::VeryEasy))))
+                Some(start_level(data.world, Level::VeryEasy))
             }
             ("button_start_easy", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new(Level::Easy))))
+                Some(start_level(data.world, Level::Easy))
             }
             ("button_start_normal", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new(Level::Normal))))
+                Some(start_level(data.world, Level::Normal))
             }
             ("button_start_hard", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new(Level::Hard))))
+                Some(start_level(data.world, Level::Hard))
             }
             ("button_start_absurd", UiEventType::ClickStop) => {
-                Some(Trans::Push(Box::new(LevelLoad::new(Level::Absurd))))
+                Some(start_level(data.world, Level::Absurd))
             }
             ("button_quit", UiEventType::ClickStop) => Some(Trans::Quit),
 
@@ -259,5 +258,27 @@ impl<'a, 'b> Menu<CustomGameData<'a, 'b, CustomData>, StateEvent>
 
     fn ui_data_mut(&mut self) -> &mut UiData {
         &mut self.ui_data
+    }
+}
+
+fn start_level<'a, 'b>(
+    world: &World,
+    level: Level,
+) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
+    if is_level_locked(world, &level) {
+        Trans::None
+    } else {
+        Trans::Push(Box::new(LevelLoad::new(level)))
+    }
+}
+
+fn start_level_with_delete_save<'a, 'b>(
+    world: &World,
+    level: Level,
+) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
+    if is_level_locked(world, &level) {
+        Trans::None
+    } else {
+        Trans::Push(Box::new(LevelLoad::with_delete_save(level)))
     }
 }
