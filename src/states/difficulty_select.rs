@@ -265,7 +265,9 @@ fn start_level<'a, 'b>(
     world: &World,
     level: Level,
 ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
-    if is_level_locked(world, &level) {
+    let settings = &world.read_resource::<Settings>().level_manager;
+    let savefile_data = &world.read_resource::<SavefileDataRes>().0;
+    if is_level_locked(&level, settings, savefile_data) {
         Trans::None
     } else {
         Trans::Push(Box::new(LevelLoad::new(level)))
@@ -276,7 +278,9 @@ fn start_level_with_delete_save<'a, 'b>(
     world: &World,
     level: Level,
 ) -> Trans<CustomGameData<'a, 'b, CustomData>, StateEvent> {
-    if is_level_locked(world, &level) {
+    let settings = &world.read_resource::<Settings>().level_manager;
+    let savefile_data = &world.read_resource::<SavefileDataRes>().0;
+    if is_level_locked(&level, settings, savefile_data) {
         Trans::None
     } else {
         Trans::Push(Box::new(LevelLoad::with_delete_save(level)))

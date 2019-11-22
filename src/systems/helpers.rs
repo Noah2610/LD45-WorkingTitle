@@ -5,6 +5,7 @@ use deathframe::components::solid::SolidTag as _;
 
 use super::system_prelude::*;
 use crate::level_manager::Level;
+use crate::savefile_data::SavefileData;
 use crate::solid_tag::SolidTag;
 
 // Copied from LD44
@@ -74,15 +75,16 @@ impl SidesTouching {
     }
 }
 
-pub fn is_level_locked(world: &World, level: &Level) -> bool {
+pub fn is_level_locked(
+    level: &Level,
+    level_manager_settings: &LevelManagerSettings,
+    savefile_data_opt: &Option<SavefileData>,
+) -> bool {
     let mut level_locked = false;
-    let level_manager_settings =
-        &world.read_resource::<Settings>().level_manager;
     let level_settings = level_manager_settings.level(level);
     if level_settings.initially_locked {
         level_locked = true;
-        if let Some(savefile_data) = &world.read_resource::<SavefileDataRes>().0
-        {
+        if let Some(savefile_data) = savefile_data_opt.as_ref() {
             if let Some(unlocked_by_any) =
                 level_settings.unlocked_by_any.as_ref()
             {
