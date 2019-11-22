@@ -125,7 +125,6 @@ Container(
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 1.0, 1.0, 1.0),
-                        hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
                 Label(
@@ -188,7 +187,6 @@ Container(
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 1.0, 1.0, 1.0),
-                        hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
                 Label(
@@ -251,7 +249,6 @@ Container(
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 1.0, 1.0, 1.0),
-                        hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
                 Label(
@@ -314,7 +311,6 @@ Container(
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 1.0, 1.0, 1.0),
-                        hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
                 Label(
@@ -377,9 +373,6 @@ Container(
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 0.0, 0.0, 1.0),
-                        hover_text_color:  (1.0, 0.025, 0.025, 1.0),
-                        // normal_text_color: (1.0, 1.0, 1.0, 1.0),
-                        // hover_text_color:  (0.25, 0.25, 0.25, 1.0),
                     ),
                 ),
                 Label(
