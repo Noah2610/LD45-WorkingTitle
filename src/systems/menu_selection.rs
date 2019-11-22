@@ -73,23 +73,30 @@ impl<'a> System<'a> for MenuSelectionSystem {
         if let Some(selected_level) = selected_level_opt {
             let level_settings = level_manager_settings.level(&selected_level);
 
-            let level_description = if is_level_locked(
-                &selected_level,
-                level_manager_settings,
-                &savefile_data.0,
-            ) {
-                level_settings
-                    .locked_description
-                    .as_ref()
-                    .map(String::as_str)
-                    .unwrap_or(
-                        level_manager_settings
-                            .default_locked_description
-                            .as_str(),
+            let (level_description, level_description_color) =
+                if is_level_locked(
+                    &selected_level,
+                    level_manager_settings,
+                    &savefile_data.0,
+                ) {
+                    (
+                        level_settings
+                            .locked_description
+                            .as_ref()
+                            .map(String::as_str)
+                            .unwrap_or(
+                                level_manager_settings
+                                    .default_locked_description
+                                    .as_str(),
+                            ),
+                        level_manager_settings.locked_description_text_color,
                     )
-            } else {
-                level_settings.description.as_str()
-            };
+                } else {
+                    (
+                        level_settings.description.as_str(),
+                        level_manager_settings.description_text_color,
+                    )
+                };
 
             // Update level description
             (&transforms, &mut texts)
@@ -100,6 +107,7 @@ impl<'a> System<'a> for MenuSelectionSystem {
                 .map(|(_, description)| {
                     if description.text.as_str() != level_description {
                         description.text = level_description.to_string();
+                        description.color = level_description_color;
                     }
                 });
         }

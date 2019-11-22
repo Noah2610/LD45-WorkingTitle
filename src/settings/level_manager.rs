@@ -2,9 +2,11 @@ use crate::level_manager::Level;
 
 #[derive(Clone, Deserialize)]
 pub struct LevelManagerSettings {
-    pub levels:                     Vec<LevelSettings>,
-    pub default_locked_description: String,
-    pub default_locked_text_color:  [f32; 4],
+    pub levels:                        Vec<LevelSettings>,
+    pub description_text_color:        [f32; 4],
+    pub locked_description_text_color: [f32; 4],
+    pub default_locked_description:    String,
+    pub default_locked_text_color:     [f32; 4],
 }
 
 #[derive(Clone, Deserialize)]
