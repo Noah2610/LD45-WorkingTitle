@@ -1,3 +1,4 @@
+#![enable(implicit_some)]
 (
     camera: (
         size: (416.0, 416.0),
@@ -6,11 +7,11 @@
     player: (
         normal_speed: (
             acceleration: (900.0, 900.0),
-            max_velocity: (Some(230.0), Some(230.0)),
+            max_velocity: (230.0, 230.0),
         ),
         run_speed: (
             acceleration: (660.0, 660.0),
-            max_velocity: (Some(460.0), Some(460.0)),
+            max_velocity: (460.0, 460.0),
         ),
         decr_velocity: (2000.0, 2000.0),
         jump_data1: (
@@ -50,15 +51,15 @@
     enemies: (
         ground: (
             size:         (16.0, 16.0),
-            gravity:      Some((0.0, -660.0)),
+            gravity:      (0.0, -660.0),
             acceleration: (200.0, 0.0),
-            max_velocity: (Some(60.0), Some(160.0)),
+            max_velocity: (60.0, 160.0),
         ),
         flying: (
             size:         (38.0, 20.0),
             gravity:      None,
             acceleration: (400.0, 300.0),
-            max_velocity: (Some(100.0), Some(80.0)),
+            max_velocity: (100.0, 80.0),
         ),
     ),
 
@@ -69,34 +70,39 @@
     level_manager: (
         levels: [
             (
-                level:       VeryEasy,
-                filename:    "level_very_easy.json",
-                win_text:    "Good Job!",
-                description: "The recommended level for people who don't often play video games. This level is intended to simply showcase the features of the game, without any challenge.",
+                level:            VeryEasy,
+                filename:         "level_very_easy.json",
+                win_text:         "Good Job!",
+                description:      "The recommended level for people who don't often play video games. This level is intended to simply showcase the features of the game, without any challenge.",
+                initially_locked: false,
             ),
             (
-                level:       Easy,
-                filename:    "level_easy.json",
-                win_text:    "Level Clear!",
-                description: "The recommended level for G A M E R S!",
+                level:            Easy,
+                filename:         "level_easy.json",
+                win_text:         "Level Clear!",
+                description:      "The recommended level for G A M E R S!",
+                initially_locked: false,
             ),
             (
-                level:       Normal,
-                filename:    "level_normal.json",
-                win_text:    "Level Clear!",
-                description: "Attempt this level once you feel comfortable with the controls.",
+                level:            Normal,
+                filename:         "level_normal.json",
+                win_text:         "Level Clear!",
+                description:      "Attempt this level once you feel comfortable with the controls.",
+                initially_locked: false,
             ),
             (
-                level:       Hard,
-                filename:    "level_hard.json",
-                win_text:    "Congratulations!",
-                description: "This is where things get challenging, good luck >:)",
+                level:            Hard,
+                filename:         "level_hard.json",
+                win_text:         "Congratulations!",
+                description:      "This is where things get challenging, good luck >:)",
+                initially_locked: false,
             ),
             (
-                level:       Absurd,
-                filename:    "level_absurd.json",
-                win_text:    "Thank You For Playing <3",
-                description: "Were the previous levels too easy for you? Are you liking the game? DO YOU LIKE PAIN? Well, then this level is for you!",
+                level:            Absurd,
+                filename:         "level_absurd.json",
+                win_text:         "Thank You For Playing <3",
+                description:      "Were the previous levels too easy for you? Are you liking the game? DO YOU LIKE PAIN? Well, then this level is for you!",
+                initially_locked: false,
             ),
         ],
     ),
