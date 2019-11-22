@@ -67,13 +67,13 @@ menacing enemies, destructive spikes, and adaptive music.
 
 ## Controls
 ### Ingame
-| Action                         | Keyboard                   |
-| :----------------------------- | :------------------------- |
-| Move                           | `W`,`S`,`A`,`D`            |
-| Jump                           | `Space` / `K`              |
-| Toggle Pause                   | `Escape` / `P`             |
-| To Main Menu (from pause menu) | `Q` / `Backspace`          |
-| Quit Game                      | `Shift+Escape` / `Shift+Q` |
+| Action                         | Keyboard                                     |
+| :----------------------------- | :------------------------------------------- |
+| Move                           | `W`,`S`,`A`,`D` / `Up`,`Down`,`Left`,`Right` |
+| Jump                           | `Space` / `K`                                |
+| Toggle Pause                   | `Escape` / `P`                               |
+| To Main Menu (from pause menu) | `Q` / `Backspace`                            |
+| Quit Game                      | `Shift+Escape` / `Shift+Q`                   |
 
 ### Main Menu
 | Action                             | Keyboard                       |
