@@ -4,6 +4,7 @@ use amethyst::ecs::storage::{MaskedStorage, Storage};
 use deathframe::components::solid::SolidTag as _;
 
 use super::system_prelude::*;
+use crate::level_manager::Level;
 use crate::solid_tag::SolidTag;
 
 // Copied from LD44
@@ -71,4 +72,32 @@ impl SidesTouching {
     pub fn is_touching_vertically(&self) -> bool {
         self.is_touching_top || self.is_touching_bottom
     }
+}
+
+pub fn is_level_locked(world: &World, level: &Level) -> bool {
+    let mut level_locked = false;
+    let level_manager_settings =
+        &world.read_resource::<Settings>().level_manager;
+    let level_settings = level_manager_settings.level(level);
+    if level_settings.initially_locked {
+        level_locked = true;
+        if let Some(savefile_data) = &world.read_resource::<SavefileDataRes>().0
+        {
+            if let Some(unlocked_by_any) =
+                level_settings.unlocked_by_any.as_ref()
+            {
+                level_locked =
+                    !unlocked_by_any.iter().any(|unlocked_by_level| {
+                        if let Some(level_save) =
+                            savefile_data.level(unlocked_by_level)
+                        {
+                            level_save.won
+                        } else {
+                            false
+                        }
+                    });
+            }
+        }
+    }
+    level_locked
 }

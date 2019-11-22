@@ -35,7 +35,7 @@ mod system_prelude {
     pub use crate::solid_tag::SolidTag;
 }
 
-mod helpers;
+pub mod helpers;
 
 mod background;
 mod checkpoint;
