@@ -121,7 +121,7 @@ Container(
                         opaque:         true,
                     ),
                     button: (
-                        text:              "Very Easy",
+                        text:              "Easy",
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 1.0, 1.0, 1.0),
@@ -183,7 +183,7 @@ Container(
                         opaque:         true,
                     ),
                     button: (
-                        text:              "Easy",
+                        text:              "Normal",
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 1.0, 1.0, 1.0),
@@ -245,7 +245,7 @@ Container(
                         opaque:         true,
                     ),
                     button: (
-                        text:              "Normal",
+                        text:              "Advanced",
                         font_size:         24.0,
                         font:              File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                         normal_text_color: (1.0, 1.0, 1.0, 1.0),

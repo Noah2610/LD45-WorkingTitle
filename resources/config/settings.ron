@@ -105,7 +105,7 @@ Attempt this level once you feel comfortable with the controls.
                 unlocked_by_any:    [Easy],
                 locked_description: r"
 LOCKED!
-Unlock by beating Easy first!
+Unlock by beating Normal first!
 ",
             ),
             (
@@ -120,7 +120,7 @@ good luck >:)
                 unlocked_by_any:    [Normal],
                 locked_description: r"
 LOCKED!
-Unlock by beating Normal first!
+Unlock by beating Advanced first!
 ",
             ),
             (
