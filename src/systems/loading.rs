@@ -8,6 +8,7 @@ impl<'a> System<'a> for LoadingSystem {
         Entities<'a>,
         ReadStorage<'a, Transform>,
         ReadStorage<'a, Size>,
+        ReadStorage<'a, Indicator>,
         ReadStorage<'a, Loader>,
         ReadStorage<'a, Loadable>,
         WriteStorage<'a, Loaded>,
@@ -20,6 +21,7 @@ impl<'a> System<'a> for LoadingSystem {
             entities,
             transforms,
             sizes,
+            indicators,
             loaders,
             loadables,
             mut loadeds,
@@ -76,7 +78,7 @@ impl<'a> System<'a> for LoadingSystem {
             }
         }
 
-        entities_loader.work(&mut loadeds, &mut hiddens);
+        entities_loader.work(&mut loadeds, &mut hiddens, &indicators);
     }
 }
 
@@ -114,19 +116,26 @@ impl EntitiesLoader {
         self,
         loadeds: &mut WriteStorage<Loaded>,
         hiddens: &mut WriteStorage<Hidden>,
+        indicators: &ReadStorage<Indicator>,
     ) {
         for entity in self.to_unload {
             if loadeds.contains(entity) {
                 if !self.to_maintain_loaded.contains(&entity) {
                     loadeds.remove(entity);
-                    hiddens.insert(entity, Hidden).unwrap();
+                    // Don't hide Indicators
+                    if !indicators.contains(entity) {
+                        hiddens.insert(entity, Hidden).unwrap();
+                    }
                 }
             }
         }
         for entity in self.to_load {
             if !loadeds.contains(entity) {
                 loadeds.insert(entity, Loaded).unwrap();
-                hiddens.remove(entity);
+                // Don't show Indicators
+                if !indicators.contains(entity) {
+                    hiddens.remove(entity);
+                }
             }
         }
     }

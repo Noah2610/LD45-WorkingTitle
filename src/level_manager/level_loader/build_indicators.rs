@@ -60,7 +60,7 @@ impl LevelLoader {
                 .with(Hidden);
 
             if !is_always_loaded(&properties) {
-                entity = entity.with(Loadable::default()).with(Hidden);
+                entity = entity.with(Loadable::default());
             }
 
             if let Some(animation) = animation_opt {
