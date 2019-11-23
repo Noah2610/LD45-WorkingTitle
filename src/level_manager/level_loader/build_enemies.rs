@@ -97,7 +97,7 @@ impl LevelLoader {
             }
 
             if !is_always_loaded(&properties) {
-                entity = entity.with(Loadable::default());
+                entity = entity.with(Loadable::default()).with(Hidden);
             }
 
             if is_loader(&properties) {

@@ -11,6 +11,7 @@ impl<'a> System<'a> for LoadingSystem {
         ReadStorage<'a, Loader>,
         ReadStorage<'a, Loadable>,
         WriteStorage<'a, Loaded>,
+        WriteStorage<'a, Hidden>,
     );
 
     fn run(
@@ -21,7 +22,8 @@ impl<'a> System<'a> for LoadingSystem {
             sizes,
             loaders,
             loadables,
-            mut loadeds
+            mut loadeds,
+            mut hiddens,
         ): Self::SystemData,
     ) {
         let mut entities_loader = EntitiesLoader::default();
@@ -74,7 +76,7 @@ impl<'a> System<'a> for LoadingSystem {
             }
         }
 
-        entities_loader.work(&mut loadeds);
+        entities_loader.work(&mut loadeds, &mut hiddens);
     }
 }
 
@@ -108,17 +110,23 @@ impl EntitiesLoader {
         }
     }
 
-    pub fn work(self, loadeds: &mut WriteStorage<Loaded>) {
+    pub fn work(
+        self,
+        loadeds: &mut WriteStorage<Loaded>,
+        hiddens: &mut WriteStorage<Hidden>,
+    ) {
         for entity in self.to_unload {
             if loadeds.contains(entity) {
                 if !self.to_maintain_loaded.contains(&entity) {
                     loadeds.remove(entity);
+                    hiddens.insert(entity, Hidden).unwrap();
                 }
             }
         }
         for entity in self.to_load {
             if !loadeds.contains(entity) {
                 loadeds.insert(entity, Loaded).unwrap();
+                hiddens.remove(entity);
             }
         }
     }
