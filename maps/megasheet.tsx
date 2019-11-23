@@ -216,6 +216,13 @@
    <property name="solid" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="86">
+  <properties>
+   <property name="always_loaded" type="bool" value="true"/>
+   <property name="animation_delays_ms" value="160, 160, 160, 160, 160, 160, 160, 160, 160, 160, 160, 160"/>
+   <property name="animation_sprite_ids" value="86, 87, 88, 118, 119, 120, 121, 120, 119, 118, 88, 87"/>
+  </properties>
+ </tile>
  <tile id="91">
   <properties>
    <property name="solid" type="bool" value="true"/>
@@ -239,6 +246,13 @@
  <tile id="99">
   <properties>
    <property name="solid" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="102">
+  <properties>
+   <property name="always_loaded" type="bool" value="true"/>
+   <property name="animation_delays_ms" value="160, 160, 160, 160, 160, 160, 160, 160, 160, 160, 160, 160"/>
+   <property name="animation_sprite_ids" value="102, 103, 104, 134, 135, 136, 137, 136, 135, 134, 104, 103"/>
   </properties>
  </tile>
  <tile id="107">
