@@ -134,7 +134,6 @@ Don't.
 LOCKED!
 Unlock by beating Hard first!
 ",
-                locked_text_color:  (0.5, 0.3, 0.3, 0.5),
             ),
         ],
     ),
