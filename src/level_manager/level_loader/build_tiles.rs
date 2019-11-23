@@ -54,8 +54,7 @@ impl LevelLoader {
                 .with(transform)
                 .with(Size::from(*size))
                 .with(ScaleOnce::default())
-                .with(Transparent)
-                .with(Loadable::default());
+                .with(Transparent);
 
             if let Some(sprite_render) = sprite_render_opt {
                 entity = entity.with(sprite_render.clone());
