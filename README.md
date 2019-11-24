@@ -269,14 +269,15 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
   - [#29 Display best time in DifficultySelect state](https://github.com/Noah2610/LD45-WorkingTitle/issues/29)
 - Rename level difficulties, as shown ingame.  
   For development the old code names are still used.  
-  __Code names to Ingame names table:__
-  | Code name  | Ingame/Displayed name |
-  | :--------- | :-------------------- |
-  | `VeryEasy` | __Easy__              |
-  | `Easy`     | __Normal__            |
-  | `Normal`   | __Advanced__          |
-  | `Hard`     | __Hard__              |
-  | `Absurd`   | __Absurd__            |
+  __Code names to ingame names table:__  
+  ```
+  CODE NAME -> INGAME/DISPLAYED NAME
+  VeryEasy  -> "Easy"
+  Easy      -> "Normal"
+  Normal    -> "Advanced"
+  Hard      -> "Hard"
+  Absurd    -> "Absurd"
+  ```
 - Add a new `VeryEasy` level (now called _"Easy"_ ingame).  
   Intended to showcase the game's features, without too much challenge.
   - [#38 Add "Very Easy" difficulty button to the main menu](https://github.com/Noah2610/LD45-WorkingTitle/issues/38)
