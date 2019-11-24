@@ -76,7 +76,7 @@
             (
                 level:            VeryEasy,
                 filename:         "level_very_easy.json",
-                win_text:         "Good Job!",
+                win_text:         "Congrats!",
                 description:      r"
 This level is intended to showcase the features of the game,
 without presenting too much of a challenge.
@@ -86,7 +86,7 @@ without presenting too much of a challenge.
             (
                 level:            Easy,
                 filename:         "level_easy.json",
-                win_text:         "Level Clear!",
+                win_text:         "Level Clear",
                 description:      r"
 The recommended level.
 Play this first!
@@ -96,7 +96,7 @@ Play this first!
             (
                 level:            Normal,
                 filename:         "level_normal.json",
-                win_text:         "Level Clear!",
+                win_text:         "",
                 description:      r"
 This is where things get challenging!
 ",
@@ -124,7 +124,7 @@ Unlock by beating Advanced first!
             (
                 level:              Absurd,
                 filename:           "level_absurd.json",
-                win_text:           "Thank You For Playing <3",
+                win_text:           "Why...?",
                 description:        r"
 Don't.
 ",

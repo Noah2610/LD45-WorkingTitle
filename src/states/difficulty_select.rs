@@ -77,9 +77,25 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
 impl DifficultySelect {
     fn create_uis(&mut self, data: &mut StateData<CustomGameData<CustomData>>) {
         let _progress = self.create_ui(data, resource(QUIT_UI_RON_PATH));
+        let _progress = self.create_ui(data, resource(QUIT_UI_RON_PATH));
         self.ui_loading_progress =
             Some(self.create_ui(data, resource(UI_RON_PATH)));
         self.create_selector(data.world);
+        // Completion text
+        {
+            let mut completed_absurd = false;
+            if let Some(save) =
+                data.world.read_resource::<SavefileDataRes>().0.as_ref()
+            {
+                if let Some(level_data) = save.level(&Level::Absurd) {
+                    completed_absurd = level_data.won;
+                }
+            }
+            if completed_absurd {
+                let _progress =
+                    self.create_ui(data, resource(COMPLETION_TEXT_UI_RON_PATH));
+            }
+        }
     }
 
     fn populate_ui(&self, world: &mut World) {
