@@ -35,6 +35,7 @@ Table of Contents
     - [Change-Log v1.1.2](#change-log-v112)
     - [Change-Log v1.1.3](#change-log-v113)
     - [Change-Log v1.2.0](#change-log-v120)
+    - [Change-Log v1.3.0](#change-log-v130)
 - [Fonts Used](#fonts-used)
 - [Development](#development)
   - [Credits](#credits)
@@ -238,6 +239,64 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
 - Tile spritesheets changes.
 </details>
 
+<details>
+<summary>
+    <strong>v1.3.0</strong>
+</summary>
+
+| Download | Release Date |
+| :------: | :----------: |
+| [Windows][v1.3.0-windows] / [Linux][v1.3.0-linux] | 2019-11-24 |
+
+#### Change-Log v1.3.0
+- Add dynamic tile animations; animations, that are triggered by the player or enemies.  
+  Used in grass/plant tiles, which play a swaying animation when the player collides with them.
+  - [#24 Dynamic tile animations](https://github.com/Noah2610/LD45-WorkingTitle/issues/24)
+- Use `savefile.json` from the user's data directory.  
+  Also saves a `panic.log` file to the directory, in case a crash happens.  
+  See the [Data Directory](#data-directory) section.
+  - [#35 Use savefile from a user-space directory](https://github.com/Noah2610/LD45-WorkingTitle/issues/35)
+- Add key bindings to start the selected difficulty with a new save for the level.  
+  Bindings as of v1.3.0: `X`, `Delete`  
+  See the [Controls](#controls) section.
+  - [#25 Delete save for difficulty from DifficultySelect menu](https://github.com/Noah2610/LD45-WorkingTitle/issues/25)
+- Add arrow key bindings for player movement.
+- Checkpoints now have fixed respawn positions.  
+  This means the player will always spawn in an ideal position,  
+  instead of somewhere in the air or even spawning inside a solid tile.
+  - [#22 Make player spawn on ground by checkpoints](https://github.com/Noah2610/LD45-WorkingTitle/issues/22)
+- Display your best time for the selected level under the button text.
+  - [#29 Display best time in DifficultySelect state](https://github.com/Noah2610/LD45-WorkingTitle/issues/29)
+- Rename level difficulties, as shown ingame.  
+  For development the old code names are still used.  
+  __Code names to Ingame names table:__
+  | Code name  | Ingame/Displayed name |
+  | :--------- | :-------------------- |
+  | `VeryEasy` | __Easy__              |
+  | `Easy`     | __Normal__            |
+  | `Normal`   | __Advanced__          |
+  | `Hard`     | __Hard__              |
+  | `Absurd`   | __Absurd__            |
+- Add a new `VeryEasy` level (now called _"Easy"_ ingame).  
+  Intended to showcase the game's features, without too much challenge.
+  - [#38 Add "Very Easy" difficulty button to the main menu](https://github.com/Noah2610/LD45-WorkingTitle/issues/38)
+- Add difficulty descriptions to the main menu.  
+  A description of the selected level is shown on the right side of the main menu.
+  - [#37 Display a description of the selected level in DifficultySelect menu](https://github.com/Noah2610/LD45-WorkingTitle/issues/37)
+- Lock levels. Unlock a locked level by beating its prior difficulty.  
+  Levels `VeryEasy` and `Easy` start unlocked, the others start locked.  
+  Add an alternative locked description for each locked level.
+  - [#40 Make harder difficulties unlockable by beating previous difficulties](https://github.com/Noah2610/LD45-WorkingTitle/issues/40)
+- Level changes.
+- UI changes.
+- Show version number in the bottom-right corner of the main menu.
+- Camera tries to scale to the window size.
+- Print welcome message to stdout when the game starts.
+- Add completion text. Beat the game to see it :)
+- Fix multi-tile animations de-sync.
+  - [#41 Add always_loaded property to multi-tile animations in levels](https://github.com/Noah2610/LD45-WorkingTitle/issues/41)
+</details>
+
 [v1.0.0-windows]: https://drive.google.com/open?id=1KVx1OpiFyv8DIjm8x0AYwkH_wrwRz_BT
 [v1.0.0-linux]:   https://drive.google.com/open?id=1ELAu_Xnh_CRx41qACSeJjiExs5I5Pziu
 [v1.0.1-windows]: https://drive.google.com/open?id=1trgy3J-jKcHcjwICZeNqIR1PuSDjjDnb
@@ -254,6 +313,8 @@ Sorry about this inconvenience, I'm not sure how to circumvent this.
 [v1.1.3-linux]:   https://drive.google.com/open?id=1XQGDSQPD2HFGayEryASPSKbUgeILJCqa
 [v1.2.0-windows]: https://drive.google.com/open?id=1TtbqwltL4EWI-jgrt7kvdZZrJ_hP7ni0
 [v1.2.0-linux]:   https://drive.google.com/open?id=1thHtNAEytx8kSb1vDJlDXYcwnMwpB_4C
+[v1.3.0-windows]: https://drive.google.com/open?id=17goo1o3Br7hcfY9VGDnaDwdjBi2v0NSn
+[v1.3.0-linux]:   https://drive.google.com/open?id=1klspsvuQraEtA8kz7s8xxC3sQYlrZ8ge
 
 ## Fonts Used
 Used [undefined-medium] for the text at the end.
