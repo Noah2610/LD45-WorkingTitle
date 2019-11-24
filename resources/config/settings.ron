@@ -149,7 +149,7 @@ Unlock by beating Hard first!
     ),
 
     misc: (
-        menu_selector_animation_speed:    (1.0,  10.0),
+        menu_selector_animation_speed:    (1.0,  30.0),
         menu_selector_animation_deadzone: (0.005, 0.005),
     ),
 
