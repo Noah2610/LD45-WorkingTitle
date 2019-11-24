@@ -37,9 +37,6 @@ Thanks for playing our game <3
 Made by Emu, Moritz, and Noah.
 ",
                 font_size: 20.0,
-                // 0.0431372549019607
-                // 0.5568627450980392
-                // 0.0274509803921568
                 color:     (0.0431372549019607, 0.5568627450980392, 0.0274509803921568, 1.0),
                 font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                 align:     BottomMiddle,
