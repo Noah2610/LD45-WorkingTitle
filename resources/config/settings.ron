@@ -96,7 +96,7 @@ Play this first!
             (
                 level:            Normal,
                 filename:         "level_normal.json",
-                win_text:         "",
+                win_text:         "Level Clear",
                 description:      r"
 This is where things get challenging!
 ",

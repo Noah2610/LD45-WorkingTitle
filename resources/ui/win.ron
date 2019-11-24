@@ -28,7 +28,7 @@ Container(
             ),
             text: (
                 text:      "Thank You For Playing <3",
-                font_size: 20.0,
+                font_size: 24.0,
                 color:     (1.0, 1.0, 1.0, 1.0),
                 font:      File("resources/fonts/undefined-medium.ttf", ("TTF", ())),
                 align:     Middle,
