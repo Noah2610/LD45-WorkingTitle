@@ -178,14 +178,9 @@ impl LevelManager {
                 }
             } else {
                 // No save for this level
-                // self.load_level(world);
             }
-
-        // TODO: Cleanup, savefile is now loaded from Startup state as a resource
-        // self.savefile_data = Some(savefile_data);
         } else {
             // No savefile
-            // self.load_level(world);
         }
 
         // Apply checkpoint
