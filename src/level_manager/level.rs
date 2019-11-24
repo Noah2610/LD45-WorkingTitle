@@ -11,6 +11,17 @@ pub enum Level {
 }
 
 impl Level {
+    pub fn iter() -> std::slice::Iter<'static, Level> {
+        [
+            Level::VeryEasy,
+            Level::Easy,
+            Level::Normal,
+            Level::Hard,
+            Level::Absurd,
+        ]
+        .into_iter()
+    }
+
     fn name(&self) -> &str {
         match self {
             Level::VeryEasy => "VeryEasy",

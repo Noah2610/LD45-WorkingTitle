@@ -82,19 +82,24 @@ impl DifficultySelect {
             Some(self.create_ui(data, resource(UI_RON_PATH)));
         self.create_selector(data.world);
         // Completion text
+        self.maybe_create_completion_text_ui(data);
+    }
+
+    fn maybe_create_completion_text_ui(
+        &mut self,
+        data: &mut StateData<CustomGameData<CustomData>>,
+    ) {
+        if data
+            .world
+            .read_resource::<SavefileDataRes>()
+            .0
+            .as_ref()
+            .map(SavefileData::has_completed_all_levels_except_very_easy)
+            .unwrap_or(false)
         {
-            let mut completed_absurd = false;
-            if let Some(save) =
-                data.world.read_resource::<SavefileDataRes>().0.as_ref()
-            {
-                if let Some(level_data) = save.level(&Level::Absurd) {
-                    completed_absurd = level_data.won;
-                }
-            }
-            if completed_absurd {
-                let _progress =
-                    self.create_ui(data, resource(COMPLETION_TEXT_UI_RON_PATH));
-            }
+            // Has completed all levels, and maybe VeryEasy
+            let _progress =
+                self.create_ui(data, resource(COMPLETION_TEXT_UI_RON_PATH));
         }
     }
 

@@ -101,6 +101,16 @@ impl SavefileData {
     pub fn level(&self, target: &Level) -> Option<&LevelSaveData> {
         self.levels.get(target)
     }
+
+    pub fn has_completed_all_levels_except_very_easy(&self) -> bool {
+        Level::iter().all(|level| {
+            level == &Level::VeryEasy
+                || self
+                    .level(level)
+                    .map(|level_save| level_save.won)
+                    .unwrap_or(false)
+        })
+    }
 }
 
 #[derive(Deserialize, Serialize)]
