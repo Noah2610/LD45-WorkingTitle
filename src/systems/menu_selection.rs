@@ -14,6 +14,7 @@ pub struct MenuSelectionSystem;
 
 impl<'a> System<'a> for MenuSelectionSystem {
     type SystemData = (
+        Read<'a, Time>,
         ReadExpect<'a, Settings>,
         Read<'a, SavefileDataRes>,
         ReadStorage<'a, MenuSelector>,
@@ -24,6 +25,7 @@ impl<'a> System<'a> for MenuSelectionSystem {
     fn run(
         &mut self,
         (
+            time,
             settings,
             savefile_data,
             menu_selectors,
@@ -31,6 +33,14 @@ impl<'a> System<'a> for MenuSelectionSystem {
             mut texts,
         ): Self::SystemData,
     ) {
+        let dt = time.delta_seconds();
+        let (selector_animation_speed, selector_animation_deadzone) = {
+            let anim_speed = &settings.misc.menu_selector_animation_speed;
+            (
+                (anim_speed.0 * dt, anim_speed.1 * dt),
+                settings.misc.menu_selector_animation_deadzone.into(),
+            )
+        };
         let level_manager_settings = &settings.level_manager;
 
         let selections_positions: HashMap<MenuSelection, (f32, f32)> =
@@ -65,8 +75,12 @@ impl<'a> System<'a> for MenuSelectionSystem {
             if let Some(selection_pos) =
                 selections_positions.get(&selector.selection)
             {
-                selector_transform.local_x = selection_pos.0;
-                selector_transform.local_y = selection_pos.1;
+                move_selector_towards(
+                    selector_transform,
+                    selection_pos,
+                    selector_animation_speed,
+                    selector_animation_deadzone,
+                );
             }
         }
 
@@ -111,5 +125,25 @@ impl<'a> System<'a> for MenuSelectionSystem {
                     }
                 });
         }
+    }
+}
+
+fn move_selector_towards(
+    selector_transform: &mut UiTransform,
+    target_pos: &(f32, f32),
+    speed: (f32, f32),
+    deadzone: (f32, f32),
+) {
+    let dist_x = target_pos.0 - selector_transform.local_x;
+    let dist_y = target_pos.1 - selector_transform.local_y;
+    if dist_x.abs() <= deadzone.0 {
+        selector_transform.local_x = target_pos.0;
+    } else {
+        selector_transform.local_x += speed.0 * dist_x;
+    }
+    if dist_y.abs() <= deadzone.1 {
+        selector_transform.local_y = target_pos.1;
+    } else {
+        selector_transform.local_y += speed.1 * dist_y;
     }
 }

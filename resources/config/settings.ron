@@ -148,6 +148,11 @@ Unlock by beating Hard first!
         best_time_prefix: "/ ",
     ),
 
+    misc: (
+        menu_selector_animation_speed:    (1.0,  10.0),
+        menu_selector_animation_deadzone: (0.005, 0.005),
+    ),
+
     debug: (
         print_fps:    true,
         print_deaths: false,

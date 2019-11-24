@@ -3,6 +3,7 @@ pub mod prelude {
     pub use super::debug::DebugSettings;
     pub use super::enemies::{EnemiesSettings, EnemySettings};
     pub use super::level_manager::{LevelManagerSettings, LevelSettings};
+    pub use super::misc::MiscSettings;
     pub use super::music::MusicSettings;
     pub use super::player::{
         PlayerAnimationSizes,
@@ -18,6 +19,7 @@ mod camera;
 mod debug;
 mod enemies;
 mod level_manager;
+mod misc;
 mod music;
 mod player;
 mod savefile;
@@ -34,5 +36,6 @@ pub struct Settings {
     pub level_manager: LevelManagerSettings,
     pub music:         MusicSettings,
     pub timer:         TimerSettings,
+    pub misc:          MiscSettings,
     pub debug:         DebugSettings,
 }
