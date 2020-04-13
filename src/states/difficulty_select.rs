@@ -77,7 +77,6 @@ impl<'a, 'b> State<CustomGameData<'a, 'b, CustomData>, StateEvent>
 impl DifficultySelect {
     fn create_uis(&mut self, data: &mut StateData<CustomGameData<CustomData>>) {
         let _progress = self.create_ui(data, resource(QUIT_UI_RON_PATH));
-        let _progress = self.create_ui(data, resource(QUIT_UI_RON_PATH));
         self.ui_loading_progress =
             Some(self.create_ui(data, resource(UI_RON_PATH)));
         self.create_selector(data.world);
